@@ -5,8 +5,7 @@ function About() {
   return (
     <div className="container">
       <Head>
-        <title>admin</title>
-        {/* <link rel="icon" href="/favicon.ico" /> */}
+        <title>管理后台</title>
       </Head>
       <h1 className={styles.title}>mskcjdscmj</h1>
     </div>
