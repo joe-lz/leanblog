@@ -3,11 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "postinstall": "npm run build",
     "dev": "next dev",
     "build": "next build",
     "start": "next start"
   },
-  "postinstall": "yarn build",
   "dependencies": {
     "next": "9.3.5",
     "react": "16.13.1",
