@@ -15,6 +15,7 @@
   },
   "devDependencies": {
     "antd": "^4.5.1",
+    "autodll-webpack-plugin": "^0.4.2",
     "sass": "^1.26.10"
   },
   "engines": {
