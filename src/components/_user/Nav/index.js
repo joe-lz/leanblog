@@ -3,6 +3,9 @@ import Link from "next/link";
 import styles from "./index.module.scss";
 
 function Components(props) {
+  let { curUser } = props;
+  curUser = JSON.parse(JSON.stringify(curUser));
+
   return (
     <header className={styles.header}>
       <nav>
@@ -40,8 +43,7 @@ function Components(props) {
                 </div>
               </div>
             </Link>
-          )}
-          <span className={styles.divider}>|</span> */}
+          )} */}
           <a href="https://www.jingdian.club" target="_blank">
             <div className={styles.link_active}>
               <div className={styles.btn}>
@@ -50,6 +52,15 @@ function Components(props) {
               </div>
             </div>
           </a>
+          <span className={styles.divider}>|</span>
+          {curUser && (
+            <div className={styles.link}>
+              <div className={styles.btn}>
+                <span>{curUser.username}</span>
+                <i className="iconfont icon-down" style={{fontSize: 12}}></i>
+              </div>
+            </div>
+          )}
         </div>
       </nav>
     </header>

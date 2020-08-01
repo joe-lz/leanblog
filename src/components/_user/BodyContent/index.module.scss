@@ -1,0 +1,62 @@
+@import "~src/styles/variables.scss";
+
+.block {
+  margin-bottom: 30px;
+  width: 100%;
+  min-height: 100px;
+  box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.05);
+  background-color: white;
+  border-radius: 4px;
+}
+
+.container {
+  padding-top: 60px;
+  display: flex;
+  justify-content: space-between;
+  margin: 0 auto;
+  width: 100%;
+  max-width: 1200px;
+  .sidebar {
+    width: 200px;
+    overflow: hidden;
+    &_item {
+      position: relative;
+      padding: 20px 0;
+      &::after {
+        content: "";
+        border-bottom: 1px solid $color-border;
+        position: absolute;
+        width: 100%;
+        left: 40px;
+        bottom: 0;
+      }
+      &_placeholder {
+        height: 15px;
+      }
+      &_level1 {
+        font-size: 20px;
+        i {
+          display: inline-block;
+          width: 40px;
+          font-size: 18px;
+        }
+      }
+      &_level2 {
+        padding-left: 40px;
+        height: 40px;
+        line-height: 40px;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: $transition;
+        &:hover {
+          background-color: $color-block;
+        }
+      }
+    }
+  }
+  .content {
+    margin-left: 60px;
+    flex: 1;
+    // background-color: blue;
+  }
+}

@@ -1,18 +1,29 @@
 import Head from "next/head";
+import AV from "leancloud-storage";
+import dynamic from "next/dynamic";
 
 import styles from "./index.module.scss";
-import Nav from "src/components/_user/Nav";
-import Login from "src/components/_user/Login";
+const Nav = dynamic(() => import("src/components/_user/Nav"), {
+  ssr: false,
+});
+const Login = dynamic(() => import("src/components/_user/Login"), {
+  ssr: false,
+});
+const BodyContent = dynamic(() => import("src/components/_user/BodyContent"), {
+  ssr: false,
+});
 
 function AdminHome() {
+  const curUser = AV.User.current();
+  let content = null;
   return (
-    <div className="container">
+    <div className={styles.container}>
       <Head>
         <title>管理后台</title>
       </Head>
-      <Nav type="login" />
-      {/* <div style={{ height: 80 }}></div> */}
-      <Login/>
+      <Nav type="login" curUser={curUser} />
+      {!curUser && <Login />}
+      {curUser && <BodyContent />}
     </div>
   );
 }

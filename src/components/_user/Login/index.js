@@ -3,91 +3,205 @@ import Link from "next/link";
 import Particles from "react-particles-js";
 import React, { useState } from "react";
 import ReactCardFlip from "react-card-flip";
+import AV from "leancloud-storage";
+import { Spin, Alert, notification } from "antd";
 
 import styles from "./index.module.scss";
 import particlesParams from "./particlesParams";
+import leanerrors from "src/lib/leancloud_error_code.json";
 
 function Components(props) {
-  const [isLogin, setisLogin] = useState(0);
+  const [isFlipped, setisFlipped] = useState(false);
+  const [isSpin, setisSpin] = useState(false);
+  const [username, setusername] = useState("");
+  const [password, setpassword] = useState("");
+  const [repassword, setrepassword] = useState("");
 
+  const handleLogin = () => {
+    if (username && password) {
+      setisSpin(true);
+      AV.User.logIn(username, password).then(
+        (user) => {
+          // 登录成功
+          setisSpin(false);
+          notification.success({
+            message: "登录成功",
+            // description: "请输入用户名、密码",
+          });
+          setTimeout(() => {
+            window.location.reload();
+          }, 2000);
+        },
+        (error) => {
+          // 登录失败（可能是密码错误）
+          setisSpin(false);
+          notification.error({
+            message: "登录失败",
+            description: leanerrors[error.code]
+              ? leanerrors[error.code].msg
+              : "",
+          });
+        }
+      );
+    } else {
+      notification.error({
+        message: "登录失败",
+        description: "请输入用户名、密码",
+      });
+    }
+  };
+
+  const handleRegister = () => {
+    if (!username || !password) {
+      notification.error({
+        message: "注册失败",
+        description: "请输入用户名、密码",
+      });
+      return;
+    }
+    if (repassword !== password) {
+      notification.error({
+        message: "注册失败",
+        description: "请输入用户名、密码",
+      });
+      return;
+    }
+    setisSpin(true);
+    const user = new AV.User();
+    user.setUsername(username);
+    user.setPassword(password);
+    user.signUp().then(
+      (user) => {
+        // 注册成功
+        setisSpin(false);
+        notification.success({
+          message: "注册成功",
+          // description: "请输入用户名、密码",
+        });
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000);
+      },
+      (error) => {
+        // 注册失败（通常是因为用户名已被使用）
+        setisSpin(false);
+        notification.error({
+          message: "注册失败",
+          description: leanerrors[error.code],
+        });
+      }
+    );
+  };
   return (
     <div className={styles.banner}>
       <div className={styles.banner_content}>
+        {/* bg */}
         <img
           className={styles.logobg}
           src="https://qiniu.jingdian.club/FtFSZANFUxt2J5ER9ESY4llFWlNb"
         ></img>
+        {/* 粒子效果 */}
         {particlesParams && (
           <Particles
             className={styles.tsparticles}
             params={particlesParams.nasa}
           />
         )}
-        {/* <ReactCardFlip
-          isFlipped={this.state.isFlipped}
-          flipDirection="vertical"
-        >
-          <YOUR_FRONT_CCOMPONENT>
-            This is the front of the card.
-            <button onClick={this.handleClick}>Click to flip</button>
-          </YOUR_FRONT_CCOMPONENT>
-
-          <YOUR_BACK_COMPONENT>
-            This is the back of the card.
-            <button onClick={this.handleClick}>Click to flip</button>
-          </YOUR_BACK_COMPONENT>
-        </ReactCardFlip> */}
-        {isLogin ? (
-          <div className={styles.banner_body}>
-            <div className={styles.banner_body_content}>
-              <p className={styles.banner_body_title}>登录</p>
-              <div className={styles.banner_body_input}>
-                <input placeholder="邮箱"></input>
+        <div className={styles.banner_body}>
+          <Spin spinning={isSpin} tip="加载中...">
+            <ReactCardFlip isFlipped={isFlipped} flipDirection="horizontal">
+              {/* 登录 */}
+              <div className={styles.banner_body_content}>
+                <p className={styles.banner_body_title}>登录</p>
+                <div className={styles.banner_body_input}>
+                  <input
+                    placeholder="用户名"
+                    onChange={(e) => {
+                      setusername(e.target.value);
+                    }}
+                  ></input>
+                </div>
+                <div className={styles.banner_body_input}>
+                  <input
+                    placeholder="密码"
+                    type="password"
+                    onChange={(e) => {
+                      setpassword(e.target.value);
+                    }}
+                  ></input>
+                </div>
+                <div className={styles.banner_body_input}>
+                  <button
+                    onClick={() => {
+                      handleLogin();
+                    }}
+                  >
+                    确定
+                  </button>
+                </div>
+                <div className={styles.banner_body_input}>
+                  <button
+                    className={styles.banner_body_btn_primary}
+                    onClick={() => {
+                      setisFlipped(true);
+                    }}
+                  >
+                    还没有账户？<a>立即注册</a>
+                  </button>
+                </div>
               </div>
-              <div className={styles.banner_body_input}>
-                <input placeholder="密码"></input>
+              {/* 注册 */}
+              <div className={styles.banner_body_content}>
+                <p className={styles.banner_body_title}>注册</p>
+                <div className={styles.banner_body_input}>
+                  <input
+                    placeholder="用户名"
+                    onChange={(e) => {
+                      setusername(e.target.value);
+                    }}
+                  ></input>
+                </div>
+                <div className={styles.banner_body_input}>
+                  <input
+                    placeholder="密码"
+                    type="password"
+                    onChange={(e) => {
+                      setpassword(e.target.value);
+                    }}
+                  ></input>
+                </div>
+                <div className={styles.banner_body_input}>
+                  <input
+                    placeholder="再次输入密码"
+                    type="password"
+                    onChange={(e) => {
+                      setrepassword(e.target.value);
+                    }}
+                  ></input>
+                </div>
+                <div className={styles.banner_body_input}>
+                  <button
+                    onClick={() => {
+                      handleRegister();
+                    }}
+                  >
+                    确定
+                  </button>
+                </div>
+                <div className={styles.banner_body_input}>
+                  <button
+                    className={styles.banner_body_btn_primary}
+                    onClick={() => {
+                      setisFlipped(false);
+                    }}
+                  >
+                    已有账户？<a>立即登录</a>
+                  </button>
+                </div>
               </div>
-              <div className={styles.banner_body_input}>
-                <button onClick={() => {}}>确定</button>
-              </div>
-              <div className={styles.banner_body_input}>
-                <button
-                  className={styles.banner_body_btn_primary}
-                  onClick={() => {
-                    setisLogin(false);
-                  }}
-                >
-                  还没有账户？立即注册
-                </button>
-              </div>
-            </div>
-          </div>
-        ) : (
-          <div className={styles.banner_body}>
-            <div className={styles.banner_body_content}>
-              <p className={styles.banner_body_title}>登录</p>
-              <div className={styles.banner_body_input}>
-                <input placeholder="邮箱"></input>
-              </div>
-              <div className={styles.banner_body_input}>
-                <input placeholder="密码"></input>
-              </div>
-              <div className={styles.banner_body_input}>
-                <button onClick={() => {}}>确定</button>
-              </div>
-              <div className={styles.banner_body_input}>
-                <button
-                  className={styles.banner_body_btn_primary}
-                  onClick={() => {
-                    setisLogin(true);
-                  }}
-                >
-                  已有账户？立即登录
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
+            </ReactCardFlip>
+          </Spin>
+        </div>
       </div>
     </div>
   );

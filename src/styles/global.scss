@@ -3,7 +3,18 @@
 
 * {
   box-sizing: border-box;
-  color: #333;
+  // color: #333;
   font-weight: 400;
   user-select: none;
+  -webkit-font-smoothing: antialiased;  
+}
+p, button, i {
+  color: #333;
+}
+
+body {
+  background-color: #F6F8F9 !important;
+  width: 100vw;
+  min-height: 100vh;
+  color: #333 !important;
 }

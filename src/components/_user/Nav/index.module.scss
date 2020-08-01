@@ -41,6 +41,7 @@
     }
     .divider {
       margin: 0 3px;
+      color: $color-font;
     }
     .login {
     }
@@ -49,6 +50,7 @@
       align-items: center;
       height: 100%;
       cursor: pointer;
+      color: $color-font;
       .btn {
         padding: 0 10px;
         height: 35px;
