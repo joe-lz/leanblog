@@ -1,0 +1,77 @@
+@import "~src/styles/variables.scss";
+
+.header {
+  // position: fixed;
+  // top: 0;
+  // left: 0;
+  // z-index: 1000;
+  width: 100vw;
+  height: 80px;
+  background-color: white;
+  border-bottom: 1px solid $color-border;
+  nav {
+    display: flex;
+    justify-content: space-between;
+    align-content: center;
+    margin: 0 auto;
+    width: 100%;
+    max-width: 1200px;
+    height: 100%;
+  }
+  // .logo {
+  //   background-size: contain;
+  //   background-position: center;
+  //   background-repeat: no-repeat;
+  //   width: 150px;
+  //   height: 100%;
+  // }
+  .logoimg {
+    height: 100%;
+    cursor: pointer;
+  }
+  .right {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    width: 300px;
+    height: 100%;
+    font-size: 15px;
+    a {
+      text-decoration: none;
+    }
+    .divider {
+      margin: 0 3px;
+    }
+    .login {
+    }
+    .link, .link_active {
+      display: flex;
+      align-items: center;
+      height: 100%;
+      cursor: pointer;
+      .btn {
+        padding: 0 10px;
+        height: 35px;
+        line-height: 35px;
+        border-radius: 6px;
+        display: inline-block;
+        transition: $transition;
+        &:hover {
+          background-color: $color-block;
+        }
+        i {
+          margin-right: 5px;
+          font-size: 16px;
+        }
+      }
+    }
+    .link_active {
+      i {
+        color: $color-link !important;
+      }
+      span {
+        color: $color-link !important;
+      }
+    }
+  }
+}

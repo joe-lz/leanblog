@@ -1,7 +1,7 @@
 import Head from "next/head";
 
 import styles from "./index.module.scss";
-import Nav from "src/components/_admin/Nav";
+import Nav from "src/components/_user/Nav";
 
 function AdminHome() {
   return (
@@ -9,7 +9,7 @@ function AdminHome() {
       <Head>
         <title>管理后台</title>
       </Head>
-      <Nav />
+      <Nav type='register'/>
       <h1 className={styles.title}>mskcjdscmj</h1>
     </div>
   );

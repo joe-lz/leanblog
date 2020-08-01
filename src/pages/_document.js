@@ -38,6 +38,10 @@ export default class MyDocument extends Document {
           `,
             }}
           />
+          <link
+            rel="stylesheet"
+            href="//at.alicdn.com/t/font_1979855_3p14qr6vnnr.css"
+          ></link>
         </Head>
         <body>
           <Main />
