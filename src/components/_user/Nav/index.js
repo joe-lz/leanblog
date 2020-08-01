@@ -52,14 +52,19 @@ function Components(props) {
               </div>
             </div>
           </a>
-          <span className={styles.divider}>|</span>
           {curUser && (
-            <div className={styles.link}>
-              <div className={styles.btn}>
-                <span>{curUser.username}</span>
-                <i className="iconfont icon-down" style={{fontSize: 12}}></i>
+            <>
+              <span className={styles.divider}>|</span>
+              <div className={styles.link}>
+                <div className={styles.btn}>
+                  <span>{curUser.username}</span>
+                  <i
+                    className="iconfont icon-down"
+                    style={{ fontSize: 12 }}
+                  ></i>
+                </div>
               </div>
-            </div>
+            </>
           )}
         </div>
       </nav>

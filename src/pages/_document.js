@@ -40,7 +40,7 @@ export default class MyDocument extends Document {
           />
           <link
             rel="stylesheet"
-            href="//at.alicdn.com/t/font_1979855_hq5lzkyc0q4.css"
+            href="//at.alicdn.com/t/font_1979855_9863ikj6e7.css"
           ></link>
         </Head>
         <body>

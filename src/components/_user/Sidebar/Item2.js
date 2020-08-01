@@ -3,7 +3,6 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import Particles from "react-particles-js";
 import React, { useState } from "react";
-import ReactCardFlip from "react-card-flip";
 import AV from "leancloud-storage";
 import { Spin, Alert, notification } from "antd";
 

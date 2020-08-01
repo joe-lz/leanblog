@@ -3,7 +3,6 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import Particles from "react-particles-js";
 import React, { useState } from "react";
-import ReactCardFlip from "react-card-flip";
 import AV from "leancloud-storage";
 import { Spin, Alert, notification } from "antd";
 
@@ -30,35 +29,35 @@ function Components(props) {
         </Link>
       </div>
       <div className={styles.sidebar_item}>
-        <Link href="/_user/feature">
-          <div
-            className={
-              !router.pathname.includes("/_user/feature")
-                ? styles.sidebar_item_level1
-                : styles.sidebar_item_level1_active
-            }
-          >
-            <i className="iconfont icon-gongneng"></i>
-            功能
-          </div>
-        </Link>
+        {/* <Link href="/_user/feature"> */}
+        <div
+          className={
+            !router.pathname.includes("/_user/feature")
+              ? styles.sidebar_item_level1
+              : styles.sidebar_item_level1_active
+          }
+        >
+          <i className="iconfont icon-gongneng"></i>
+          功能
+        </div>
+        {/* </Link> */}
         <div className={styles.sidebar_item_placeholder}></div>
         <Item2 path="/_user/feature/menus" title="自定义菜单" />
         <Item2 path="/_user/feature/articles" title="文章管理" />
         <Item2 path="/_user/feature/assets" title="素材管理" />
       </div>
       <div className={styles.sidebar_item}>
-        <Link href="/_user/manage">
-          <div
-            className={
-              !router.pathname.includes("/_user/manage")
-                ? styles.sidebar_item_level1
-                : styles.sidebar_item_level1_active
-            }
-          >
-            <i className="iconfont icon-shezhi"></i>设置
-          </div>
-        </Link>
+        {/* <Link href="/_user/manage"> */}
+        <div
+          className={
+            !router.pathname.includes("/_user/manage")
+              ? styles.sidebar_item_level1
+              : styles.sidebar_item_level1_active
+          }
+        >
+          <i className="iconfont icon-shezhi"></i>设置
+        </div>
+        {/* </Link> */}
         <div className={styles.sidebar_item_placeholder}></div>
         {/* <Link href="/_user/manage/userlist">
           <div
