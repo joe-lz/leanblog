@@ -206,6 +206,8 @@ function AdminHome() {
         onOk={() => {
           handleUpdate();
         }}
+        okText="创建"
+        cancelText="取消"
       >
         <Input
           placeholder="标题"

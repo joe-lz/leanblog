@@ -58,3 +58,29 @@
     }
   }
 }
+
+@media (prefers-color-scheme: dark) {
+  .sidebar_item {
+    &::after {
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    &_level1 {
+      color: #999;
+      &_active {
+        color: $color-link-light;
+        i {
+          color: $color-link-light !important;
+        }
+      }
+    }
+    &_level2 {
+      color: #999;
+      &_active {
+        background-color: RGBA(78, 75, 78, 1) !important;
+      }
+      &:hover {
+        background-color: RGBA(78, 75, 78, 1);
+      }
+    }
+  }
+}

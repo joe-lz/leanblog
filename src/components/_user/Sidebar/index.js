@@ -70,7 +70,7 @@ function Components(props) {
           </div>
           <div className={styles.sidebar_item_placeholder}></div>
           <Item2 path="/_user/manage/userlist" title="用户管理" />
-          <Item2 path="/_user/manage/message" title="基本设置" />
+          <Item2 path="/_user/manage/setting" title="基本设置" />
         </div>
       )}
     </div>
