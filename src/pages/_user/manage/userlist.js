@@ -1,11 +1,13 @@
 import Head from "next/head";
 import AV from "leancloud-storage";
 import dynamic from "next/dynamic";
-import { Table, Tag, Space, Switch, notification } from "antd";
+import { Table, Tag, Space, Switch, notification, Radio, Popover } from "antd";
+import { QuestionCircleOutlined } from "@ant-design/icons";
 import React, { useState, useEffect } from "react";
 
 import styles from "./index.module.scss";
 import Layout from "src/components/_user/Layout";
+import priorityArr from "src/lib/priority";
 
 function AdminHome(props) {
   const [userlist, setuserlist] = useState([]);
@@ -60,46 +62,74 @@ function AdminHome(props) {
       },
     },
     {
-      title: "普通权限",
-      dataIndex: "isAuthed",
-      key: "isAuthed",
-      render: (res, item) => (
+      title: (
         <div>
-          <Switch
-            checkedChildren="开启"
-            unCheckedChildren="关闭"
-            defaultChecked={item.attributes.isAuthed}
-            onChange={(e) => {
-              updateUserInfo({
-                userinfo: item,
-                params: {
-                  isAuthed: e,
-                },
-              });
-            }}
-          />
+          权限设置
+          <Popover
+            placement="rightTop"
+            content={
+              <div>
+                <Table
+                  pagination={false}
+                  columns={[
+                    {
+                      title: "名称",
+                      dataIndex: "label",
+                      key: "label",
+                      render: (res, item) => {
+                        return item.label;
+                      },
+                    },
+                    {
+                      title: "描述",
+                      dataIndex: "desc",
+                      key: "desc",
+                      render: (res, item) => {
+                        return item.desc;
+                      },
+                    },
+                  ]}
+                  dataSource={priorityArr}
+                  rowKey={(record) => record.id}
+                  style={{ width: "100%" }}
+                />
+              </div>
+            }
+            title="权限说明"
+          >
+            <QuestionCircleOutlined style={{ marginLeft: 5 }} />
+          </Popover>
         </div>
       ),
-    },
-    {
-      title: "管理员权限",
-      dataIndex: "isAdmin",
-      key: "isAdmin",
+      dataIndex: "prioroty",
+      key: "prioroty",
       render: (res, item) => (
         <div>
-          <Switch
-            checkedChildren="开启"
-            unCheckedChildren="关闭"
-            defaultChecked={item.attributes.isAdmin}
+          <Radio.Group
+            defaultValue={item.attributes.priority}
+            buttonStyle="solid"
+            style={{}}
             onChange={(e) => {
               updateUserInfo({
                 userinfo: item,
                 params: {
-                  isAdmin: e,
+                  priority: e.target.value,
                 },
               });
             }}
-          />
+          >
+            {priorityArr.map((obj) => {
+              return (
+                <Radio.Button
+                  value={obj.value}
+                  key={`${obj.value}_${obj.labbel}`}
+                  checked={obj.value === item.attributes.priority}
+                >
+                  {obj.label}
+                </Radio.Button>
+              );
+            })}
+          </Radio.Group>
         </div>
       ),
     },
@@ -111,13 +141,13 @@ function AdminHome(props) {
         setcurUserInfo(e);
       }}
     >
-      {curUserInfo && curUserInfo.isAdmin ? (
+      {curUserInfo && curUserInfo.priority === 100 ? (
         <div className={styles.block}>
           <Table
             columns={columns}
             dataSource={userlist}
             rowKey={(record) => record.id}
-            style={{width: '100%'}}
+            style={{ width: "100%" }}
           />
         </div>
       ) : (

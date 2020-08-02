@@ -30,7 +30,7 @@ function Components(props) {
           });
           setTimeout(() => {
             window.location.reload();
-          }, 2000);
+          }, 1000);
         },
         (error) => {
           // 登录失败（可能是密码错误）
@@ -80,14 +80,14 @@ function Components(props) {
         });
         setTimeout(() => {
           window.location.reload();
-        }, 2000);
+        }, 1000);
       },
       (error) => {
         // 注册失败（通常是因为用户名已被使用）
         setisSpin(false);
         notification.error({
           message: "注册失败",
-          description: leanerrors[error.code],
+          description: leanerrors[error.code] ? leanerrors[error.code].msg : "",
         });
       }
     );

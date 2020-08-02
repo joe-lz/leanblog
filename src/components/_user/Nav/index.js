@@ -1,22 +1,21 @@
 import Head from "next/head";
 import Link from "next/link";
 import styles from "./index.module.scss";
+import priorityArr from "src/lib/priority";
 
 function Components(props) {
-  let { curUser } = props;
+  let { curUser, userinfo } = props;
   curUser = JSON.parse(JSON.stringify(curUser));
+  let priorityLabel = "";
+  priorityArr.map((obj) => {
+    if (userinfo && obj.value == userinfo.priority) {
+      priorityLabel = obj.label;
+    }
+  });
 
   return (
     <header className={styles.header}>
       <nav>
-        {/* <div
-          className={styles.logo}
-          style={{
-            backgroundImage:
-              'url("https://qiniu.jingdian.club/FpFCrbbNmg-GmFfVLdsxmmbPZFHw")',
-          }}
-        ></div> */}
-        {/* <Link href="/_user/home"> */}
         <Link href="/_user/home">
           <img
             className={styles.logoimg}
@@ -24,34 +23,9 @@ function Components(props) {
           ></img>
         </Link>
         <div className={styles.right}>
-          {/* {props.type === "login" && (
-            <Link href="/_user/register">
-              <div className={styles.link}>
-                <div className={styles.btn}>
-                  <i className="iconfont icon-zhuce"></i>
-                  <span>立即注册</span>
-                </div>
-              </div>
-            </Link>
-          )}
-          {props.type === "register" && (
-            <Link href="/_user/home">
-              <div className={styles.link}>
-                <div className={styles.btn}>
-                  <i className="iconfont icon-md-log-in"></i>
-                  <span>登录</span>
-                </div>
-              </div>
-            </Link>
-          )} */}
-          <a href="https://www.jingdian.club" target="_blank">
-            <div className={styles.link_active}>
-              <div className={styles.btn}>
-                {/* <i className="iconfont icon-Link2-copy"></i> */}
-                <span>鲸典官网</span>
-              </div>
-            </div>
-          </a>
+          <div className={styles.priority}>
+            <span>{priorityLabel}</span>
+          </div>
           {curUser && (
             <>
               <span className={styles.divider}>|</span>

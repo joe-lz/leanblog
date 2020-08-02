@@ -17,16 +17,22 @@ const BodyContent = dynamic(() => import("src/components/_user/BodyContent"), {
 
 function Components(props) {
   const curUser = AV.User.current();
+  const [userinfo, setuserinfo] = useState(null);
 
   return (
     <div className={styles.container}>
       <Head>
         <title>管理后台</title>
       </Head>
-      <Nav type="login" curUser={curUser} />
+      <Nav type="login" curUser={curUser} userinfo={userinfo} />
       {!curUser && <Login />}
       {curUser && (
-        <BodyContent onGetUserInfo={props.onGetUserInfo}>
+        <BodyContent
+          onGetUserInfo={(e) => {
+            setuserinfo(e);
+            props.onGetUserInfo && props.onGetUserInfo(e);
+          }}
+        >
           {props.children}
         </BodyContent>
       )}

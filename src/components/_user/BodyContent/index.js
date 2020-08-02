@@ -10,8 +10,7 @@ import leanerrors from "src/lib/leancloud_error_code.json";
 import Sidebar from "../Sidebar";
 
 function Components(props) {
-  const [isAuthed, setisAuthed] = useState(null);
-  const [isAdmin, setisAdmin] = useState(false);
+  const [priority, setpriority] = useState(0);
 
   useEffect(() => {
     // 获取我的授权状态
@@ -24,21 +23,12 @@ function Components(props) {
         if (res) {
           const userinfo = JSON.parse(JSON.stringify(res));
           props.onGetUserInfo && props.onGetUserInfo(userinfo);
-          if (userinfo.isAuthed) {
-            setisAuthed(true);
-          } else {
-            setisAuthed(false);
-          }
-          if (userinfo.isAdmin) {
-            setisAdmin(true);
-          }
+          setpriority(userinfo.priority || 1);
         } else {
-          setisAuthed(false);
           // 创建userinfo
           const userinfo = new AV.Object("UserInfo");
           userinfo.set("user", curUser);
-          userinfo.set("isAuthed", false); // 是否授权 默认：false
-          userinfo.set("isAdmin", false); // 是否管理员 默认：false
+          userinfo.set("priority", 1); // 权限等级 默认：1 未授权
           // 将对象保存到云端
           userinfo.save().then(
             (todo) => {
@@ -51,20 +41,20 @@ function Components(props) {
         }
       })
       .catch((err) => {
-        setisAuthed(false);
+        setpriority(1);
         console.log({ err });
       });
   }, []);
 
   return (
     <div className={styles.container}>
-      {isAuthed === true && (
+      {[100, 99, 98].includes(priority) && (
         <>
           <Sidebar></Sidebar>
           <div className={styles.content}>{props.children}</div>
         </>
       )}
-      {isAuthed === false && (
+      {priority === 1 && (
         <>
           <div className={styles.notAuthed}>
             <i className="iconfont icon-yonghushouquan"></i>
