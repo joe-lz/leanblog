@@ -8,6 +8,7 @@ import Layout from "src/components/_user/Layout";
 function AdminHome() {
   return (
     <Layout>
+      <p className="_admin_body_section_title">文章管理</p>
       <div className={styles.block}>message</div>
     </Layout>
   );

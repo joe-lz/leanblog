@@ -11,6 +11,7 @@ import Sidebar from "../Sidebar";
 
 function Components(props) {
   const [priority, setpriority] = useState(0);
+  const [curUserInfo, setcurUserInfo] = useState(0);
 
   useEffect(() => {
     // 获取我的授权状态
@@ -23,6 +24,7 @@ function Components(props) {
         if (res) {
           const userinfo = JSON.parse(JSON.stringify(res));
           props.onGetUserInfo && props.onGetUserInfo(userinfo);
+          setcurUserInfo(userinfo);
           setpriority(userinfo.priority || 1);
         } else {
           // 创建userinfo
@@ -48,9 +50,9 @@ function Components(props) {
 
   return (
     <div className={styles.container}>
-      {[100, 99, 98].includes(priority) && (
+      {[100, 99].includes(priority) && (
         <>
-          <Sidebar></Sidebar>
+          <Sidebar userinfo={curUserInfo}></Sidebar>
           <div className={styles.content}>{props.children}</div>
         </>
       )}

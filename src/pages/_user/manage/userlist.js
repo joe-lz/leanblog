@@ -141,6 +141,7 @@ function AdminHome(props) {
         setcurUserInfo(e);
       }}
     >
+      <p className="_admin_body_section_title">用户管理</p>
       {curUserInfo && curUserInfo.priority === 100 ? (
         <div className={styles.block}>
           <Table
