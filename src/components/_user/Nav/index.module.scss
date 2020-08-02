@@ -60,7 +60,7 @@
         display: inline-block;
         transition: $transition;
         &:hover {
-          background-color: $color-block;
+          background-color: $color-btnbg;
         }
         i {
           margin-right: 5px;
@@ -81,12 +81,12 @@
 
 @media (prefers-color-scheme: dark) {
   .header {
-    background-color: RGBA(28, 24, 28, 1);
+    background-color: RGBA(50, 37, 45, 1.00);
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     .btn {
       color: white !important;
       &:hover {
-        background-color: RGBA(78, 75, 78, 1) !important;
+        background-color: $color-btnbg-dark !important;
       }
       i {
         color: white !important;

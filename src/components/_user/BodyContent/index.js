@@ -50,7 +50,7 @@ function Components(props) {
 
   return (
     <div className={styles.container}>
-      {[100, 99].includes(priority) && (
+      {[100, 99].includes(priority) && !props.hideSidebar && (
         <>
           <Sidebar userinfo={curUserInfo}></Sidebar>
           <div className={styles.content}>{props.children}</div>

@@ -50,10 +50,10 @@
       transition: $transition;
       font-size: 14px;
       &_active {
-        background-color: $color-block;
+        background-color: $color-btnbg;
       }
       &:hover {
-        background-color: $color-block;
+        background-color: $color-btnbg;
       }
     }
   }
@@ -76,10 +76,10 @@
     &_level2 {
       color: #999;
       &_active {
-        background-color: RGBA(78, 75, 78, 1) !important;
+        background-color: $color-btnbg-dark !important;
       }
       &:hover {
-        background-color: RGBA(78, 75, 78, 1);
+        background-color: $color-btnbg-dark;
       }
     }
   }

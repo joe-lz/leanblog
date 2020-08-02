@@ -32,6 +32,7 @@ function Components(props) {
             setuserinfo(e);
             props.onGetUserInfo && props.onGetUserInfo(e);
           }}
+          hideSidebar={props.hideSidebar}
         >
           {props.children}
         </BodyContent>

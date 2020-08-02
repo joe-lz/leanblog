@@ -54,7 +54,7 @@
 
 @media (prefers-color-scheme: dark) {
   .articles_add {
-    background-color: RGBA(255, 255, 255, 0.05);
+    background-color: $color-block-dark;
     &_content {
       .icon {
         color: white;
