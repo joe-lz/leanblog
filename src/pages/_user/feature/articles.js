@@ -19,6 +19,7 @@ function AdminHome() {
       const articles = new AV.Object("Articles");
       articles.set("title", title);
       articles.set("author", author);
+      articles.set("user", AV.User.current());
       // 将对象保存到云端
       articles.save().then(
         (res) => {

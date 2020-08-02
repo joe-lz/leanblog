@@ -14,22 +14,22 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
 body {
   line-height: 1; }
 
-ol, ul {
-  list-style: none; }
+// ol, ul {
+//   list-style: none; }
 
-blockquote, q {
-  quotes: none; }
+// blockquote, q {
+//   quotes: none; }
 
-blockquote {
-  &:before, &:after {
-    content: '';
-    content: none; } }
+// blockquote {
+//   &:before, &:after {
+//     content: '';
+//     content: none; } }
 
-q {
-  &:before, &:after {
-    content: '';
-    content: none; } }
+// q {
+//   &:before, &:after {
+//     content: '';
+//     content: none; } }
 
-table {
-  border-collapse: collapse;
-  border-spacing: 0; }
+// table {
+//   border-collapse: collapse;
+//   border-spacing: 0; }
