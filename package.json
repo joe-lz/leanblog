@@ -11,6 +11,8 @@
   "dependencies": {
     "@ant-design/icons": "^4.2.1",
     "dayjs": "^1.8.31",
+    "github-markdown-css": "^4.0.0",
+    "highlight.js": "^10.1.2",
     "leancloud-storage": "^4.6.1",
     "next": "9.3.5",
     "react": "16.13.1",

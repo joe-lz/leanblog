@@ -139,7 +139,7 @@ function AdminHome() {
   return (
     <Layout>
       <p className="_admin_body_section_title">自定义菜单</p>
-      <div className={styles.block} style={{ padding: 30 }}>
+      <div className='_admin_body_section_block' style={{ padding: 30 }}>
         <div className={styles.block_waring}>
           <InfoCircleOutlined
             style={{ color: "RGBA(53, 90, 207, 1.00)", fontSize: 20 }}

@@ -8,7 +8,7 @@ import Layout from "src/components/_user/Layout";
 function AdminHome() {
   return (
     <Layout>
-      <div className={styles.block}>message</div>
+      <div className='_admin_body_section_block'>message</div>
     </Layout>
   );
 }

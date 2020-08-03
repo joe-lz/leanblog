@@ -9,7 +9,7 @@ import Layout from "src/components/_user/Layout";
 function AdminHome() {
   return (
     <Layout>
-      <div className={styles.block}>
+      <div className='_admin_body_section_block'>
         {/* <Table columns={columns} dataSource={data} /> */}
       </div>
     </Layout>

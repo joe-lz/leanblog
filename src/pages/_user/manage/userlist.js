@@ -143,7 +143,7 @@ function AdminHome(props) {
     >
       <p className="_admin_body_section_title">用户管理</p>
       {curUserInfo && curUserInfo.priority === 100 ? (
-        <div className={styles.block}>
+        <div className='_admin_body_section_block'>
           <Table
             columns={columns}
             dataSource={userlist}
@@ -152,7 +152,7 @@ function AdminHome(props) {
           />
         </div>
       ) : (
-        <div className={styles.block}>暂无权限，请联系管理员开通～</div>
+        <div className='_admin_body_section_block'>暂无权限，请联系管理员开通～</div>
       )}
     </Layout>
   );

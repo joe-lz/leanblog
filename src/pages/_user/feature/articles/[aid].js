@@ -5,14 +5,30 @@ import React, { useState, useEffect } from "react";
 import { Tree, Button, notification, Input, Modal } from "antd";
 import { useRouter } from "next/router";
 import { Remarkable } from "remarkable";
+import hljs from "highlight.js";
 
 import styles from "./index.module.scss";
 import Layout from "src/components/_user/Layout";
 
-const md = new Remarkable();
 const { TextArea } = Input;
 
 function AdminHome() {
+  // const md = new Remarkable();
+  var md = new Remarkable({
+    highlight: function (str, lang) {
+      if (lang && hljs.getLanguage(lang)) {
+        try {
+          return hljs.highlight(lang, str).value;
+        } catch (err) {}
+      }
+
+      try {
+        return hljs.highlightAuto(str).value;
+      } catch (err) {}
+
+      return ""; // use external default escaping
+    },
+  });
   const router = useRouter();
   const { aid } = router.query;
 

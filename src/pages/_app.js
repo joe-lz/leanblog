@@ -3,6 +3,8 @@ import AV from "leancloud-storage";
 
 import "antd/dist/antd.css";
 import "../styles/global.scss";
+import 'highlight.js/styles/github.css';
+import 'github-markdown-css/github-markdown.css';
 
 function MyApp({ Component, pageProps }) {
   AV.init({
