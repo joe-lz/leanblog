@@ -21,6 +21,9 @@ import {
 import styles from "./index.module.scss";
 
 function Components(props) {
+  const [imageLists, setimageLists] = useState([]);
+  const [imageListsTrash, setimageListsTrash] = useState([]);
+
   const beforeUpload = (e) => {
     console.log(e);
     const file = new AV.File("avatar.jpg", e);
@@ -41,7 +44,7 @@ function Components(props) {
     query
       .find()
       .then((res) => {
-        setarticleLists(res);
+        setimageLists(res);
       })
       .catch((err) => {
         console.log({ err });
@@ -51,11 +54,11 @@ function Components(props) {
   const handleChange = () => {};
 
   useEffect(() => {
-    // getFileList();
+    getFileList();
   }, []);
-
+  console.log({ imageLists });
   return (
-    <div className={styles.articles_item}>
+    <div className={styles.assets}>
       <div className="_admin_body_section_block">
         <div className={styles.assets_nav}>
           <span className={styles.assets_nav_item_active}>全部</span>
@@ -63,19 +66,29 @@ function Components(props) {
         </div>
       </div>
       <div className="_admin_body_section_block">
-        <Upload
-          name="avatar"
-          listType="picture-card"
-          className="avatar-uploader"
-          showUploadList={false}
-          beforeUpload={beforeUpload}
-          onChange={handleChange}
-        >
-          <div>
-            {/* {this.state.loading ? <LoadingOutlined /> : <PlusOutlined />} */}
-            <div className="ant-upload-text">Upload</div>
+        <div className={styles.assets_body}>
+          <div className={styles.assets_imgitem}>
+            <Upload
+              name="avatar"
+              listType="picture-card"
+              className={styles.uploader}
+              showUploadList={false}
+              beforeUpload={beforeUpload}
+              onChange={handleChange}
+            >
+              <div className={styles.assets_upload}>上传</div>
+            </Upload>
           </div>
-        </Upload>
+          {imageLists.map((obj) => {
+            return (
+              <div
+                className={styles.assets_imgitem}
+                key={obj.id}
+                style={{ backgroundImage: `url(${obj.attributes.url})` }}
+              ></div>
+            );
+          })}
+        </div>
       </div>
     </div>
   );

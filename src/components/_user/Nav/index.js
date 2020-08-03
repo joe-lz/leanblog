@@ -16,12 +16,12 @@ function Components(props) {
   return (
     <header className={styles.header}>
       <nav>
-        <Link href="/_user/home">
+        {/* <Link href="/_user/home">
           <img
             className={styles.logoimg}
             src="https://qiniu.jingdian.club/FpFCrbbNmg-GmFfVLdsxmmbPZFHw"
           ></img>
-        </Link>
+        </Link> */}
         <div className={styles.right}>
           <div className={styles.priority}>
             <span>{priorityLabel}</span>
