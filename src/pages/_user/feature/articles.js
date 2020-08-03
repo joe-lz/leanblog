@@ -7,6 +7,7 @@ import { Tree, Button, notification, Input, Modal } from "antd";
 import styles from "./index.module.scss";
 import Layout from "src/components/_user/Layout";
 import ArticleItem from "src/components/_user/ArticleItem";
+import { createArticle, getArticleList } from "src/service/article";
 
 function AdminHome() {
   const [createModalShow, setcreateModalShow] = useState(false);
@@ -14,42 +15,23 @@ function AdminHome() {
   const [author, setauthor] = useState("");
   const [articleLists, setarticleLists] = useState([]);
 
-  const handleCreate = () => {
+  const handleCreate = async () => {
     if (title && author) {
-      const articles = new AV.Object("CMS_Articles");
-      articles.set("title", title);
-      articles.set("author", author);
-      articles.set("user", AV.User.current());
-      // 将对象保存到云端
-      articles.save().then(
-        (res) => {
-          console.log(res);
-          setcreateModalShow(false);
-        },
-        (error) => {
-          // 异常处理
-        }
-      );
+      await createArticle({ title, author });
+      setcreateModalShow(false);
+      // 获取文章列表
+      const resList = await getArticleList();
+      setarticleLists(resList);
     }
   };
 
-  // 获取文章列表
-  const getArticleList = () => {
-    const query = new AV.Query("CMS_Articles");
-    query.descending("createdAt");
-    query.limit(50);
-    query
-      .find()
-      .then((res) => {
-        setarticleLists(res)
-      })
-      .catch((err) => {
-        console.log({ err });
-      });
-  };
-
-  useEffect(() => {
-    getArticleList();
+  useEffect(async () => {
+    async function fetchData() {
+      // 获取文章列表
+      const resList = await getArticleList();
+      setarticleLists(resList);
+    }
+    fetchData();
   }, []);
 
   return (
@@ -68,7 +50,17 @@ function AdminHome() {
           </div>
         </div>
         {articleLists.map((obj) => {
-          return <ArticleItem key={obj.id} item={obj}/>;
+          return (
+            <ArticleItem
+              key={obj.id}
+              item={obj}
+              onChange={async () => {
+                // 获取文章列表
+                const resList = await getArticleList();
+                setarticleLists(resList);
+              }}
+            />
+          );
         })}
         <Modal
           title="创建文章"

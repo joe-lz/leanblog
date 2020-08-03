@@ -6,6 +6,7 @@ import { Tree, Button, notification, Input, Modal } from "antd";
 import { useRouter } from "next/router";
 import { Remarkable } from "remarkable";
 import hljs from "highlight.js";
+import { getArticleById, updateArticle } from "src/service/article";
 
 import styles from "./index.module.scss";
 import Layout from "src/components/_user/Layout";
@@ -48,31 +49,14 @@ function AdminHome() {
 ###### h6 Heading
 `);
 
-  const updateArticle = () => {
-    if (articleItem) {
-      articleItem.set("articleVal", articleVal);
-      articleItem.set("title", articleTitle);
-      articleItem.save().then(
-        (res) => {
-          notification.success({
-            message: "保存成功",
-            // description: "请输入用户名、密码",
-          });
-        },
-        (error) => {
-          // 异常处理
-        }
-      );
-    }
-  };
+  useEffect(() => {}, []);
 
-  // 获取文章
-  const getArticleById = () => {
-    const query = new AV.Query("CMS_Articles");
-    if (aid) {
-      query
-        .get(aid)
-        .then((res) => {
+  useEffect(() => {
+    if (router && router.query) {
+      if (aid) {
+        async function fetchData() {
+          // 获取文章
+          const res = await getArticleById({ id: aid });
           try {
             setarticleItem(res);
             setarticleTitle(res.attributes.title);
@@ -82,20 +66,12 @@ function AdminHome() {
           if (res.attributes.articleVal) {
             setarticleVal(res.attributes.articleVal);
           }
-        })
-        .catch((err) => {
-          console.error(err);
-        });
-    }
-  };
-
-  useEffect(() => {}, []);
-
-  useEffect(() => {
-    if (router && router.query) {
-      getArticleById();
+        }
+        fetchData();
+      }
     }
   }, [router]);
+
   return (
     <Layout hideSidebar>
       {articleItem && (
@@ -116,8 +92,18 @@ function AdminHome() {
                   type="primary"
                   size="large"
                   shape="round"
-                  onClick={() => {
-                    updateArticle();
+                  onClick={async () => {
+                    await updateArticle({
+                      articleItem,
+                      params: {
+                        articleVal,
+                        title: articleTitle,
+                      },
+                    });
+                    notification.success({
+                      message: "保存成功",
+                      // description: "请输入用户名、密码",
+                    });
                   }}
                 >
                   保存

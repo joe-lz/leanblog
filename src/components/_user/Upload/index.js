@@ -17,52 +17,45 @@ import {
   Upload,
   message,
 } from "antd";
+import { CopyToClipboard } from "react-copy-to-clipboard";
 
 import styles from "./index.module.scss";
+import { createAssets, getAssetsList } from "src/service/assets";
 
 function Components(props) {
   const [imageLists, setimageLists] = useState([]);
   const [imageListsTrash, setimageListsTrash] = useState([]);
 
-  const beforeUpload = (e) => {
-    console.log(e);
-    const file = new AV.File("avatar.jpg", e);
-    file.save().then(
-      (file) => {
-        console.log(`文件保存完成。objectId：${file.id}`);
-      },
-      (error) => {
-        // 保存失败，可能是文件无法被读取，或者上传过程中出现问题
-      }
-    );
-  };
-
-  const getFileList = () => {
-    const query = new AV.Query("_File");
-    query.descending("createdAt");
-    query.limit(50);
-    query
-      .find()
-      .then((res) => {
-        setimageLists(res);
-      })
-      .catch((err) => {
-        console.log({ err });
-      });
+  const beforeUpload = async (e) => {
+    await createAssets({ e });
+    const res = await getAssetsList();
+    setimageLists(res);
   };
 
   const handleChange = () => {};
+  // 删除图片
+  // const handleDel = async (file) => {
+  //   file.destroy();
+  //   // 获取图片列表
+  //   const res = await getAssetsList();
+  //   setimageLists(res);
+  // };
 
   useEffect(() => {
-    getFileList();
+    async function fetchData() {
+      // 获取图片列表
+      const res = await getAssetsList();
+      setimageLists(res);
+    }
+    fetchData();
   }, []);
-  console.log({ imageLists });
+
   return (
     <div className={styles.assets}>
       <div className="_admin_body_section_block">
         <div className={styles.assets_nav}>
           <span className={styles.assets_nav_item_active}>全部</span>
-          <span className={styles.assets_nav_item}>回收站</span>
+          {/* <span className={styles.assets_nav_item}>回收站</span> */}
         </div>
       </div>
       <div className="_admin_body_section_block">
@@ -75,6 +68,7 @@ function Components(props) {
               showUploadList={false}
               beforeUpload={beforeUpload}
               onChange={handleChange}
+              accept="image/png, image/jpeg"
             >
               <div className={styles.assets_upload}>上传</div>
             </Upload>
@@ -85,7 +79,42 @@ function Components(props) {
                 className={styles.assets_imgitem}
                 key={obj.id}
                 style={{ backgroundImage: `url(${obj.attributes.url})` }}
-              ></div>
+              >
+                <div className={styles.assets_imgitem_content}>
+                  <CopyToClipboard
+                    text={obj.attributes.url}
+                    onCopy={() => {
+                      notification.success({
+                        message: "复制成功",
+                        // description: "请输入用户名、密码",
+                      });
+                    }}
+                  >
+                    <Button shape="round">复制图片url</Button>
+                  </CopyToClipboard>
+                  {props.onChoose && (
+                    <Button
+                      shape="round"
+                      type="primary"
+                      onClick={() => {
+                        props.onChoose({ url: obj.attributes.url });
+                      }}
+                    >
+                      选择图片
+                    </Button>
+                  )}
+                  {/* <Button
+                    shape="round"
+                    type="primary"
+                    danger
+                    onClick={async () => {
+                      await handleDel(obj);
+                    }}
+                  >
+                    删除图片
+                  </Button> */}
+                </div>
+              </div>
             );
           })}
         </div>

@@ -12,13 +12,13 @@ import { Tree, Button, notification, Input, Modal, message } from "antd";
 
 import styles from "./index.module.scss";
 import Upload from "src/components/_user/Upload";
+import { getArticleById, updateArticle } from "src/service/article";
 
 function Components(props) {
   const [modalShow, setmodalShow] = useState(false);
   const [posterUrl, setposterUrl] = useState("");
 
-  useEffect(() => {
-  }, []);
+  useEffect(() => {}, []);
 
   return (
     <div className={styles.articles_item}>
@@ -68,7 +68,7 @@ function Components(props) {
       </a>
       <Modal
         // title="上传封面"
-        closable={false}
+        // closable={false}
         width={900}
         visible={modalShow}
         onCancel={() => {
@@ -77,11 +77,25 @@ function Components(props) {
         onOk={() => {
           handleCreate();
         }}
-        okText="上传并保存"
+        okText="保存"
         cancelText="取消"
-        bodyStyle={{padding: 0}}
+        bodyStyle={{ padding: 0 }}
+        footer={null}
       >
-        {modalShow && <Upload />}
+        {modalShow && (
+          <Upload
+            onChoose={async ({ url }) => {
+              await updateArticle({
+                articleItem: props.item,
+                params: {
+                  poster: url,
+                },
+              });
+              props.onChange && await props.onChange()
+              setmodalShow(false);
+            }}
+          />
+        )}
       </Modal>
     </div>
   );

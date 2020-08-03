@@ -10,17 +10,6 @@ function AdminHome() {
   return (
     <Layout>
       <p className="_admin_body_section_title">素材管理</p>
-
-      {/* <div className="_admin_body_section_block">
-        <div className={styles.assets_nav}>
-          <span className={styles.assets_nav_item_active}>全部</span>
-          <span className={styles.assets_nav_item}>回收站</span>
-        </div>
-      </div>
-
-      <div className="_admin_body_section_block">
-        <Upload />
-      </div> */}
       <Upload />
     </Layout>
   );
