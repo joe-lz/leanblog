@@ -18,6 +18,7 @@ function AdminHome() {
 
   const [articleItem, setarticleItem] = useState(null);
 
+  const [articleTitle, setarticleTitle] = useState("");
   const [articleVal, setarticleVal] = useState(`# Remarkable
 > Experience real-time editing with Remarkable!
 
@@ -32,9 +33,9 @@ function AdminHome() {
 `);
 
   const updateArticle = () => {
-    console.log(articleItem);
     if (articleItem) {
       articleItem.set("articleVal", articleVal);
+      articleItem.set("title", articleTitle);
       articleItem.save().then(
         (res) => {
           notification.success({
@@ -48,6 +49,8 @@ function AdminHome() {
       );
     }
   };
+
+  // 获取文章
   const getArticleById = () => {
     const query = new AV.Query("Articles");
     if (aid) {
@@ -56,6 +59,7 @@ function AdminHome() {
         .then((res) => {
           try {
             setarticleItem(res);
+            setarticleTitle(res.attributes.title);
           } catch (error) {
             console.log(error);
           }
@@ -78,39 +82,64 @@ function AdminHome() {
   }, [router]);
   return (
     <Layout hideSidebar>
-      <div className={styles.articles_detail}>
-        <div className={styles.articles_detail_left}>
-          <TextArea
-            className={styles.articles_detail_left_editor}
-            value={articleVal}
-            onChange={(e) => {
-              setarticleVal(e.target.value);
-              console.log(e.target.value);
-            }}
-          />
+      {articleItem && (
+        <div className={styles.articles_detail}>
+          <div className={styles.articles_detail_title}>
+            <div className={styles.articles_detail_title_body}>
+              <p className={styles.articles_detail_title_label}>标题：</p>
+              <input
+                className={styles.articles_detail_title_input}
+                placeholder="请输入文章标题"
+                value={articleTitle}
+                onChange={(e) => {
+                  setarticleTitle(e.target.value);
+                }}
+              />
+              <div className={styles.articles_detail_operation}>
+                <Button
+                  type="primary"
+                  size="large"
+                  shape="round"
+                  onClick={() => {
+                    updateArticle();
+                  }}
+                >
+                  保存
+                </Button>
+                <Button
+                  type="primary"
+                  size="large"
+                  shape="round"
+                  danger
+                  onClick={() => {}}
+                >
+                  保存并上线
+                </Button>
+              </div>
+            </div>
+          </div>
+          <div className={styles.articles_detail_body}>
+            <div className={styles.articles_detail_left}>
+              <TextArea
+                autoSize
+                className={styles.articles_detail_left_editor}
+                value={articleVal}
+                onChange={(e) => {
+                  setarticleVal(e.target.value);
+                }}
+              />
+            </div>
+            <div className={styles.articles_detail_right}>
+              <article
+                className="markdown-body"
+                dangerouslySetInnerHTML={{
+                  __html: md.render(articleVal),
+                }}
+              ></article>
+            </div>
+          </div>
         </div>
-        <div className={styles.articles_detail_right}>
-          <article
-            className="markdown-body"
-            dangerouslySetInnerHTML={{
-              __html: md.render(articleVal),
-            }}
-          ></article>
-        </div>
-        <div className={styles.articles_detail_bottom}>
-          <Button
-            size="large"
-            onClick={() => {
-              updateArticle();
-            }}
-          >
-            保存
-          </Button>
-          <Button type="primary" size="large" onClick={() => {}}>
-            保存并上线
-          </Button>
-        </div>
-      </div>
+      )}
     </Layout>
   );
 }
