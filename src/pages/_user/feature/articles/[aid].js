@@ -52,7 +52,7 @@ function AdminHome() {
 
   // 获取文章
   const getArticleById = () => {
-    const query = new AV.Query("Articles");
+    const query = new AV.Query("CMS_Articles");
     if (aid) {
       query
         .get(aid)

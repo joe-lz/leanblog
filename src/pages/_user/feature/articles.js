@@ -16,7 +16,7 @@ function AdminHome() {
 
   const handleCreate = () => {
     if (title && author) {
-      const articles = new AV.Object("Articles");
+      const articles = new AV.Object("CMS_Articles");
       articles.set("title", title);
       articles.set("author", author);
       articles.set("user", AV.User.current());
@@ -35,7 +35,7 @@ function AdminHome() {
 
   // 获取文章列表
   const getArticleList = () => {
-    const query = new AV.Query("Articles");
+    const query = new AV.Query("CMS_Articles");
     query.descending("createdAt");
     query.limit(50);
     query

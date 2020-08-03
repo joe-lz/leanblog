@@ -15,7 +15,7 @@ function Components(props) {
 
   useEffect(() => {
     // 获取我的授权状态
-    const query = new AV.Query("UserInfo");
+    const query = new AV.Query("CMS_UserInfo");
     const curUser = AV.User.current();
     query.equalTo("user", curUser);
     query
@@ -28,7 +28,7 @@ function Components(props) {
           setpriority(userinfo.priority || 1);
         } else {
           // 创建userinfo
-          const userinfo = new AV.Object("UserInfo");
+          const userinfo = new AV.Object("CMS_UserInfo");
           userinfo.set("user", curUser);
           userinfo.set("priority", 1); // 权限等级 默认：1 未授权
           // 将对象保存到云端

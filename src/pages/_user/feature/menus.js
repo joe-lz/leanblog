@@ -23,7 +23,7 @@ function AdminHome() {
   const [updateShow, setupdateShow] = useState(false);
 
   const getMenuList = () => {
-    const query = new AV.Query("Menus");
+    const query = new AV.Query("CMS_Menus");
     query.descending("createdAt");
     query
       .first()
@@ -33,7 +33,7 @@ function AdminHome() {
           setcurMenuObj(res);
         } else {
           // 创建默认菜单
-          const menusObject = new AV.Object("Menus");
+          const menusObject = new AV.Object("CMS_Menus");
           menusObject.set("value", defaultMenu);
           // 将对象保存到云端
           menusObject.save().then(

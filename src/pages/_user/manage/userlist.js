@@ -15,7 +15,7 @@ function AdminHome(props) {
 
   useEffect(() => {
     // 获取我的授权状态
-    const query = new AV.Query("UserInfo");
+    const query = new AV.Query("CMS_UserInfo");
     // query.equalTo("user", curUser);
     query.include("user");
     query.limit(50);
