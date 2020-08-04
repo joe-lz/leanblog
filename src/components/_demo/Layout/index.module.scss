@@ -1,0 +1,9 @@
+@import "~src/styles/variables.scss";
+
+.container {
+}
+
+@media (prefers-color-scheme: dark) {
+  .container {
+  }
+}

@@ -1,17 +1,21 @@
-import Head from "next/head";
-import Link from "next/link";
-import styles from "./index.module.scss";
-import priorityArr from "src/lib/priority";
+import Head from 'next/head'
+import Link from 'next/link'
+import React, { useState, useEffect } from 'react'
+
+import styles from './index.module.scss'
+import priorityArr from 'src/lib/priority'
 
 function Components(props) {
-  let { curUser, userinfo } = props;
-  curUser = JSON.parse(JSON.stringify(curUser));
-  let priorityLabel = "";
+  let { curUser, userinfo } = props
+  curUser = JSON.parse(JSON.stringify(curUser))
+  let priorityLabel = ''
   priorityArr.map((obj) => {
     if (userinfo && obj.value == userinfo.priority) {
-      priorityLabel = obj.label;
+      priorityLabel = obj.label
     }
-  });
+  })
+
+  const { profile } = props
 
   return (
     <header className={styles.header}>
@@ -19,7 +23,7 @@ function Components(props) {
         <Link href="/_user/home">
           <img
             className={styles.logoimg}
-            src="https://qiniu.jingdian.club/FpFCrbbNmg-GmFfVLdsxmmbPZFHw"
+            src={profile && profile.attributes.logo ? profile.attributes.logo : 'https://qiniu.jingdian.club/FpFCrbbNmg-GmFfVLdsxmmbPZFHw'}
           ></img>
         </Link>
         <div className={styles.right}>
@@ -32,10 +36,7 @@ function Components(props) {
               <div className={styles.link}>
                 <div className={styles.btn}>
                   <span>{curUser.username}</span>
-                  <i
-                    className="iconfont icon-down"
-                    style={{ fontSize: 12 }}
-                  ></i>
+                  <i className="iconfont icon-down" style={{ fontSize: 12 }}></i>
                 </div>
               </div>
             </>
@@ -43,7 +44,7 @@ function Components(props) {
         </div>
       </nav>
     </header>
-  );
+  )
 }
 
-export default Components;
+export default Components

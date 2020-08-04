@@ -1,0 +1,13 @@
+@import '~src/styles/variables.scss';
+
+.container {
+  height: 80px;
+  line-height: 80px;
+  background-color: white;
+  border-bottom: 1px solid $color-border;
+}
+
+@media (prefers-color-scheme: dark) {
+  .container {
+  }
+}
