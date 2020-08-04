@@ -1,41 +1,43 @@
-import Head from "next/head";
-import AV from "leancloud-storage";
-import dynamic from "next/dynamic";
-import React, { useState, useEffect } from "react";
-import { Tree, Button, notification, Input, Modal } from "antd";
-import { useRouter } from "next/router";
-import { Remarkable } from "remarkable";
-import hljs from "highlight.js";
-import { getArticleById, updateArticle } from "src/service/article";
+import Head from 'next/head'
+import AV from 'leancloud-storage'
+import dynamic from 'next/dynamic'
+import React, { useState, useEffect } from 'react'
+import { Tree, Button, notification, Input, Modal, TreeSelect } from 'antd'
+import { useRouter } from 'next/router'
+import { Remarkable } from 'remarkable'
+import hljs from 'highlight.js'
+import { getArticleById, updateArticle } from 'src/service/article'
 
-import styles from "./index.module.scss";
-import Layout from "src/components/_user/Layout";
+import styles from './index.module.scss'
+import Layout from 'src/components/_user/Layout'
+import { getMenusList } from 'src/service/menu'
 
-const { TextArea } = Input;
+const { TextArea } = Input
 
-function AdminHome() {
-  // const md = new Remarkable();
-  var md = new Remarkable({
-    highlight: function (str, lang) {
-      if (lang && hljs.getLanguage(lang)) {
-        try {
-          return hljs.highlight(lang, str).value;
-        } catch (err) {}
-      }
-
+// const md = new Remarkable();
+var md = new Remarkable({
+  highlight: function (str, lang) {
+    if (lang && hljs.getLanguage(lang)) {
       try {
-        return hljs.highlightAuto(str).value;
+        return hljs.highlight(lang, str).value
       } catch (err) {}
+    }
 
-      return ""; // use external default escaping
-    },
-  });
-  const router = useRouter();
-  const { aid } = router.query;
+    try {
+      return hljs.highlightAuto(str).value
+    } catch (err) {}
 
-  const [articleItem, setarticleItem] = useState(null);
+    return '' // use external default escaping
+  },
+})
+function AdminHome() {
+  const router = useRouter()
+  const { aid } = router.query
 
-  const [articleTitle, setarticleTitle] = useState("");
+  const [articleItem, setarticleItem] = useState(null)
+  const [curMenu, setcurMenu] = useState([])
+
+  const [articleTitle, setarticleTitle] = useState('')
   const [articleVal, setarticleVal] = useState(`# Remarkable
 > Experience real-time editing with Remarkable!
 
@@ -47,30 +49,40 @@ function AdminHome() {
 #### h4 Heading
 ##### h5 Heading
 ###### h6 Heading
-`);
+`)
 
-  useEffect(() => {}, []);
+  const handleGetMenu = async () => {
+    // 获取菜单
+    const res = await getMenusList()
+    setcurMenu(res.attributes.value)
+  }
+
+  const onCategoryChange = (key) => {}
+
+  useEffect(() => {
+    handleGetMenu()
+  }, [])
 
   useEffect(() => {
     if (router && router.query) {
       if (aid) {
         async function fetchData() {
           // 获取文章
-          const res = await getArticleById({ id: aid });
+          const res = await getArticleById({ id: aid })
           try {
-            setarticleItem(res);
-            setarticleTitle(res.attributes.title);
+            setarticleItem(res)
+            setarticleTitle(res.attributes.title)
           } catch (error) {
-            console.log(error);
+            console.log(error)
           }
           if (res.attributes.articleVal) {
-            setarticleVal(res.attributes.articleVal);
+            setarticleVal(res.attributes.articleVal)
           }
         }
-        fetchData();
+        fetchData()
       }
     }
-  }, [router]);
+  }, [router])
 
   return (
     <Layout hideSidebar>
@@ -84,10 +96,23 @@ function AdminHome() {
                 placeholder="请输入文章标题"
                 value={articleTitle}
                 onChange={(e) => {
-                  setarticleTitle(e.target.value);
+                  setarticleTitle(e.target.value)
                 }}
               />
               <div className={styles.articles_detail_operation}>
+                <div className={styles.articles_detail_operation_btn}>
+                  <TreeSelect
+                    style={{ width: '100%' }}
+                    // value={this.state.value}
+                    dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
+                    treeData={curMenu}
+                    placeholder="请选择分类"
+                    treeDefaultExpandAll
+                    onChange={(catgory_key) => {
+                      onCategoryChange(catgory_key)
+                    }}
+                  />
+                </div>
                 <Button
                   type="primary"
                   size="large"
@@ -99,22 +124,16 @@ function AdminHome() {
                         articleVal,
                         title: articleTitle,
                       },
-                    });
+                    })
                     notification.success({
-                      message: "保存成功",
+                      message: '保存成功',
                       // description: "请输入用户名、密码",
-                    });
+                    })
                   }}
                 >
                   保存
                 </Button>
-                <Button
-                  type="primary"
-                  size="large"
-                  shape="round"
-                  danger
-                  onClick={() => {}}
-                >
+                <Button type="primary" size="large" shape="round" danger onClick={() => {}}>
                   保存并上线
                 </Button>
               </div>
@@ -127,7 +146,7 @@ function AdminHome() {
                 className={styles.articles_detail_left_editor}
                 value={articleVal}
                 onChange={(e) => {
-                  setarticleVal(e.target.value);
+                  setarticleVal(e.target.value)
                 }}
               />
             </div>
@@ -143,7 +162,7 @@ function AdminHome() {
         </div>
       )}
     </Layout>
-  );
+  )
 }
 
-export default AdminHome;
+export default AdminHome

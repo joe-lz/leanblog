@@ -65,7 +65,15 @@ body {
     }
   }
 }
-
+.ant-select-single:not(.ant-select-customize-input) .ant-select-selector {
+  padding: 0 15px;
+  height: 40px;
+  border-radius: 20px;
+  input, .ant-select-selection-placeholder, .ant-select-selection-item {
+    height: 38px !important;
+    line-height: 38px !important;
+  }
+}
 .ant-upload {
   padding: 0;
   width: 100% !important;

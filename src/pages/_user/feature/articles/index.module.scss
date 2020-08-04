@@ -37,6 +37,11 @@ $max-width: 2000px;
     min-height: 100vh;
   }
   &_operation {
+    &_btn {
+      margin-right: 15px;
+      display: inline-block;
+      width: 200px;
+    }
     button {
       margin-right: 10px;
     }
