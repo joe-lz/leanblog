@@ -4,7 +4,7 @@ export const createProfile = (params = {}) => {
   return new Promise((resolve, reject) => {
     // 创建默认菜单
     const profileObject = new AV.Object('CMS_Profile')
-    profileObject.set('logo', '')
+    profileObject.set('logo', 'https://qiniu.jingdian.club/FpFCrbbNmg-GmFfVLdsxmmbPZFHw')
     profileObject.set('title', '')
     // 将对象保存到云端
     profileObject.save().then(

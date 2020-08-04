@@ -20,12 +20,15 @@ function Components(props) {
   return (
     <header className={styles.header}>
       <nav>
-        <Link href="/_user/home">
-          <img
+        {profile && (
+          <Link href="/_user/home">
+            {/* <img
             className={styles.logoimg}
             src={profile && profile.attributes.logo ? profile.attributes.logo : 'https://qiniu.jingdian.club/FpFCrbbNmg-GmFfVLdsxmmbPZFHw'}
-          ></img>
-        </Link>
+          ></img> */}
+            <div className={styles.logo} style={{ backgroundImage: `url(${profile.attributes.logo})` }}></div>
+          </Link>
+        )}
         <div className={styles.right}>
           <div className={styles.priority}>
             <span>{priorityLabel}</span>
