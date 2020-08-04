@@ -13,6 +13,7 @@ import { Tree, Button, notification, Input, Modal, message } from "antd";
 import styles from "./index.module.scss";
 import Upload from "src/components/_user/Upload";
 import { getArticleById, updateArticle } from "src/service/article";
+import articleStatus from "src/lib/articleStatus";
 
 function Components(props) {
   const [modalShow, setmodalShow] = useState(false);
@@ -20,6 +21,13 @@ function Components(props) {
 
   useEffect(() => {}, []);
 
+  let curStatus = null;
+  articleStatus.map((obj) => {
+    if (obj.value === props.item.attributes.status) {
+      curStatus = obj;
+    }
+    return obj;
+  });
   return (
     <div className={styles.articles_item}>
       <div
@@ -40,13 +48,41 @@ function Components(props) {
           >
             上传封面
           </div>
-          <a
+          {/* <a
             className={styles.articles_item_operation_btn}
             target="_blank"
             href={`/_user/feature/articles/${props.item.id}`}
           >
             编辑
-          </a>
+          </a> */}
+        </div>
+        <div className={styles.articles_item_operation2}>
+          {curStatus &&
+            curStatus.btns.map((obj) => {
+              return (
+                <div
+                  className={styles.articles_item_operation_btn}
+                  key={obj.label}
+                  onClick={async () => {
+                    if (
+                      confirm(
+                        `确认上线文章【${props.item.attributes.title}】吗？`
+                      )
+                    ) {
+                      await updateArticle({
+                        articleItem: props.item,
+                        params: {
+                          status: obj.status,
+                        },
+                      });
+                      props.onChange && (await props.onChange());
+                    }
+                  }}
+                >
+                  {obj.label}
+                </div>
+              );
+            })}
         </div>
       </div>
       <a
@@ -91,7 +127,7 @@ function Components(props) {
                   poster: url,
                 },
               });
-              props.onChange && await props.onChange()
+              props.onChange && (await props.onChange());
               setmodalShow(false);
             }}
           />

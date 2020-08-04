@@ -6,26 +6,6 @@
   height: 100%;
 }
 .assets {
-  &_nav {
-    padding-left: 15px;
-    height: 50px;
-    line-height: 50px;
-    &_item,
-    &_item_active {
-      font-size: 16px;
-      margin-right: 15px;
-      cursor: pointer;
-      color: $color-disabled;
-      &:hover {
-        color: $color-link;
-        font-weight: 500;
-      }
-      &_active {
-        color: $color-link;
-        font-weight: 500;
-      }
-    }
-  }
   &_body {
     padding: 15px;
     font-size: 0;

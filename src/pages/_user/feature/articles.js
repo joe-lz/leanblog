@@ -2,15 +2,19 @@ import Head from "next/head";
 import AV from "leancloud-storage";
 import dynamic from "next/dynamic";
 import React, { useState, useEffect } from "react";
-import { Tree, Button, notification, Input, Modal } from "antd";
+import { Tree, Button, notification, Input, Modal, Spin } from "antd";
 
 import styles from "./index.module.scss";
 import Layout from "src/components/_user/Layout";
 import ArticleItem from "src/components/_user/ArticleItem";
 import { createArticle, getArticleList } from "src/service/article";
+import articleStatus from "src/lib/articleStatus";
 
 function AdminHome() {
   const [createModalShow, setcreateModalShow] = useState(false);
+  const [status, setstatus] = useState(1);
+  const [isSpin, setisSpin] = useState(false);
+
   const [title, settitle] = useState("");
   const [author, setauthor] = useState("");
   const [articleLists, setarticleLists] = useState([]);
@@ -20,77 +24,114 @@ function AdminHome() {
       await createArticle({ title, author });
       setcreateModalShow(false);
       // 获取文章列表
-      const resList = await getArticleList();
-      setarticleLists(resList);
+      await getList();
     }
   };
 
-  useEffect(async () => {
+  const getList = async () => {
+    setisSpin(true);
+    // 获取文章列表
+    const resList = await getArticleList({ status });
+    setarticleLists(resList);
+    setisSpin(false);
+  };
+
+  const handleNavChange = async (params) => {
+    setstatus(params.status);
+    // // 获取文章列表
+    // await getList();
+  };
+
+  useEffect(() => {
     async function fetchData() {
-      // 获取文章列表
-      const resList = await getArticleList();
-      setarticleLists(resList);
+      await getList();
     }
     fetchData();
   }, []);
 
+  useEffect(() => {
+    // 获取文章列表
+    getList();
+  }, [status]);
+
   return (
     <Layout>
       <p className="_admin_body_section_title">文章管理</p>
-      <div className={styles.articles}>
-        <div
-          className={styles.articles_add}
-          onClick={() => {
-            setcreateModalShow(true);
-          }}
-        >
-          <div className={styles.articles_add_content}>
-            <p className={styles.icon}>+</p>
-            <p>新的创作</p>
-          </div>
+      <div className="_admin_body_section_block">
+        <div className="_admin_body_section_block_nav">
+          {articleStatus.map((obj) => {
+            return (
+              <span
+                className={
+                  obj.value === status
+                    ? "_admin_body_section_block_nav_item_active"
+                    : "_admin_body_section_block_nav_item"
+                }
+                key={obj.label}
+                onClick={() => {
+                  handleNavChange({ status: obj.value });
+                }}
+              >
+                {obj.label}
+              </span>
+            );
+          })}
         </div>
-        {articleLists.map((obj) => {
-          return (
-            <ArticleItem
-              key={obj.id}
-              item={obj}
-              onChange={async () => {
-                // 获取文章列表
-                const resList = await getArticleList();
-                setarticleLists(resList);
+      </div>
+      <Spin spinning={isSpin} tip="加载中...">
+        <div className={styles.articles}>
+          <div
+            className={styles.articles_add}
+            onClick={() => {
+              setcreateModalShow(true);
+            }}
+          >
+            <div className={styles.articles_add_content}>
+              <p className={styles.icon}>+</p>
+              <p>新的创作</p>
+            </div>
+          </div>
+          {articleLists.map((obj) => {
+            return (
+              <ArticleItem
+                key={obj.id}
+                item={obj}
+                onChange={async () => {
+                  await getList();
+                }}
+              />
+            );
+          })}
+          <Modal
+            title="创建文章"
+            width={400}
+            visible={createModalShow}
+            onCancel={() => {
+              setcreateModalShow(false);
+            }}
+            onOk={() => {
+              handleCreate();
+            }}
+            okText="创建"
+            cancelText="取消"
+          >
+            <Input
+              style={{ margin: "15px 0" }}
+              placeholder="文章标题"
+              onChange={(e) => {
+                settitle(e.target.value);
               }}
             />
-          );
-        })}
-        <Modal
-          title="创建文章"
-          width={400}
-          visible={createModalShow}
-          onCancel={() => {
-            setcreateModalShow(false);
-          }}
-          onOk={() => {
-            handleCreate();
-          }}
-          okText="创建"
-          cancelText="取消"
-        >
-          <Input
-            style={{ margin: "15px 0" }}
-            placeholder="文章标题"
-            onChange={(e) => {
-              settitle(e.target.value);
-            }}
-          />
-          <Input
-            style={{ margin: "15px 0" }}
-            placeholder="作者名称"
-            onChange={(e) => {
-              setauthor(e.target.value);
-            }}
-          />
-        </Modal>
-      </div>
+            <Input
+              style={{ margin: "15px 0" }}
+              placeholder="作者名称"
+              onChange={(e) => {
+                setauthor(e.target.value);
+              }}
+            />
+          </Modal>
+        </div>
+      </Spin>
     </Layout>
   );
 }

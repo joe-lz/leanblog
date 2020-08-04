@@ -26,8 +26,17 @@ function Components(props) {
   const [imageLists, setimageLists] = useState([]);
   const [imageListsTrash, setimageListsTrash] = useState([]);
 
-  const beforeUpload = async (e) => {
-    await createAssets({ e });
+  const beforeUpload = async (file) => {
+    const isLt1M = file.size / 1024 / 1024 < 1;
+    if (!isLt1M) {
+      // message.error(file.name + "图片大小超出1Mno限制，请修改后重新上传", 0.8);
+      notification.error({
+        message: `图片大小超出1M限制，请修改后重新上传`,
+        // description: leanerrors[error.code] ? leanerrors[error.code].msg : "",
+      });
+      return isLt1M;
+    }
+    await createAssets({ e: file });
     const res = await getAssetsList();
     setimageLists(res);
   };
@@ -52,10 +61,19 @@ function Components(props) {
 
   return (
     <div className={styles.assets}>
-      <div className="_admin_body_section_block">
-        <div className={styles.assets_nav}>
-          <span className={styles.assets_nav_item_active}>全部</span>
-          {/* <span className={styles.assets_nav_item}>回收站</span> */}
+      <div
+        className="_admin_body_section_block"
+        style={
+          props.onChoose
+            ? { marginBottom: 0, borderBottom: "1px solid rgba(0,0,0,0.1)" }
+            : {}
+        }
+      >
+        <div className="_admin_body_section_block_nav">
+          <span className="_admin_body_section_block_nav_item_active">
+            全部
+          </span>
+          {/* <span className='_admin_body_section_block_nav_item'>回收站</span> */}
         </div>
       </div>
       <div className="_admin_body_section_block">
@@ -81,18 +99,7 @@ function Components(props) {
                 style={{ backgroundImage: `url(${obj.attributes.url})` }}
               >
                 <div className={styles.assets_imgitem_content}>
-                  <CopyToClipboard
-                    text={obj.attributes.url}
-                    onCopy={() => {
-                      notification.success({
-                        message: "复制成功",
-                        // description: "请输入用户名、密码",
-                      });
-                    }}
-                  >
-                    <Button shape="round">复制图片url</Button>
-                  </CopyToClipboard>
-                  {props.onChoose && (
+                  {props.onChoose ? (
                     <Button
                       shape="round"
                       type="primary"
@@ -102,6 +109,18 @@ function Components(props) {
                     >
                       选择图片
                     </Button>
+                  ) : (
+                    <CopyToClipboard
+                      text={obj.attributes.url}
+                      onCopy={() => {
+                        notification.success({
+                          message: "复制成功",
+                          // description: "请输入用户名、密码",
+                        });
+                      }}
+                    >
+                      <Button shape="round">复制图片url</Button>
+                    </CopyToClipboard>
                   )}
                   {/* <Button
                     shape="round"
