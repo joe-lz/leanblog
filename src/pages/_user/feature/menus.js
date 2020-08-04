@@ -13,6 +13,7 @@ import { v4 as uuidv4 } from "uuid";
 import styles from "./index.module.scss";
 import Layout from "src/components/_user/Layout";
 import defaultMenu, { handleformatData } from "src/lib/defaultMenu";
+import { createMenus, updateMenus, getMenusList } from "src/service/menu";
 
 function AdminHome() {
   const [curMenuObj, setcurMenuObj] = useState(null);
@@ -21,38 +22,6 @@ function AdminHome() {
   const [level1Title, setlevel1Title] = useState("");
   const [selectedMenu, setselectedMenu] = useState(null);
   const [updateShow, setupdateShow] = useState(false);
-
-  const getMenuList = () => {
-    const query = new AV.Query("CMS_Menus");
-    query.descending("createdAt");
-    query
-      .first()
-      .then((res) => {
-        if (res) {
-          setcurMenu(res.attributes.value);
-          setcurMenuObj(res);
-        } else {
-          // 创建默认菜单
-          const menusObject = new AV.Object("CMS_Menus");
-          menusObject.set("value", defaultMenu);
-          // 将对象保存到云端
-          menusObject.save().then(
-            (todo) => {
-              console.log(todo);
-              // 成功保存之后，执行其他逻辑
-              setcurMenu(defaultMenu);
-              setcurMenuObj(todo);
-            },
-            (error) => {
-              // 异常处理
-            }
-          );
-        }
-      })
-      .catch((err) => {
-        console.log({ err });
-      });
-  };
 
   const onSelect = (select, info) => {
     const obj = {
@@ -63,16 +32,19 @@ function AdminHome() {
     setupdateShow(true);
   };
 
-  const updateFunction = (newValue) => {
+  const updateFunction = async (newValue) => {
     if (curMenuObj) {
-      curMenuObj.set("value", newValue);
-      curMenuObj.save().then(() => {
-        setupdateShow(false);
-        getMenuList();
-        notification.success({
-          message: "更新成功",
-          // description: "请输入用户名、密码",
-        });
+      await updateMenus({
+        menuItem: curMenuObj,
+        params: {
+          value: newValue,
+        },
+      });
+      setupdateShow(false);
+      handleGetMenu();
+      notification.success({
+        message: "更新成功",
+        // description: "请输入用户名、密码",
       });
     }
   };
@@ -82,7 +54,7 @@ function AdminHome() {
     updateFunction(result);
   };
 
-  const createLevel1 = () => {
+  const createLevel1 = async () => {
     if (!level1Title) {
       notification.error({
         message: "请输入标题",
@@ -95,21 +67,8 @@ function AdminHome() {
       key: uuidv4(),
     };
     curMenu.push(newObj);
-    curMenuObj.set("value", curMenu);
-    // 将对象保存到云端
-    curMenuObj.save().then(
-      () => {
-        setlevel1Show(false);
-        getMenuList();
-        notification.success({
-          message: "更新成功",
-          // description: "请输入用户名、密码",
-        });
-      },
-      (error) => {
-        // 异常处理
-      }
-    );
+    await updateFunction(curMenu)
+    setlevel1Show(false);
   };
 
   const handleUpdate = () => {
@@ -131,15 +90,28 @@ function AdminHome() {
     updateFunction(newcurMenu);
   };
 
-  useEffect(() => {
+  const handleGetMenu = async () => {
     // 获取菜单
-    getMenuList();
+    const res = await getMenusList();
+    if (res) {
+      setcurMenu(res.attributes.value);
+      setcurMenuObj(res);
+    } else {
+      // 创建默认菜单
+      const resMenu = await createMenus();
+      setcurMenu(defaultMenu);
+      setcurMenuObj(resMenu);
+    }
+  };
+
+  useEffect(() => {
+    handleGetMenu();
   }, []);
 
   return (
     <Layout>
       <p className="_admin_body_section_title">自定义菜单</p>
-      <div className='_admin_body_section_block' style={{ padding: 30 }}>
+      <div className="_admin_body_section_block" style={{ padding: 30 }}>
         <div className={styles.block_waring}>
           <InfoCircleOutlined
             style={{ color: "RGBA(53, 90, 207, 1.00)", fontSize: 20 }}

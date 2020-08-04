@@ -5,11 +5,11 @@ export default [
     btns: [
       {
         label: "删除",
-        status: "5",
+        status: 5,
       },
       {
         label: "发布",
-        status: "3",
+        status: 3,
       },
     ],
   },
@@ -19,11 +19,11 @@ export default [
     btns: [
       {
         label: "删除",
-        status: "5",
+        status: 5,
       },
       {
         label: "发布",
-        status: "3",
+        status: 3,
       },
     ],
   },
@@ -33,35 +33,35 @@ export default [
     btns: [
       {
         label: "删除",
-        status: "5",
+        status: 5,
       },
       {
         label: "下线",
-        status: "4",
-      },
-    ],
-  },
-  {
-    value: 5,
-    label: "已下线",
-    btns: [
-      {
-        label: "删除",
-        status: "5",
-      },
-      {
-        label: "发布",
-        status: "3",
+        status: 4,
       },
     ],
   },
   {
     value: 4,
+    label: "已下线",
+    btns: [
+      {
+        label: "删除",
+        status: 5,
+      },
+      {
+        label: "发布",
+        status: 3,
+      },
+    ],
+  },
+  {
+    value: 5,
     label: "回收站",
     btns: [
       {
         label: "发布",
-        status: "3",
+        status: 3,
       },
     ],
   },

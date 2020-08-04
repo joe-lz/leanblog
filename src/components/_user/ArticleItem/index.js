@@ -61,14 +61,25 @@ function Components(props) {
             curStatus.btns.map((obj) => {
               return (
                 <div
-                  className={styles.articles_item_operation_btn}
+                  className={
+                    obj.status === 5
+                      ? styles.articles_item_operation_btn_danger
+                      : styles.articles_item_operation_btn
+                  }
                   key={obj.label}
                   onClick={async () => {
-                    if (
-                      confirm(
-                        `确认上线文章【${props.item.attributes.title}】吗？`
-                      )
-                    ) {
+                    let comfirmText = "";
+                    if (obj.status === 5) {
+                      comfirmText = `确认删除文章【${props.item.attributes.title}】吗？\n删除后可在【回收站】栏目恢复。`;
+                    }
+                    if (obj.status === 4) {
+                      comfirmText = `确认下线文章【${props.item.attributes.title}】吗？`;
+                    }
+                    if (obj.status === 3) {
+                      console.log("cd");
+                      comfirmText = `确认上线文章【${props.item.attributes.title}】吗？`;
+                    }
+                    if (confirm(comfirmText)) {
                       await updateArticle({
                         articleItem: props.item,
                         params: {

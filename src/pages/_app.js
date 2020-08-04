@@ -3,16 +3,16 @@ import AV from "leancloud-storage";
 
 import "antd/dist/antd.css";
 import "../styles/global.scss";
-import 'highlight.js/styles/github.css';
-import 'github-markdown-css/github-markdown.css';
+import "highlight.js/styles/github.css";
+import "github-markdown-css/github-markdown.css";
+
+AV.init({
+  appId: process.env.YOUR_LEANCLOUD_APPID,
+  appKey: process.env.YOUR_LEANCLOUD_APPKEY,
+  serverURL: process.env.YOUR_LEANCLOUD_SERVER_URL,
+});
 
 function MyApp({ Component, pageProps }) {
-  AV.init({
-    appId: process.env.YOUR_LEANCLOUD_APPID,
-    appKey: process.env.YOUR_LEANCLOUD_APPKEY,
-    serverURL: process.env.YOUR_LEANCLOUD_SERVER_URL,
-  });
-
   return (
     <div>
       <Head>
