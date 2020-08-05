@@ -73,6 +73,9 @@ function Components(props) {
                 </Link>
               )
             })}
+            <Link href="/_demo/posts">
+              <div className={router.pathname.includes('_demo/posts') ? styles.nav_link_item_active : styles.nav_link_item}>沸点</div>
+            </Link>
           </div>
           {curUser ? (
             <Dropdown overlay={menu}>

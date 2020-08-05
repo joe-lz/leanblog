@@ -11,6 +11,7 @@ function AdminHome() {
     <Layout>
       <div className='_admin_body_section_block'>
         {/* <Table columns={columns} dataSource={data} /> */}
+        home
       </div>
     </Layout>
   );

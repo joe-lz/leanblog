@@ -138,6 +138,33 @@ function AdminHome(props) {
               </div>
             </div>
           </div>
+
+          <div className="_admin_body_section_block" style={{ padding: 30 }}>
+            <div className={styles.item}>
+              <div className={styles.item_title}>允许评论文章</div>
+              <div className={styles.item_right}>
+                <input
+                  placeholder="请输入标题"
+                  value={title}
+                  onChange={(e) => {
+                    settitle(e.target.value)
+                  }}
+                />
+              </div>
+            </div>
+            <div className={styles.item}>
+              <div className={styles.item_title}>显示论坛</div>
+              <div className={styles.item_right}>
+                <input
+                  placeholder="请输入标题"
+                  value={title}
+                  onChange={(e) => {
+                    settitle(e.target.value)
+                  }}
+                />
+              </div>
+            </div>
+          </div>
           <Button
             type="primary"
             size="large"

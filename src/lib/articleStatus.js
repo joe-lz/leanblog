@@ -13,20 +13,20 @@ export default [
       },
     ],
   },
-  {
-    value: 2,
-    label: "待审核",
-    btns: [
-      {
-        label: "删除",
-        status: 5,
-      },
-      {
-        label: "发布",
-        status: 3,
-      },
-    ],
-  },
+  // {
+  //   value: 2,
+  //   label: "待审核",
+  //   btns: [
+  //     {
+  //       label: "删除",
+  //       status: 5,
+  //     },
+  //     {
+  //       label: "发布",
+  //       status: 3,
+  //     },
+  //   ],
+  // },
   {
     value: 3,
     label: "已发布",

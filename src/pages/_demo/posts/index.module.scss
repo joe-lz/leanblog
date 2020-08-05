@@ -1,0 +1,28 @@
+@import '~src/styles/variables.scss';
+
+.container {
+  padding-top: 30px;
+  .body {
+    display: flex;
+    margin: 0 auto;
+    width: 1000px;
+    .sidebar {
+      width: 150px;
+    }
+    .content {
+      flex: 1;
+      margin: 0 15px;
+    }
+    .userinfo {
+      width: 250px;
+    }
+
+    .block {
+      margin-bottom: 15px;
+      min-height: 100px;
+      background-color: white;
+      box-shadow: $box-shadow;
+      border-radius: 2px;
+    }
+  }
+}
