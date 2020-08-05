@@ -3,7 +3,8 @@
 .nav1 {
   height: 80px;
   line-height: 80px;
-  background-color: #f6f8f9;
+  // background-color: $color-body;
+  background-color: white;
   border-bottom: 1px solid $color-border;
   .nav {
     position: relative;
@@ -80,7 +81,8 @@
 .nav2 {
   height: 70px;
   border-bottom: 1px solid $color-border;
-  background-color: #f6f8f9;
+  // background-color: $color-body;
+  background-color: white;
   .nav_link {
     position: relative;
     z-index: 2;

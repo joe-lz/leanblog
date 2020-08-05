@@ -1,0 +1,29 @@
+@import "~src/styles/variables.scss";
+
+.container {
+  margin: 30px auto;
+  padding: 50px 80px;
+  max-width: 900px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: $box-shadow;
+  .title {
+    position: relative;
+    margin-bottom: 50px;
+    // padding-left: 15px;
+    font-size: 30px;
+    font-weight: 500;
+    line-height: 40px;
+    text-align: left;
+    &::before {
+      content: '';
+      position: absolute;
+      left: -20px;
+      top: 0;
+      height: 40px;
+      // height: 100%;
+      width: 5px;
+      background-color: black;
+    }
+  }
+}

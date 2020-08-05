@@ -15,7 +15,7 @@ function Components(props) {
 
   let curNav = null
   props.menus.map((obj) => {
-    if (router.query.id === obj.key) {
+    if (router.query.cate1 === obj.key) {
       curNav = obj
     }
     return obj
@@ -40,13 +40,13 @@ function Components(props) {
               <div className={router.pathname.includes('_demo/home') ? styles.nav_link_item_active : styles.nav_link_item}>首页</div>
             </Link>
             {props.menus.map((obj) => {
-              let toLink = `/_demo/nav/${obj.key}`
+              let toLink = `/_demo/alist?cate1=${obj.key}`
               // if (obj.children && obj.children.length > 0) {
-              //   toLink = `/_demo/nav/${obj.key}?subid=${obj.children[0].key}`
+              //   toLink = `/_demo/alist?cate1=${obj.key}&cate2=${obj.children[0].key}`
               // }
               return (
                 <Link href={toLink} key={obj.key}>
-                  <div className={router.query.id === obj.key ? styles.nav_link_item_active : styles.nav_link_item} key={obj.key}>
+                  <div className={router.query.cate1 === obj.key ? styles.nav_link_item_active : styles.nav_link_item} key={obj.key}>
                     {obj.title}
                   </div>
                 </Link>
@@ -62,13 +62,13 @@ function Components(props) {
       {curNav && curNav.children && (
         <div className={styles.nav2}>
           <div className={styles.nav_link}>
-            <Link href={`/_demo/nav/${curNav.key}`}>
-              <div className={!router.query.subid ? styles.nav_link_item_active : styles.nav_link_item}>全部</div>
+            <Link href={`/_demo/alist?cate1=${curNav.key}`}>
+              <div className={!router.query.cate2 ? styles.nav_link_item_active : styles.nav_link_item}>全部</div>
             </Link>
             {curNav.children.map((obj) => {
               return (
-                <Link href={`/_demo/nav/${curNav.key}?subid=${obj.key}`} key={obj.key}>
-                  <div className={router.query.subid === obj.key ? styles.nav_link_item_active : styles.nav_link_item} key={obj.key}>
+                <Link href={`/_demo/alist?cate1=${curNav.key}&cate2=${obj.key}`} key={obj.key}>
+                  <div className={router.query.cate2 === obj.key ? styles.nav_link_item_active : styles.nav_link_item} key={obj.key}>
                     {obj.title}
                   </div>
                 </Link>
