@@ -55,6 +55,14 @@ function Components(props) {
           {props.children}
         </BodyContent>
       )}
+      {profile && (
+        <footer>
+          <div className={styles.footer_content}>
+            <img src={profile.attributes.logo} alt="" className={styles.logo} />
+            <p className={styles.copyright}>{profile.attributes.copyright}</p>
+          </div>
+        </footer>
+      )}
     </div>
   )
 }

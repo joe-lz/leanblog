@@ -54,7 +54,7 @@ function Components(props) {
             })}
           </div>
           <Link href="/_user/home">
-            <p className={styles.nav_login}>登录</p>
+            <p className={styles.nav_login}>登录/注册</p>
           </Link>
         </div>
       </div>
