@@ -3,7 +3,8 @@ import AV from "leancloud-storage";
 export const createAssets = (params) => {
   return new Promise((resolve, reject) => {
     const file = new AV.File("avatar.jpg", params.e);
-    file.set("status", 1);
+    // file.set('status', 1)
+    // file.set('user', AV.User.current())
     file.save().then(
       async (file) => {
         console.log(`文件保存完成。objectId：${file.id}`);
@@ -25,6 +26,7 @@ export const getAssetsList = (params = {}) => {
     Object.keys(params).map((keyname) => {
       query.equalTo(keyname, params[keyname]);
     });
+    query.equalTo('metaData.owner', AV.User.current().id)
     query
       .find()
       .then((res) => {

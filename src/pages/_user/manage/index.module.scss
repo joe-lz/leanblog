@@ -1,4 +1,27 @@
 @import '~src/styles/variables.scss';
+.menus {
+  .block,
+  .block_waring {
+    margin-bottom: 30px;
+    width: 100%;
+    min-height: 50px;
+    box-shadow: $box-shadow;
+    background-color: white;
+    border-radius: 4px;
+    &_waring {
+      display: flex;
+      padding: 30px;
+      background-color: #f4f5f9;
+      align-items: center;
+      color: $color-disabled;
+      p {
+        color: $color-disabled;
+        margin-left: 5px;
+      }
+    }
+  }
+}
+
 
 .setting {
   .item {

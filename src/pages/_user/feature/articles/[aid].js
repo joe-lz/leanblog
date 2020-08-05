@@ -124,7 +124,6 @@ function AdminHome() {
         async function fetchData() {
           // 获取文章
           const res = await getArticleById({ id: aid })
-          console.log(res)
           setcategory_1_key(res.attributes.category_1_key)
           setcategory_1_title(res.attributes.category_1_title)
           setcategory_2_key(res.attributes.category_2_key)

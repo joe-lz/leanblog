@@ -90,7 +90,7 @@ function Components(props) {
       }
     )
   }
-  console.log({ profile: props.profile })
+  
   return (
     <div className={styles.banner}>
       <div className={styles.banner_content}>

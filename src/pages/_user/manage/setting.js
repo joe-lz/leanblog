@@ -184,7 +184,12 @@ function AdminHome(props) {
           </Modal>
         </div>
       ) : (
-        <div className="_admin_body_section_block">暂无权限，请联系管理员开通～</div>
+        <div
+          className="_admin_body_section_block"
+          style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: 100 }}
+        >
+          暂无权限，请联系管理员开通～
+        </div>
       )}
     </Layout>
   )

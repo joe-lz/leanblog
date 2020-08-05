@@ -40,7 +40,6 @@ function Components(props) {
           功能
         </div>
         <div className={styles.sidebar_item_placeholder}></div>
-        <Item2 path="/_user/feature/menus" title="自定义菜单" />
         <Item2 path="/_user/feature/articles" title="文章管理" />
         <Item2 path="/_user/feature/assets" title="素材管理" />
       </div>
@@ -49,8 +48,8 @@ function Components(props) {
           <div
             className={
               !router.pathname.includes("/_user/home")
-                ? styles.sidebar_item_level1
-                : styles.sidebar_item_level1_active
+              ? styles.sidebar_item_level1
+              : styles.sidebar_item_level1_active
             }
           >
             <i className="iconfont icon-message"></i>消息管理
@@ -62,13 +61,14 @@ function Components(props) {
           <div
             className={
               !router.pathname.includes("/_user/manage")
-                ? styles.sidebar_item_level1
-                : styles.sidebar_item_level1_active
+              ? styles.sidebar_item_level1
+              : styles.sidebar_item_level1_active
             }
           >
             <i className="iconfont icon-shezhi"></i>设置
           </div>
           <div className={styles.sidebar_item_placeholder}></div>
+          <Item2 path="/_user/manage/menus" title="自定义菜单" />
           <Item2 path="/_user/manage/userlist" title="用户管理" />
           <Item2 path="/_user/manage/setting" title="基本设置" />
         </div>

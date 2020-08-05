@@ -76,7 +76,6 @@ function Components(props) {
                       comfirmText = `确认下线文章【${props.item.attributes.title}】吗？`;
                     }
                     if (obj.status === 3) {
-                      console.log("cd");
                       comfirmText = `确认上线文章【${props.item.attributes.title}】吗？`;
                     }
                     if (confirm(comfirmText)) {
