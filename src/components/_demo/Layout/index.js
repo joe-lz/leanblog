@@ -59,6 +59,14 @@ function Components(props) {
       ) : null}
       {menus && profile && <Nav menus={menus} profile={profile} />}
       {props.children}
+      {profile && (
+        <footer>
+          <div className={styles.footer_content}>
+            <img src={profile.logo} alt="" className={styles.logo} />
+            <p className={styles.copyright}>{profile.copyright}</p>
+          </div>
+        </footer>
+      )}
     </div>
   )
 }

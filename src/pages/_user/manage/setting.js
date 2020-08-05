@@ -18,6 +18,7 @@ function AdminHome(props) {
   const [title, settitle] = useState('')
   const [github, setgithub] = useState('')
   const [social_link, setsocial_link] = useState('')
+  const [copyright, setcopyright] = useState('')
 
   // 获取资料
   const getProfile = () => {
@@ -27,6 +28,7 @@ function AdminHome(props) {
         settitle(res.attributes.title)
         setgithub(res.attributes.github)
         setsocial_link(res.attributes.social_link)
+        setcopyright(res.attributes.copyright)
       } else {
         createProfile().then((resCreate) => {
           setprofile(resCreate)
@@ -43,6 +45,7 @@ function AdminHome(props) {
         title,
         github,
         social_link,
+        copyright,
       },
     })
     getProfile()
@@ -118,6 +121,18 @@ function AdminHome(props) {
                   value={social_link}
                   onChange={(e) => {
                     setsocial_link(e.target.value)
+                  }}
+                />
+              </div>
+            </div>
+            <div className={styles.item}>
+              <div className={styles.item_title}>CopyRight</div>
+              <div className={styles.item_right}>
+                <input
+                  placeholder="请输入copyright"
+                  value={copyright}
+                  onChange={(e) => {
+                    setcopyright(e.target.value)
                   }}
                 />
               </div>

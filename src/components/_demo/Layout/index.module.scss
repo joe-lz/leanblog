@@ -1,9 +1,27 @@
-@import "~src/styles/variables.scss";
+@import '~src/styles/variables.scss';
 
 .container {
   // background-color: white;
   width: 100vw;
   min-height: 100vh;
+  footer {
+    padding: 60px 0;
+    background-color: white;
+    border-top: 1px solid $color-border;
+    .footer_content {
+      margin: 0 auto;
+      width: 100%;
+      max-width: 1200px;
+      .logo {
+        margin-bottom: 30px;
+        height: 30px;
+      }
+      .copyright {
+        color: $color-disabled;
+        font-size: 14px;
+      }
+    }
+  }
 }
 
 @media (prefers-color-scheme: dark) {
