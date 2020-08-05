@@ -33,6 +33,15 @@
       font-weight: 500;
       cursor: pointer;
     }
+    .link_login {
+      position: absolute;
+      right: 0;
+      top: 0;
+      z-index: 10;
+      height: 100%;
+      cursor: pointer;
+      display: inline-block;
+    }
     &_link {
       position: relative;
       z-index: 1;

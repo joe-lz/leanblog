@@ -4,7 +4,6 @@
   padding-top: 30px;
   margin: 0 auto;
   max-width: 1200px;
-
   display: flex;
   justify-content: space-between;
   // align-items: center;
@@ -14,5 +13,20 @@
     margin-bottom: 30px;
     overflow: hidden;
     width: 280px;
+  }
+  .nodata {
+    width: 100%;
+    img {
+      display: block;
+      margin: 0 auto;
+      margin-top: 150px;
+      width: 200px;
+    }
+    p {
+      margin-top: 30px;
+      color: $color-disabled;
+      font-size: 18px;
+      text-align: center;
+    }
   }
 }

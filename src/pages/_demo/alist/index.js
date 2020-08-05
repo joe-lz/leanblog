@@ -10,7 +10,7 @@ import ArticleItem from 'src/components/_demo/ArticleItem'
 import { getArticleList } from 'src/service/article'
 
 function MyComponent() {
-  const [articleLists, setarticleLists] = useState([])
+  const [articleLists, setarticleLists] = useState(null)
   const getlist = async (params = {}) => {
     const resList = await getArticleList({ status: 3, ...params })
     setarticleLists(resList)
@@ -35,9 +35,17 @@ function MyComponent() {
       {/* 文章列表 */}
       <div className={styles.container}>
         <div className={styles.list}>
-          {articleLists.map((obj) => {
-            return <ArticleItem key={obj.id} data={obj} />
-          })}
+          {articleLists &&
+            articleLists.length > 0 &&
+            articleLists.map((obj) => {
+              return <ArticleItem key={obj.id} data={obj} />
+            })}
+          {articleLists && articleLists.length === 0 && (
+            <div className={styles.nodata}>
+              <img src='/nodata.png'></img>
+              <p>暂无文章～</p>
+            </div>
+          )}
           <div className={styles.articleItem}></div>
           <div className={styles.articleItem}></div>
           <div className={styles.articleItem}></div>

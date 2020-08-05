@@ -1,6 +1,9 @@
 @import "~src/styles/variables.scss";
 
 .container {
+  .body {
+    min-height: 80vh;
+  }
   footer {
     padding: 60px 0;
     background-color: white;

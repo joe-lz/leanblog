@@ -1,97 +1,96 @@
-import Head from "next/head";
-import Link from "next/link";
-import Particles from "react-particles-js";
-import React, { useState } from "react";
-import ReactCardFlip from "react-card-flip";
-import AV from "leancloud-storage";
-import { Spin, Alert, notification } from "antd";
+import Head from 'next/head'
+import Link from 'next/link'
+import Particles from 'react-particles-js'
+import React, { useState } from 'react'
+import ReactCardFlip from 'react-card-flip'
+import AV from 'leancloud-storage'
+import { Spin, Alert, notification } from 'antd'
 
-import styles from "./index.module.scss";
-import particlesParams from "./particlesParams";
-import leanerrors from "src/lib/leancloud_error_code.json";
+import styles from './index.module.scss'
+import particlesParams from './particlesParams'
+import leanerrors from 'src/lib/leancloud_error_code.json'
 
 function Components(props) {
-  const [isFlipped, setisFlipped] = useState(false);
-  const [isSpin, setisSpin] = useState(false);
-  const [username, setusername] = useState("");
-  const [password, setpassword] = useState("");
-  const [repassword, setrepassword] = useState("");
+  const [isFlipped, setisFlipped] = useState(false)
+  const [isSpin, setisSpin] = useState(false)
+  const [username, setusername] = useState('')
+  const [password, setpassword] = useState('')
+  const [repassword, setrepassword] = useState('')
 
   const handleLogin = () => {
     if (username && password) {
-      setisSpin(true);
+      setisSpin(true)
       AV.User.logIn(username, password).then(
         (user) => {
           // 登录成功
-          setisSpin(false);
+          setisSpin(false)
           notification.success({
-            message: "登录成功",
+            message: '登录成功',
             // description: "请输入用户名、密码",
-          });
+          })
           setTimeout(() => {
-            window.location.reload();
-          }, 1000);
+            window.location.reload()
+          }, 1000)
         },
         (error) => {
           // 登录失败（可能是密码错误）
-          setisSpin(false);
+          setisSpin(false)
           notification.error({
-            message: "登录失败",
-            description: leanerrors[error.code]
-              ? leanerrors[error.code].msg
-              : "",
-          });
+            message: '登录失败',
+            description: leanerrors[error.code] ? leanerrors[error.code].msg : '',
+          })
         }
-      );
+      )
     } else {
       notification.error({
-        message: "登录失败",
-        description: "请输入用户名、密码",
-      });
+        message: '登录失败',
+        description: '请输入用户名、密码',
+      })
     }
-  };
+  }
 
   const handleRegister = () => {
     if (!username || !password) {
       notification.error({
-        message: "注册失败",
-        description: "请输入用户名、密码",
-      });
-      return;
+        message: '注册失败',
+        description: '请输入用户名、密码',
+      })
+      return
     }
     if (repassword !== password) {
       notification.error({
-        message: "注册失败",
-        description: "请输入用户名、密码",
-      });
-      return;
+        message: '注册失败',
+        description: '请输入用户名、密码',
+      })
+      return
     }
-    setisSpin(true);
-    const user = new AV.User();
-    user.setUsername(username);
-    user.setPassword(password);
+    setisSpin(true)
+    const user = new AV.User()
+    user.setUsername(username)
+    user.setPassword(password)
     user.signUp().then(
       (user) => {
         // 注册成功
-        setisSpin(false);
+        setisSpin(false)
         notification.success({
-          message: "注册成功",
+          message: '注册成功',
           // description: "请输入用户名、密码",
-        });
+        })
         setTimeout(() => {
-          window.location.reload();
-        }, 1000);
+          window.location.reload()
+        }, 1000)
       },
       (error) => {
         // 注册失败（通常是因为用户名已被使用）
-        setisSpin(false);
+        setisSpin(false)
         notification.error({
-          message: "注册失败",
-          description: leanerrors[error.code] ? leanerrors[error.code].msg : "",
-        });
+          message: '注册失败',
+          description: leanerrors[error.code] ? leanerrors[error.code].msg : '',
+        })
       }
-    );
-  };
+    )
+  }
+  console.log({ profile: props.profile })
   return (
     <div className={styles.banner}>
       <div className={styles.banner_content}>
@@ -99,14 +98,10 @@ function Components(props) {
         <img
           className={styles.logobg}
           src="https://qiniu.jingdian.club/FtFSZANFUxt2J5ER9ESY4llFWlNb"
+          // src={props.profile.attributes.logo}
         ></img>
         {/* 粒子效果 */}
-        {particlesParams && (
-          <Particles
-            className={styles.tsparticles}
-            params={particlesParams.nasa}
-          />
-        )}
+        {particlesParams && <Particles className={styles.tsparticles} params={particlesParams.nasa} />}
         <div className={styles.banner_body}>
           <Spin spinning={isSpin} tip="加载中...">
             <ReactCardFlip isFlipped={isFlipped} flipDirection="horizontal">
@@ -117,7 +112,7 @@ function Components(props) {
                   <input
                     placeholder="用户名"
                     onChange={(e) => {
-                      setusername(e.target.value);
+                      setusername(e.target.value)
                     }}
                   ></input>
                 </div>
@@ -126,14 +121,14 @@ function Components(props) {
                     placeholder="密码"
                     type="password"
                     onChange={(e) => {
-                      setpassword(e.target.value);
+                      setpassword(e.target.value)
                     }}
                   ></input>
                 </div>
                 <div className={styles.banner_body_input}>
                   <button
                     onClick={() => {
-                      handleLogin();
+                      handleLogin()
                     }}
                   >
                     确定
@@ -143,7 +138,7 @@ function Components(props) {
                   <button
                     className={styles.banner_body_btn_primary}
                     onClick={() => {
-                      setisFlipped(true);
+                      setisFlipped(true)
                     }}
                   >
                     还没有账户？<a>立即注册</a>
@@ -157,7 +152,7 @@ function Components(props) {
                   <input
                     placeholder="用户名"
                     onChange={(e) => {
-                      setusername(e.target.value);
+                      setusername(e.target.value)
                     }}
                   ></input>
                 </div>
@@ -166,7 +161,7 @@ function Components(props) {
                     placeholder="密码"
                     type="password"
                     onChange={(e) => {
-                      setpassword(e.target.value);
+                      setpassword(e.target.value)
                     }}
                   ></input>
                 </div>
@@ -175,14 +170,14 @@ function Components(props) {
                     placeholder="再次输入密码"
                     type="password"
                     onChange={(e) => {
-                      setrepassword(e.target.value);
+                      setrepassword(e.target.value)
                     }}
                   ></input>
                 </div>
                 <div className={styles.banner_body_input}>
                   <button
                     onClick={() => {
-                      handleRegister();
+                      handleRegister()
                     }}
                   >
                     确定
@@ -192,7 +187,7 @@ function Components(props) {
                   <button
                     className={styles.banner_body_btn_primary}
                     onClick={() => {
-                      setisFlipped(false);
+                      setisFlipped(false)
                     }}
                   >
                     已有账户？<a>立即登录</a>
@@ -204,7 +199,7 @@ function Components(props) {
         </div>
       </div>
     </div>
-  );
+  )
 }
 
-export default Components;
+export default Components

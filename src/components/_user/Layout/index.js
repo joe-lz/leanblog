@@ -43,18 +43,20 @@ function Components(props) {
         <title>管理后台</title>
       </Head>
       <Nav type="login" curUser={curUser} userinfo={userinfo} profile={profile} />
-      {!curUser && <Login />}
-      {curUser && (
-        <BodyContent
-          onGetUserInfo={(e) => {
-            setuserinfo(e)
-            props.onGetUserInfo && props.onGetUserInfo(e)
-          }}
-          hideSidebar={props.hideSidebar}
-        >
-          {props.children}
-        </BodyContent>
-      )}
+      <div className={styles.body}>
+        {!curUser && <Login profile={profile} />}
+        {curUser && (
+          <BodyContent
+            onGetUserInfo={(e) => {
+              setuserinfo(e)
+              props.onGetUserInfo && props.onGetUserInfo(e)
+            }}
+            hideSidebar={props.hideSidebar}
+          >
+            {props.children}
+          </BodyContent>
+        )}
+      </div>
       {profile && (
         <footer>
           <div className={styles.footer_content}>

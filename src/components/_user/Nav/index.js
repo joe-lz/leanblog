@@ -1,6 +1,7 @@
 import Head from 'next/head'
 import Link from 'next/link'
 import React, { useState, useEffect } from 'react'
+import { Menu, Dropdown } from 'antd'
 
 import styles from './index.module.scss'
 import priorityArr from 'src/lib/priority'
@@ -16,6 +17,25 @@ function Components(props) {
   })
 
   const { profile } = props
+
+  const menu = (
+    <Menu>
+      {/* <Menu.Item>
+        <a target="_blank" rel="noopener noreferrer" href="http://www.alipay.com/">
+          1st menu item
+        </a>
+      </Menu.Item> */}
+      <Menu.Item
+        danger
+        onClick={() => {
+          localStorage.clear()
+          window.location.reload()
+        }}
+      >
+        退出登录
+      </Menu.Item>
+    </Menu>
+  )
 
   return (
     <header className={styles.header}>
@@ -36,12 +56,14 @@ function Components(props) {
           {curUser && (
             <>
               <span className={styles.divider}>|</span>
-              <div className={styles.link}>
-                <div className={styles.btn}>
-                  <span>{curUser.username}</span>
-                  <i className="iconfont icon-down" style={{ fontSize: 12 }}></i>
+              <Dropdown overlay={menu}>
+                <div className={styles.link} onClick={(e) => e.preventDefault()}>
+                  <div className={styles.btn}>
+                    <span>{curUser.username}</span>
+                    <i className="iconfont icon-down" style={{ fontSize: 12 }}></i>
+                  </div>
                 </div>
-              </div>
+              </Dropdown>
             </>
           )}
         </div>

@@ -5,6 +5,7 @@ import dayjs from 'dayjs'
 import React, { useState, useEffect } from 'react'
 import { getMenusList } from 'src/service/menu'
 import { getProfileList } from 'src/service/profile'
+import { getMyUserInfo } from 'src/service/user'
 
 import styles from './index.module.scss'
 import Nav from '../Nav'
@@ -12,6 +13,7 @@ import Nav from '../Nav'
 function Components(props) {
   const [menus, setmenus] = useState(null)
   const [profile, setprofile] = useState(null)
+  // const [curUserInfo, setcurUserInfo] = useState(0)
 
   const handleInit = async () => {
     // 获取菜单
@@ -25,6 +27,13 @@ function Components(props) {
     const resProfile = await getProfileList()
     setprofile(JSON.parse(JSON.stringify(resProfile)))
     localStorage.setItem('CMS_Profile', JSON.stringify(resProfile))
+
+    // 获取用户信息
+    // localStorage.getItem('CMS_UserInfo') && setprofile(JSON.parse(localStorage.getItem('CMS_UserInfo')))
+    // const resUserInfo = await getMyUserInfo()
+    // setcurUserInfo(JSON.parse(JSON.stringify(resUserInfo)))
+    // localStorage.setItem('CMS_UserInfo', JSON.stringify(resUserInfo))
+
   }
 
   useEffect(() => {
@@ -57,6 +66,7 @@ function Components(props) {
           </svg>
         </a>
       ) : null}
+      {/* {menus && profile && <Nav menus={menus} profile={profile} userinfo={curUserInfo} />} */}
       {menus && profile && <Nav menus={menus} profile={profile} />}
       <div className={styles.body}>{props.children}</div>
       {profile && (

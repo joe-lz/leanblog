@@ -4,6 +4,7 @@ import AV from 'leancloud-storage'
 import dayjs from 'dayjs'
 import { useRouter } from 'next/router'
 import React, { useState, useEffect } from 'react'
+import { Menu, Dropdown } from 'antd'
 
 import styles from './index.module.scss'
 
@@ -20,6 +21,26 @@ function Components(props) {
     }
     return obj
   })
+
+  const curUser = AV.User.current()
+  const menu = (
+    <Menu>
+      <Menu.Item>
+        <a target="_blank" rel="noopener noreferrer" href="/_user/home">
+          个人中心
+        </a>
+      </Menu.Item>
+      <Menu.Item
+        danger
+        onClick={() => {
+          localStorage.clear()
+          window.location.reload()
+        }}
+      >
+        退出登录
+      </Menu.Item>
+    </Menu>
+  )
 
   return (
     <div>
@@ -53,9 +74,20 @@ function Components(props) {
               )
             })}
           </div>
-          <Link href="/_user/home">
-            <p className={styles.nav_login}>登录/注册</p>
-          </Link>
+          {curUser ? (
+            <Dropdown overlay={menu}>
+              <div className={styles.link_login} onClick={(e) => e.preventDefault()}>
+                <div className={styles.btn}>
+                  <span>{curUser.attributes.username}</span>
+                  <i className="iconfont icon-down" style={{ fontSize: 12 }}></i>
+                </div>
+              </div>
+            </Dropdown>
+          ) : (
+            <Link href="/_user/home">
+              <p className={styles.nav_login}>登录/注册</p>
+            </Link>
+          )}
         </div>
       </div>
       {/* 二级目录 */}
