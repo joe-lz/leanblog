@@ -58,7 +58,7 @@ function Components(props) {
         </a>
       ) : null}
       {menus && profile && <Nav menus={menus} profile={profile} />}
-      {props.children}
+      <div className={styles.body}>{props.children}</div>
       {profile && (
         <footer>
           <div className={styles.footer_content}>
