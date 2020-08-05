@@ -8,7 +8,8 @@ import {
   InfoCircleOutlined,
 } from "@ant-design/icons";
 import React, { useState, useEffect } from "react";
-import { v4 as uuidv4 } from "uuid";
+// import { v4 as uuidv4 } from "uuid";
+import shortid from 'shortid'
 
 import styles from "./index.module.scss";
 import Layout from "src/components/_user/Layout";
@@ -64,7 +65,7 @@ function AdminHome() {
     }
     const newObj = {
       title: level1Title,
-      key: uuidv4(),
+      key: shortid.generate(),
     };
     curMenu.push(newObj);
     await updateFunction(curMenu)

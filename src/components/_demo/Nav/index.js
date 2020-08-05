@@ -21,9 +21,17 @@ function Components(props) {
     return obj
   })
 
-  console.log(router)
   return (
     <div>
+      <Head>
+        {props.profile && (
+          <title>
+            {props.profile.title || '鲸典设计'}
+            {`-${curNav ? curNav.title : '首页'}`}
+          </title>
+        )}
+      </Head>
+      {/* 一级目录 */}
       <div className={styles.nav1}>
         <div className={styles.nav}>
           <div className={styles.nav_logo} style={{ backgroundImage: `url(${props.profile.logo})` }}></div>
@@ -50,6 +58,7 @@ function Components(props) {
           </Link>
         </div>
       </div>
+      {/* 二级目录 */}
       {curNav && curNav.children && (
         <div className={styles.nav2}>
           <div className={styles.nav_link}>

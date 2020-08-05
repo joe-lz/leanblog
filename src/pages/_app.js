@@ -16,7 +16,7 @@ function MyApp({ Component, pageProps }) {
   return (
     <div>
       <Head>
-        <title>leanblog</title>
+        {/* <title>leanblog</title> */}
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Component {...pageProps} />

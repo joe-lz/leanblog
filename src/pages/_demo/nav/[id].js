@@ -8,7 +8,10 @@ import Layout from 'src/components/_demo/Layout'
 function MyComponent() {
   return (
     <Layout>
-      <div className={styles.container}>home</div>
+      {/* 文章列表 */}
+      <div className={styles.container}>
+      
+      </div>
     </Layout>
   )
 }
