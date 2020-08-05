@@ -43,7 +43,7 @@ export const updateArticle = ({ articleItem, params }) => {
 export const getArticleList = (params = {}) => {
   return new Promise((resolve, reject) => {
     const query = new AV.Query("CMS_Articles");
-    query.descending("createdAt");
+    query.descending("updatedAt");
     query.limit(50);
     Object.keys(params).map((keyname) => {
       query.equalTo(keyname, params[keyname]);

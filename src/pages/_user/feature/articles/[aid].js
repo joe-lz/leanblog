@@ -35,8 +35,12 @@ function AdminHome() {
   const { aid } = router.query
 
   const [articleItem, setarticleItem] = useState(null)
-  const [curMenu, setcurMenu] = useState([])
+  const [menus, setmenus] = useState([])
 
+  const [category_1_key, setcategory_1_key] = useState(null)
+  const [category_1_title, setcategory_1_title] = useState(null)
+  const [category_2_key, setcategory_2_key] = useState(null)
+  const [category_2_title, setcategory_2_title] = useState(null)
   const [articleTitle, setarticleTitle] = useState('')
   const [articleVal, setarticleVal] = useState(`# Remarkable
 > Experience real-time editing with Remarkable!
@@ -54,10 +58,60 @@ function AdminHome() {
   const handleGetMenu = async () => {
     // 获取菜单
     const res = await getMenusList()
-    setcurMenu(res.attributes.value)
+    setmenus(res.attributes.value)
   }
 
-  const onCategoryChange = (key) => {}
+  const onCategoryChange = (selectKey) => {
+    let category_1_key = null
+    let category_1_title = null
+
+    let category_2_key = null
+    let category_2_title = null
+
+    menus.map((obj1) => {
+      if (obj1.key === selectKey) {
+        category_1_key = obj1.key
+        category_1_title = obj1.title
+      }
+
+      if (obj1.children) {
+        obj1.children.map((obj2) => {
+          if (obj2.key === selectKey) {
+            category_1_key = obj1.key
+            category_1_title = obj1.title
+
+            category_2_key = obj2.key
+            category_2_title = obj2.title
+          }
+          return obj2
+        })
+      }
+      return obj1
+    })
+    setcategory_1_key(category_1_key)
+    setcategory_1_title(category_1_title)
+    setcategory_2_key(category_2_key)
+    setcategory_2_title(category_2_title)
+  }
+
+  const handleUpdate = async (params = {}) => {
+    await updateArticle({
+      articleItem,
+      params: {
+        articleVal,
+        title: articleTitle,
+        category_1_key,
+        category_1_title,
+        category_2_key,
+        category_2_title,
+        ...params
+      },
+    })
+    notification.success({
+      message: '保存成功',
+      // description: "请输入用户名、密码",
+    })
+  }
 
   useEffect(() => {
     handleGetMenu()
@@ -69,6 +123,11 @@ function AdminHome() {
         async function fetchData() {
           // 获取文章
           const res = await getArticleById({ id: aid })
+          console.log(res)
+          setcategory_1_key(res.attributes.category_1_key)
+          setcategory_1_title(res.attributes.category_1_title)
+          setcategory_2_key(res.attributes.category_2_key)
+          setcategory_2_title(res.attributes.category_2_title)
           try {
             setarticleItem(res)
             setarticleTitle(res.attributes.title)
@@ -103,9 +162,9 @@ function AdminHome() {
                 <div className={styles.articles_detail_operation_btn}>
                   <TreeSelect
                     style={{ width: '100%' }}
-                    // value={this.state.value}
+                    value={category_2_key || category_1_key}
                     dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
-                    treeData={curMenu}
+                    treeData={menus}
                     placeholder="请选择分类"
                     treeDefaultExpandAll
                     onChange={(catgory_key) => {
@@ -118,22 +177,20 @@ function AdminHome() {
                   size="large"
                   shape="round"
                   onClick={async () => {
-                    await updateArticle({
-                      articleItem,
-                      params: {
-                        articleVal,
-                        title: articleTitle,
-                      },
-                    })
-                    notification.success({
-                      message: '保存成功',
-                      // description: "请输入用户名、密码",
-                    })
+                    await handleUpdate()
                   }}
                 >
                   保存
                 </Button>
-                <Button type="primary" size="large" shape="round" danger onClick={() => {}}>
+                <Button
+                  type="primary"
+                  size="large"
+                  shape="round"
+                  danger
+                  onClick={async () => {
+                    await handleUpdate({ status: 3 })
+                  }}
+                >
                   保存并上线
                 </Button>
               </div>

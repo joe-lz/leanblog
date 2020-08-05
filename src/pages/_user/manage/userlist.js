@@ -19,7 +19,7 @@ function AdminHome(props) {
     // query.equalTo("user", curUser);
     query.include("user");
     query.limit(50);
-    query.descending("createdAt");
+    query.descending("updatedAt");
     query
       .find()
       .then((res) => {

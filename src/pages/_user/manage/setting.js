@@ -1,7 +1,7 @@
 import Head from 'next/head'
 import AV from 'leancloud-storage'
 import dynamic from 'next/dynamic'
-import { Table, Tag, Space, Switch, notification, Radio, Popover, Modal } from 'antd'
+import { Table, Tag, Space, Switch, notification, Radio, Popover, Modal, Button } from 'antd'
 import { QuestionCircleOutlined } from '@ant-design/icons'
 import React, { useState, useEffect } from 'react'
 
@@ -15,11 +15,18 @@ function AdminHome(props) {
   const [modalShow, setmodalShow] = useState(null)
   const [profile, setprofile] = useState(null)
 
+  const [title, settitle] = useState('')
+  const [github, setgithub] = useState('')
+  const [social_link, setsocial_link] = useState('')
+
   // 获取资料
   const getProfile = () => {
     getProfileList().then((res) => {
       if (res) {
         setprofile(res)
+        settitle(res.attributes.title)
+        setgithub(res.attributes.github)
+        setsocial_link(res.attributes.social_link)
       } else {
         createProfile().then((resCreate) => {
           setprofile(resCreate)
@@ -27,7 +34,24 @@ function AdminHome(props) {
       }
     })
   }
-  
+
+  // 更新profile
+  const handlesubmit = async () => {
+    await updateProfile({
+      profileItem: profile,
+      params: {
+        title,
+        github,
+        social_link,
+      },
+    })
+    getProfile()
+    notification.success({
+      message: '更新成功',
+      // description: "请输入用户名、密码",
+    })
+  }
+
   useEffect(() => {
     getProfile()
   }, [])
@@ -55,16 +79,59 @@ function AdminHome(props) {
                   ) : (
                     '上传'
                   )} */}
-                  {profile.attributes.logo && <div className={styles.item_right_logo} style={{ backgroundImage: `url(${profile.attributes.logo})` }}></div>}
+                  {profile.attributes.logo && (
+                    <div className={styles.item_right_logo} style={{ backgroundImage: `url(${profile.attributes.logo})` }}></div>
+                  )}
                   上传
                 </a>
               </div>
             </div>
-            {/* <div className={styles.item}>
-              <div className={styles.item_title}>名称</div>
-              <div className={styles.item_right}></div>
-            </div> */}
+            <div className={styles.item}>
+              <div className={styles.item_title}>标题</div>
+              <div className={styles.item_right}>
+                <input
+                  placeholder="请输入标题"
+                  value={title}
+                  onChange={(e) => {
+                    settitle(e.target.value)
+                  }}
+                />
+              </div>
+            </div>
+            <div className={styles.item}>
+              <div className={styles.item_title}>Github</div>
+              <div className={styles.item_right}>
+                <input
+                  placeholder="请输入url"
+                  value={github}
+                  onChange={(e) => {
+                    setgithub(e.target.value)
+                  }}
+                />
+              </div>
+            </div>
+            <div className={styles.item}>
+              <div className={styles.item_title}>友情链接</div>
+              <div className={styles.item_right}>
+                <input
+                  placeholder="请输入url"
+                  value={social_link}
+                  onChange={(e) => {
+                    setsocial_link(e.target.value)
+                  }}
+                />
+              </div>
+            </div>
           </div>
+          <Button
+            type="primary"
+            size="large"
+            onClick={() => {
+              handlesubmit()
+            }}
+          >
+            保存
+          </Button>
           <Modal
             width={900}
             visible={modalShow}
@@ -91,6 +158,10 @@ function AdminHome(props) {
                   }).then(() => {
                     setmodalShow(false)
                     getProfile()
+                    notification.success({
+                      message: '更新成功',
+                      // description: "请输入用户名、密码",
+                    })
                   })
                 }}
               />

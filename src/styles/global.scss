@@ -1,5 +1,5 @@
-@import "./reset.scss";
-@import "~src/styles/variables.scss";
+@import './reset.scss';
+@import '~src/styles/variables.scss';
 // @import './github-markdown.scss';
 
 * {
@@ -69,7 +69,9 @@ body {
   padding: 0 15px;
   height: 40px;
   border-radius: 20px;
-  input, .ant-select-selection-placeholder, .ant-select-selection-item {
+  input,
+  .ant-select-selection-placeholder,
+  .ant-select-selection-item {
     height: 38px !important;
     line-height: 38px !important;
   }
@@ -79,6 +81,30 @@ body {
   width: 100% !important;
   height: 100% !important;
   border-radius: 8px;
+}
+
+.github-corner {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 1000;
+}
+.github-corner:hover .octo-arm {
+  animation: octocat-wave 560ms ease-in-out;
+}
+@keyframes octocat-wave {
+  0%,
+  100% {
+    transform: rotate(0);
+  }
+  20%,
+  60% {
+    transform: rotate(-25deg);
+  }
+  40%,
+  80% {
+    transform: rotate(10deg);
+  }
 }
 
 @media (prefers-color-scheme: dark) {

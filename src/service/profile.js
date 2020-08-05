@@ -21,7 +21,7 @@ export const createProfile = (params = {}) => {
 export const getProfileList = (params = {}) => {
   return new Promise((resolve, reject) => {
     const query = new AV.Query('CMS_Profile')
-    query.descending('createdAt')
+    query.descending('updatedAt')
     query
       .first()
       .then((res) => {
