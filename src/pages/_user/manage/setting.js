@@ -8,6 +8,7 @@ import React, { useState, useEffect } from 'react'
 import styles from './index.module.scss'
 import Layout from 'src/components/_user/Layout'
 import Upload from 'src/components/_user/Upload'
+import InputItem from 'src/components/_user/InputItem'
 import { createProfile, getProfileList, updateProfile } from 'src/service/profile'
 
 function AdminHome(props) {
@@ -19,6 +20,8 @@ function AdminHome(props) {
   const [github, setgithub] = useState('')
   const [social_link, setsocial_link] = useState('')
   const [copyright, setcopyright] = useState('')
+  const [allowAComment, setallowAComment] = useState(false)
+  const [showBlog, setshowBlog] = useState(false)
 
   // 获取资料
   const getProfile = () => {
@@ -29,6 +32,8 @@ function AdminHome(props) {
         setgithub(res.attributes.github)
         setsocial_link(res.attributes.social_link)
         setcopyright(res.attributes.copyright)
+        setallowAComment(res.attributes.allowAComment)
+        setshowBlog(res.attributes.showBlog)
       } else {
         createProfile().then((resCreate) => {
           setprofile(resCreate)
@@ -46,6 +51,8 @@ function AdminHome(props) {
         github,
         social_link,
         copyright,
+        allowAComment,
+        showBlog
       },
     })
     getProfile()
@@ -89,81 +96,57 @@ function AdminHome(props) {
                 </a>
               </div>
             </div>
-            <div className={styles.item}>
-              <div className={styles.item_title}>标题</div>
-              <div className={styles.item_right}>
-                <input
-                  placeholder="请输入标题"
-                  value={title}
-                  onChange={(e) => {
-                    settitle(e.target.value)
-                  }}
-                />
-              </div>
-            </div>
-            <div className={styles.item}>
-              <div className={styles.item_title}>Github</div>
-              <div className={styles.item_right}>
-                <input
-                  placeholder="请输入url"
-                  value={github}
-                  onChange={(e) => {
-                    setgithub(e.target.value)
-                  }}
-                />
-              </div>
-            </div>
-            <div className={styles.item}>
-              <div className={styles.item_title}>友情链接</div>
-              <div className={styles.item_right}>
-                <input
-                  placeholder="请输入url"
-                  value={social_link}
-                  onChange={(e) => {
-                    setsocial_link(e.target.value)
-                  }}
-                />
-              </div>
-            </div>
-            <div className={styles.item}>
-              <div className={styles.item_title}>CopyRight</div>
-              <div className={styles.item_right}>
-                <input
-                  placeholder="请输入copyright"
-                  value={copyright}
-                  onChange={(e) => {
-                    setcopyright(e.target.value)
-                  }}
-                />
-              </div>
-            </div>
+            <InputItem
+              title="标题"
+              placeholder="请输入标题"
+              value={title}
+              onChange={(e) => {
+                settitle(e)
+              }}
+            />
+            <InputItem
+              title="Github"
+              placeholder="请输入url"
+              value={github}
+              onChange={(e) => {
+                setgithub(e)
+              }}
+            />
+            <InputItem
+              title="社交链接"
+              placeholder="请输入url"
+              value={social_link}
+              onChange={(e) => {
+                setsocial_link(e)
+              }}
+            />
+            <InputItem
+              title="CopyRight"
+              placeholder="请输入copyright"
+              value={copyright}
+              onChange={(e) => {
+                setcopyright(e)
+              }}
+            />
           </div>
 
           <div className="_admin_body_section_block" style={{ padding: 30 }}>
-            <div className={styles.item}>
-              <div className={styles.item_title}>允许评论文章</div>
-              <div className={styles.item_right}>
-                <input
-                  placeholder="请输入标题"
-                  value={title}
-                  onChange={(e) => {
-                    settitle(e.target.value)
-                  }}
-                />
-              </div>
-            </div>
-            <div className={styles.item}>
-              <div className={styles.item_title}>显示论坛</div>
-              <div className={styles.item_right}>
-                <input
-                  placeholder="请输入标题"
-                  value={title}
-                  onChange={(e) => {
-                    settitle(e.target.value)
-                  }}
-                />
-              </div>
-            </div>
+            <InputItem
+              type="switch"
+              title="允许评论文章"
+              value={allowAComment}
+              onChange={(e) => {
+                setallowAComment(e)
+              }}
+            />
+            <InputItem
+              type="switch"
+              title="显示论坛"
+              value={showBlog}
+              onChange={(e) => {
+                setshowBlog(e)
+              }}
+            />
           </div>
           <Button
             type="primary"

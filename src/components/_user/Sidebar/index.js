@@ -31,25 +31,13 @@ function Components(props) {
         <Item2 path="/_user/feature/articles" title="文章管理" />
         <Item2 path="/_user/feature/assets" title="素材管理" />
       </div>
-      {/* <div className={styles.sidebar_item}>
-        <Link href="/_user/home">
-          <div
-            className={
-              !router.pathname.includes("/_user/home")
-              ? styles.sidebar_item_level1
-              : styles.sidebar_item_level1_active
-            }
-          >
-            <i className="iconfont icon-message"></i>消息管理
-          </div>
-        </Link>
-      </div> */}
       <div className={styles.sidebar_item}>
-        <Link href="/_user/user">
-          <div className={!router.pathname.includes('/_user/user') ? styles.sidebar_item_level1 : styles.sidebar_item_level1_active}>
-            <i className="iconfont icon-profile"></i>我的资料
-          </div>
-        </Link>
+        <div className={!router.pathname.includes('/_user/user') ? styles.sidebar_item_level1 : styles.sidebar_item_level1_active}>
+          <i className="iconfont icon-profile"></i>账户
+        </div>
+        <div className={styles.sidebar_item_placeholder}></div>
+        <Item2 path="/_user/user/account" title="个人资料" />
+        <Item2 path="/_user/user/message" title="消息管理" />
       </div>
       {props.userinfo && props.userinfo.priority === 100 && (
         <div className={styles.sidebar_item}>
@@ -58,7 +46,7 @@ function Components(props) {
           </div>
           <div className={styles.sidebar_item_placeholder}></div>
           <Item2 path="/_user/manage/menus" title="自定义菜单" />
-          <Item2 path="/_user/manage/userlist" title="用户管理" />
+          <Item2 path="/_user/manage/userlist" title="用户权限" />
           <Item2 path="/_user/manage/setting" title="基本设置" />
         </div>
       )}
