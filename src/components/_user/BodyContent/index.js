@@ -27,6 +27,7 @@ function Components(props) {
         // 创建userinfo
         const userinfo = new AV.Object('CMS_UserInfo')
         userinfo.set('user', AV.User.current())
+        userinfo.set('nickname', AV.User.current().attributes.username)
         userinfo.set('priority', 1) // 权限等级 默认：1 未授权
         // 将对象保存到云端
         userinfo.save().then(
