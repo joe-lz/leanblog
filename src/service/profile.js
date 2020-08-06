@@ -6,6 +6,10 @@ export const createProfile = (params = {}) => {
     const profileObject = new AV.Object('CMS_Profile')
     profileObject.set('logo', 'https://qiniu.jingdian.club/FpFCrbbNmg-GmFfVLdsxmmbPZFHw')
     profileObject.set('title', '')
+    profileObject.set('allowAComment', true)
+    profileObject.set('allowBComment', true)
+    profileObject.set('showBlog', true)
+    profileObject.set('blogName', '沸点')
     // 将对象保存到云端
     profileObject.save().then(
       (todo) => {

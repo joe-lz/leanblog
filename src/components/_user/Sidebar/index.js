@@ -48,6 +48,7 @@ function Components(props) {
           <Item2 path="/_user/manage/menus" title="自定义菜单" />
           <Item2 path="/_user/manage/userlist" title="用户权限" />
           <Item2 path="/_user/manage/setting" title="基本设置" />
+          <Item2 path="/_user/manage/blogsetting" title="论坛设置" />
         </div>
       )}
     </div>

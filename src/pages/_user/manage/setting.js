@@ -21,8 +21,10 @@ function AdminHome(props) {
   const [social_link, setsocial_link] = useState('')
   const [copyright, setcopyright] = useState('')
   const [allowAComment, setallowAComment] = useState(false)
+  const [allowBComment, setallowBComment] = useState(false)
   const [showBlog, setshowBlog] = useState(false)
-
+  const [blogName, setblogName] = useState('')
+  
   // 获取资料
   const getProfile = () => {
     getProfileList().then((res) => {
@@ -33,7 +35,9 @@ function AdminHome(props) {
         setsocial_link(res.attributes.social_link)
         setcopyright(res.attributes.copyright)
         setallowAComment(res.attributes.allowAComment)
+        setallowBComment(res.attributes.allowBComment)
         setshowBlog(res.attributes.showBlog)
+        setblogName(res.attributes.blogName)
       } else {
         createProfile().then((resCreate) => {
           setprofile(resCreate)
@@ -52,7 +56,9 @@ function AdminHome(props) {
         social_link,
         copyright,
         allowAComment,
-        showBlog
+        allowBComment,
+        showBlog,
+        blogName,
       },
     })
     getProfile()
@@ -141,10 +147,26 @@ function AdminHome(props) {
             />
             <InputItem
               type="switch"
+              title="允许评论博客"
+              value={allowBComment}
+              onChange={(e) => {
+                setallowBComment(e)
+              }}
+            />
+            <InputItem
+              type="switch"
               title="显示论坛"
               value={showBlog}
               onChange={(e) => {
                 setshowBlog(e)
+              }}
+            />
+            <InputItem
+              title="论坛名称"
+              placeholder="请输入"
+              value={blogName}
+              onChange={(e) => {
+                setblogName(e)
               }}
             />
           </div>
