@@ -15,3 +15,21 @@ export const getMyUserInfo = (params = {}) => {
       })
   })
 }
+
+
+export const updateUserInfo = ({ userinfoItem, params }) => {
+  return new Promise((resolve, reject) => {
+    Object.keys(params).map((keyname) => {
+      userinfoItem.set(keyname, params[keyname])
+    })
+    userinfoItem.save().then(
+      (res) => {
+        resolve(res)
+      },
+      (error) => {
+        // 异常处理
+        reject(error)
+      }
+    )
+  })
+}

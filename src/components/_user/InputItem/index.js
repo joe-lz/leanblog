@@ -27,7 +27,7 @@ function Components(props) {
         {type === 'text' ? (
           <input
             placeholder={props.placeholder || '请输入'}
-            value={props.value}
+            value={props.value || ''}
             onChange={(e) => {
               props.onChange(e.target.value)
             }}
