@@ -48,7 +48,9 @@ function Components(props) {
         {props.profile && (
           <title>
             {props.profile.title || '鲸典设计'}
-            {`-${curNav ? curNav.title : '首页'}`}
+            {curNav ? `-${curNav.title}` : ''}
+            {router.pathname.includes('_demo/home') ? '-首页' : ''}
+            {router.pathname.includes('_demo/posts') ? `-${props.profile.blogName}` : ''}
           </title>
         )}
       </Head>
@@ -73,9 +75,13 @@ function Components(props) {
                 </Link>
               )
             })}
-            <Link href="/_demo/posts">
-              <div className={router.pathname.includes('_demo/posts') ? styles.nav_link_item_active : styles.nav_link_item}>沸点</div>
-            </Link>
+            {props.profile.showBlog && (
+              <Link href="/_demo/posts">
+                <div className={router.pathname.includes('_demo/posts') ? styles.nav_link_item_active : styles.nav_link_item}>
+                  {props.profile.blogName}
+                </div>
+              </Link>
+            )}
           </div>
           {curUser ? (
             <Dropdown overlay={menu}>
