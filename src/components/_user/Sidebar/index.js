@@ -48,7 +48,16 @@ function Components(props) {
           <Item2 path="/_user/manage/menus" title="自定义菜单" />
           <Item2 path="/_user/manage/userlist" title="用户权限" />
           <Item2 path="/_user/manage/setting" title="基本设置" />
-          <Item2 path="/_user/manage/blogsetting" title="论坛设置" />
+        </div>
+      )}
+      {props.userinfo && props.userinfo.priority === 100 && (
+        <div className={styles.sidebar_item}>
+          <div className={!router.pathname.includes('/_user/blog') ? styles.sidebar_item_level1 : styles.sidebar_item_level1_active}>
+            <i className="iconfont icon-iconfontdongtaidianji"></i>{process.env.blogname}
+          </div>
+          <div className={styles.sidebar_item_placeholder}></div>
+          <Item2 path="/_user/blog/topics" title='话题设置' />
+          <Item2 path="/_user/blog/manage" title="动态管理" />
         </div>
       )}
     </div>

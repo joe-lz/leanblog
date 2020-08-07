@@ -73,6 +73,14 @@ function AdminHome(props) {
                   pagination={false}
                   columns={[
                     {
+                      title: 'key',
+                      dataIndex: 'value',
+                      key: 'value',
+                      render: (res, item) => {
+                        return item.value
+                      },
+                    },
+                    {
                       title: '名称',
                       dataIndex: 'label',
                       key: 'label',
