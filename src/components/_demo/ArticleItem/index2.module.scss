@@ -1,0 +1,41 @@
+@import '~src/styles/variables.scss';
+
+.articleItem {
+  display: flex;
+  flex-direction: row-reverse;
+  padding: 30px;
+  overflow: hidden;
+  width: 700px;
+  height: 150px;
+  background-color: white;
+  border-bottom: 1px solid $color-border;
+  &:hover {
+    .title {
+      text-decoration: underline;
+    }
+  }
+  .poster {
+    width: 100px;
+    height: 70px;
+    background-color: $color-disabled;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    border-bottom: 1px solid $color-border;
+    border-radius: 4px;
+  }
+  .bottom {
+    flex: 1;
+    padding-right: 50px;
+    .title {
+      margin-bottom: 15px;
+      font-size: 16px;
+      font-weight: 500;
+      line-height: 25px;
+    }
+    .time {
+      font-size: 14px;
+      color: $color-disabled;
+    }
+  }
+}

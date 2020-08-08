@@ -42,14 +42,19 @@ function MyComponent() {
             })}
           {articleLists && articleLists.length === 0 && (
             <div className={styles.nodata}>
-              <img src='/nodata.png'></img>
+              <img src="/nodata.png"></img>
               <p>暂无文章～</p>
             </div>
           )}
+          {/* <div className={styles.articleItem}></div>
           <div className={styles.articleItem}></div>
           <div className={styles.articleItem}></div>
-          <div className={styles.articleItem}></div>
-          <div className={styles.articleItem}></div>
+          <div className={styles.articleItem}></div> */}
+        </div>
+        <div className={styles.rightAside}>
+          <div className={styles.rightAside_guanggao}></div>
+          <div className={styles.rightAside_guanggao}></div>
+          <div className={styles.rightAside_guanggao}></div>
         </div>
       </div>
     </Layout>

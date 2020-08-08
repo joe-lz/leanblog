@@ -5,13 +5,15 @@ import dayjs from 'dayjs'
 import { useRouter } from 'next/router'
 import React, { useState, useEffect } from 'react'
 
-import styles from './index.module.scss'
+import styles1 from './index.module.scss'
+import styles2 from './index2.module.scss'
 
 function Components(props) {
   const [modalShow, setmodalShow] = useState(false)
 
   useEffect(() => {}, [])
-
+  const type = localStorage.getItem('CMS_ArticleItemType') || 2
+  const styles = type == 2 ? styles2 : styles1
   return (
     <a
       target="_blank"

@@ -27,9 +27,14 @@
   "devDependencies": {
     "antd": "^4.5.1",
     "autodll-webpack-plugin": "^0.4.2",
+    "eslint-config-standard": "^14.1.1",
+    "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1",
     "sass": "^1.26.10"
   },
   "engines": {
-    "node": "10.x"
+    "node": "12.x"
   }
 }
