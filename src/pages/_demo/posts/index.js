@@ -7,6 +7,7 @@ import Link from 'next/link'
 
 import styles from './index.module.scss'
 import Layout from 'src/components/_demo/Layout'
+import PostEditor from 'src/components/_demo/PostEditor'
 import { getTopicList } from 'src/service/topics'
 
 function MyComponent() {
@@ -22,14 +23,14 @@ function MyComponent() {
   useEffect(() => {
     getTopics({ status: 2 })
   }, [])
-  console.log(router)
+  
   return (
     <Layout>
       <div className={styles.container}>
         <div className={styles.body}>
           <div className={styles.sidebar}>
             <div className={styles.block}>
-              <Link href={`/_demo/posts`}>
+              {/* <Link href={`/_demo/posts`}>
                 <div
                   className={
                     router.pathname === `/_demo/posts` && Object.keys(router.query).length === 0
@@ -39,7 +40,7 @@ function MyComponent() {
                 >
                   推荐
                 </div>
-              </Link>
+              </Link> */}
               <Link href={`/_demo/posts?type=follow`}>
                 <div className={router.query.type === 'follow' ? styles.topicItem_active : styles.topicItem}>关注</div>
               </Link>
@@ -54,6 +55,7 @@ function MyComponent() {
             </div>
           </div>
           <div className={styles.content}>
+            <PostEditor/>
             <div className={styles.block}></div>
             <div className={styles.block}></div>
             <div className={styles.block}></div>

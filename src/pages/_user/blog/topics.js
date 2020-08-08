@@ -86,7 +86,6 @@ function AdminHome() {
                     key={obj.id}
                     item={obj}
                     onChange={() => {
-                      console.log('cd');
                       getlist({ status })
                     }}
                   />
