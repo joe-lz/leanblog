@@ -6,9 +6,39 @@
     display: flex;
     margin: 0 auto;
     width: 1000px;
+    .divider {
+      margin: 10px 0;
+      border-bottom: 1px solid $color-border;
+      width: 100%;
+    }
     .sidebar {
       position: relative;
       width: 150px;
+      .block {
+        padding: 15px 20px;
+        .topicItem, .topicItem_active {
+          padding: 5px;
+          margin-bottom: 3px;
+          font-size: 14px;
+          line-height: 25px;
+          text-align: center;
+          color: $color-disabled;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+          overflow: hidden;
+          border-radius: 4px;
+          transition: $transition;
+          cursor: pointer;
+          &:hover {
+            background-color: $color-btnbg-hover;
+          }
+          &_active {
+            background-color: $color-link !important;
+            color: white;
+
+          }
+        }
+      }
     }
     .userinfo {
       position: relative;
@@ -18,7 +48,7 @@
       margin-bottom: 15px;
       min-height: 100px;
       background-color: white;
-      box-shadow: $box-shadow;
+      // box-shadow: $box-shadow;
       border-radius: 2px;
     }
     .content {
