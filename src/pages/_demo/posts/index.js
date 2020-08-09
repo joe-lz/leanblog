@@ -8,24 +8,37 @@ import Link from 'next/link'
 import styles from './index.module.scss'
 import Layout from 'src/components/_demo/Layout'
 import PostEditor from 'src/components/_demo/PostEditor'
+import PostItem from 'src/components/_demo/PostItem'
 import { getTopicList } from 'src/service/topics'
+import { getPostList } from 'src/service/post'
 
 function MyComponent() {
-  const [topiclist, settopiclist] = useState([])
   const router = useRouter()
+  const [topiclist, settopiclist] = useState([])
+  const [postlist, setpostlist] = useState([])
+  const [userinfo, setuserinfo] = useState(null)
 
   const getTopics = async (params = {}) => {
     const res = await getTopicList(params)
     settopiclist(JSON.parse(JSON.stringify(res)))
   }
+  const getLists = async (params = {}) => {
+    const res = await getPostList({ status: 1 })
+    setpostlist(res)
+  }
 
   // 获取话题
   useEffect(() => {
     getTopics({ status: 2 })
+    getLists()
   }, [])
-  
+
   return (
-    <Layout>
+    <Layout
+      onChange={(params) => {
+        setuserinfo(params.userinfo)
+      }}
+    >
       <div className={styles.container}>
         <div className={styles.body}>
           <div className={styles.sidebar}>
@@ -55,11 +68,10 @@ function MyComponent() {
             </div>
           </div>
           <div className={styles.content}>
-            <PostEditor/>
-            <div className={styles.block}></div>
-            <div className={styles.block}></div>
-            <div className={styles.block}></div>
-            <div className={styles.block}></div>
+            <PostEditor topiclist={topiclist} userinfo={userinfo} onChange={() => {}} />
+            {postlist.map((obj) => {
+              return <PostItem key={obj.id} item={obj} userinfo={userinfo} />
+            })}
           </div>
           <div className={styles.userinfo}>
             <div className={styles.block}></div>

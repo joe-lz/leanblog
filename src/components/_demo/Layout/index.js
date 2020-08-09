@@ -13,7 +13,7 @@ import Nav from '../Nav'
 function Components(props) {
   const [menus, setmenus] = useState(null)
   const [profile, setprofile] = useState(null)
-  // const [curUserInfo, setcurUserInfo] = useState(0)
+  const [curUserInfo, setcurUserInfo] = useState(null)
 
   const handleInit = async () => {
     // 获取菜单
@@ -29,16 +29,23 @@ function Components(props) {
     localStorage.setItem('CMS_Profile', JSON.stringify(resProfile))
 
     // 获取用户信息
-    // localStorage.getItem('CMS_UserInfo') && setprofile(JSON.parse(localStorage.getItem('CMS_UserInfo')))
-    // const resUserInfo = await getMyUserInfo()
-    // setcurUserInfo(JSON.parse(JSON.stringify(resUserInfo)))
-    // localStorage.setItem('CMS_UserInfo', JSON.stringify(resUserInfo))
-
+    localStorage.getItem('CMS_UserInfo') && setcurUserInfo(JSON.parse(localStorage.getItem('CMS_UserInfo')))
+    const resUserInfo = await getMyUserInfo()
+    setcurUserInfo(JSON.parse(JSON.stringify(resUserInfo)))
+    localStorage.setItem('CMS_UserInfo', JSON.stringify(resUserInfo))
   }
 
   useEffect(() => {
     handleInit()
   }, [])
+
+  useEffect(() => {
+    props.onChange && props.onChange({
+      menus,
+      profile,
+      userinfo: curUserInfo,
+    })
+  }, [menus, profile, curUserInfo])
 
   return (
     <div className={styles.container}>
@@ -67,7 +74,7 @@ function Components(props) {
         </a>
       ) : null}
       {/* {menus && profile && <Nav menus={menus} profile={profile} userinfo={curUserInfo} />} */}
-      {menus && profile && <Nav menus={menus} profile={profile} />}
+      {menus && profile && <Nav menus={menus} profile={profile} userinfo={curUserInfo} />}
       <div className={styles.body}>{props.children}</div>
       {profile && (
         <footer>

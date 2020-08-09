@@ -7,15 +7,14 @@ import React, { useState, useEffect } from 'react'
 
 import styles from './index.module.scss'
 import Layout from 'src/components/_user/Layout'
-import Upload from 'src/components/_user/Upload'
 import InputItem from 'src/components/_user/InputItem'
 import { createProfile, getProfileList, updateProfile } from 'src/service/profile'
 
 function AdminHome(props) {
   const [curUserInfo, setcurUserInfo] = useState(null)
-  const [modalShow, setmodalShow] = useState(null)
   const [profile, setprofile] = useState(null)
 
+  const [logo, setlogo] = useState('')
   const [title, settitle] = useState('')
   const [github, setgithub] = useState('')
   const [social_link, setsocial_link] = useState('')
@@ -30,6 +29,7 @@ function AdminHome(props) {
     getProfileList().then((res) => {
       if (res) {
         setprofile(res)
+        setlogo(res.attributes.logo)
         settitle(res.attributes.title)
         setgithub(res.attributes.github)
         setsocial_link(res.attributes.social_link)
@@ -51,6 +51,7 @@ function AdminHome(props) {
     await updateProfile({
       profileItem: profile,
       params: {
+        logo,
         title,
         github,
         social_link,
@@ -82,26 +83,14 @@ function AdminHome(props) {
       {curUserInfo && curUserInfo.priority === 100 && profile ? (
         <div className={styles.setting}>
           <div className="_admin_body_section_block" style={{ padding: 30 }}>
-            <div className={styles.item}>
-              <div className={styles.item_title}>Logo</div>
-              <div className={styles.item_right}>
-                <a
-                  onClick={() => {
-                    setmodalShow(true)
-                  }}
-                >
-                  {/* {profile.attributes.logo ? (
-                    <div className={styles.item_right_logo} style={{ backgroundImage: `url(${profile.attributes.logo})` }}></div>
-                  ) : (
-                    '上传'
-                  )} */}
-                  {profile.attributes.logo && (
-                    <div className={styles.item_right_logo} style={{ backgroundImage: `url(${profile.attributes.logo})` }}></div>
-                  )}
-                  上传
-                </a>
-              </div>
-            </div>
+            <InputItem
+              title="Logo"
+              type="image"
+              value={logo}
+              onChange={(e) => {
+                setlogo(e)
+              }}
+            />
             <InputItem
               title="标题"
               placeholder="请输入标题"
@@ -181,41 +170,6 @@ function AdminHome(props) {
           >
             保存
           </Button>
-          <Modal
-            width={900}
-            visible={modalShow}
-            onCancel={() => {
-              setmodalShow(false)
-            }}
-            onOk={() => {
-              handleCreate()
-            }}
-            okText="保存"
-            cancelText="取消"
-            bodyStyle={{ padding: 0 }}
-            footer={null}
-          >
-            {modalShow && (
-              <Upload
-                onChoose={async ({ url }) => {
-                  // 更新logo
-                  updateProfile({
-                    profileItem: profile,
-                    params: {
-                      logo: url,
-                    },
-                  }).then(() => {
-                    setmodalShow(false)
-                    getProfile()
-                    notification.success({
-                      message: '更新成功',
-                      // description: "请输入用户名、密码",
-                    })
-                  })
-                }}
-              />
-            )}
-          </Modal>
         </div>
       ) : (
         <div

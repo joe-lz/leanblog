@@ -16,7 +16,8 @@
       width: 150px;
       .block {
         padding: 15px 20px;
-        .topicItem, .topicItem_active {
+        .topicItem,
+        .topicItem_active {
           padding: 5px;
           margin-bottom: 3px;
           font-size: 14px;
@@ -35,7 +36,6 @@
           &_active {
             background-color: $color-link !important;
             color: white;
-
           }
         }
       }

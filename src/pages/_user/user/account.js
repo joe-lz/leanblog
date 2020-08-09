@@ -13,10 +13,12 @@ function AdminHome() {
   const [userinfoObj, setuserinfoObj] = useState(0)
 
   const [nickname, setnickname] = useState('')
+  const [avatar, setavatar] = useState('')
   const [desc, setdesc] = useState('')
   const [github, setgithub] = useState('')
   const [social_link, setsocial_link] = useState('')
   const [co_name, setco_name] = useState('')
+  const [position, setposition] = useState('')
 
   // 更新
   const handlesubmit = async () => {
@@ -24,10 +26,12 @@ function AdminHome() {
       userinfoItem: userinfoObj,
       params: {
         nickname,
+        avatar,
         desc,
         github,
         social_link,
         co_name,
+        position,
       },
     })
     getData()
@@ -41,10 +45,12 @@ function AdminHome() {
     const res = await getMyUserInfo()
     setuserinfoObj(res)
     setnickname(res.attributes.nickname)
+    setavatar(res.attributes.avatar)
     setdesc(res.attributes.desc)
     setgithub(res.attributes.github)
     setsocial_link(res.attributes.social_link)
     setco_name(res.attributes.co_name)
+    setposition(res.attributes.position)
   }
   useEffect(() => {
     getData()
@@ -63,19 +69,36 @@ function AdminHome() {
             }}
           />
           <InputItem
+            title="头像"
+            type="image"
+            placeholder="请输入昵称"
+            value={avatar}
+            onChange={(e) => {
+              setavatar(e)
+            }}
+          />
+          <InputItem
+            title="公司名称"
+            placeholder="请输入公司名称"
+            value={co_name}
+            onChange={(e) => {
+              setco_name(e)
+            }}
+          />
+          <InputItem
+            title="职业"
+            placeholder="请输入职业"
+            value={position}
+            onChange={(e) => {
+              setposition(e)
+            }}
+          />
+          <InputItem
             title="简介"
             placeholder="请输入简介"
             value={desc}
             onChange={(e) => {
               setdesc(e)
-            }}
-          />
-          <InputItem
-            title="Github"
-            placeholder="请输入Github"
-            value={github}
-            onChange={(e) => {
-              setgithub(e)
             }}
           />
           <InputItem
@@ -87,11 +110,11 @@ function AdminHome() {
             }}
           />
           <InputItem
-            title="公司名称"
-            placeholder="请输入公司名称"
-            value={co_name}
+            title="Github"
+            placeholder="请输入Github"
+            value={github}
             onChange={(e) => {
-              setco_name(e)
+              setgithub(e)
             }}
           />
         </div>

@@ -17,10 +17,13 @@
     border: none;
   }
   &_media {
+    display: flex;
+    align-items: flex-start;
     &_img {
       position: relative;
       display: inline-block;
       margin-top: 10px;
+      margin-right: 15px;
       padding: 3px;
       border: 1px solid $color-border;
       border-radius: 4px;
@@ -30,7 +33,7 @@
         top: -5px;
         z-index: 2;
         color: white;
-        background-color: rgba(0,0,0,0.3);
+        background-color: rgba(0, 0, 0, 0.3);
         border-radius: 50%;
         font-size: 20px;
         cursor: pointer;
@@ -75,5 +78,28 @@
         font-size: 18px;
       }
     }
+    .submit {
+      float: right;
+    }
+  }
+}
+
+.topic_item {
+  padding-right: 50px;
+  padding-left: 5px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  font-weight: 500;
+  .topic_item_img {
+    margin-right: 10px;
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    border: 1px solid $color-border;
+    border-radius: 4px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
   }
 }

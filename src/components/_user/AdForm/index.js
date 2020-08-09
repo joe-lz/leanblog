@@ -58,6 +58,7 @@ function Components(props) {
         />
         <InputItem
           title="封面"
+          type='image'
           placeholder="请输入封面"
           value={imgUrl}
           onChange={(e) => {

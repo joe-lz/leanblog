@@ -84,7 +84,7 @@ function Components(props) {
             )}
           </div>
           {curUser ? (
-            <Dropdown overlay={menu}>
+            <Dropdown overlay={menu} arrow placement="bottomRight">
               <div className={styles.link_login} onClick={(e) => e.preventDefault()}>
                 <div className={styles.btn}>
                   <span>{curUser.attributes.username}</span>

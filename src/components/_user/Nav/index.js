@@ -56,7 +56,7 @@ function Components(props) {
           {curUser && (
             <>
               <span className={styles.divider}>|</span>
-              <Dropdown overlay={menu}>
+              <Dropdown overlay={menu} arrow placement="bottomRight">
                 <div className={styles.link} onClick={(e) => e.preventDefault()}>
                   <div className={styles.btn}>
                     <span>{curUser.username}</span>
