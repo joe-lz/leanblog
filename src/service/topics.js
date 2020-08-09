@@ -23,7 +23,7 @@ export const createTopics = (params = {}) => {
 export const getTopicList = (params = {}) => {
   return new Promise((resolve, reject) => {
     const query = new AV.Query('CMS_Topics')
-    query.descending('updatedAt')
+    query.descending('createdAt')
     query.limit(50)
     Object.keys(params).map((keyname) => {
       query.equalTo(keyname, params[keyname])

@@ -17,13 +17,13 @@ function AdminHome() {
   const [isSpin, setisSpin] = useState(false)
 
   const [title, settitle] = useState('')
-  const [author, setauthor] = useState('')
+  // const [author, setauthor] = useState('')
   const [articleLists, setarticleLists] = useState([])
   const [curUserInfo, setcurUserInfo] = useState(null)
 
   const handleCreate = async () => {
-    if (title && author) {
-      await createArticle({ title, author })
+    if (title) {
+      await createArticle({ title, author: AV.Object.createWithoutData('CMS_UserInfo', curUserInfo.objectId) })
       setcreateModalShow(false)
       // 获取文章列表
       await getList()
@@ -126,13 +126,13 @@ function AdminHome() {
                 settitle(e.target.value)
               }}
             />
-            <Input
+            {/* <Input
               style={{ margin: '15px 0' }}
               placeholder="作者名称"
               onChange={(e) => {
                 setauthor(e.target.value)
               }}
-            />
+            /> */}
           </Modal>
         </div>
       </Spin>

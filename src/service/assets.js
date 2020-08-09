@@ -21,7 +21,7 @@ export const createAssets = (params) => {
 export const getAssetsList = (params = {}) => {
   return new Promise((resolve, reject) => {
     const query = new AV.Query("_File");
-    query.descending("updatedAt");
+    query.descending('createdAt')
     query.limit(50);
     Object.keys(params).map((keyname) => {
       query.equalTo(keyname, params[keyname]);

@@ -80,7 +80,7 @@ function Components(props) {
               showUploadList={false}
               beforeUpload={beforeUpload}
               onChange={handleChange}
-              accept="image/png, image/jpeg"
+              accept="image/png, image/jpeg, image/jpg"
             >
               <div className={styles.assets_upload}>上传</div>
             </Upload>

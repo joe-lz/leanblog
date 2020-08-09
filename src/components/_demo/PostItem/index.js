@@ -7,6 +7,7 @@ import React, { useState, useEffect } from 'react'
 import { Tree, Button, notification, Input, Modal, TreeSelect, Menu, Dropdown, Spin } from 'antd'
 
 import styles from './index.module.scss'
+import Comments from 'src/components/_demo/Comments'
 import { updatePost } from 'src/service/post'
 
 require('dayjs/locale/zh-cn')
@@ -18,6 +19,7 @@ const { TextArea } = Input
 function Components(props) {
   const [hasLiked, sethasLiked] = useState(false)
   const [likes, setlikes] = useState(0)
+  const [showComment, setshowComment] = useState(false)
 
   useEffect(() => {
     if (props.item && props.userinfo) {
@@ -65,9 +67,17 @@ function Components(props) {
           >
             点赞 {likes ? likes : ''}
           </div>
-          <div className={styles.postItem_operation_btn}>评论</div>
+          <div
+            className={styles.postItem_operation_btn}
+            onClick={() => {
+              setshowComment(!showComment)
+            }}
+          >
+            评论 {itemNew.comments ? itemNew.comments : ''}
+          </div>
           {/* <div className={styles.postItem_operation_btn}>分享</div> */}
         </div>
+        {showComment && <Comments type="post" id={props.item} userinfo={props.userinfo} />}
       </div>
     </div>
   )

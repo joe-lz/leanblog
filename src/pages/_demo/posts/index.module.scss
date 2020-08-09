@@ -5,7 +5,7 @@
   .body {
     display: flex;
     margin: 0 auto;
-    width: 1000px;
+    width: 1200px;
     .divider {
       margin: 10px 0;
       border-bottom: 1px solid $color-border;
@@ -14,8 +14,9 @@
     .sidebar {
       position: relative;
       width: 150px;
-      .block {
+      &_block {
         padding: 15px 20px;
+        background-color: white;
         .topicItem,
         .topicItem_active {
           padding: 5px;
@@ -42,14 +43,7 @@
     }
     .userinfo {
       position: relative;
-      width: 250px;
-    }
-    .block {
-      margin-bottom: 15px;
-      min-height: 100px;
-      background-color: white;
-      // box-shadow: $box-shadow;
-      border-radius: 2px;
+      width: 270px;
     }
     .content {
       flex: 1;

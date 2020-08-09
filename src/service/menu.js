@@ -21,7 +21,7 @@ export const createMenus = (params = {}) => {
 export const getMenusList = (params = {}) => {
   return new Promise((resolve, reject) => {
     const query = new AV.Query("CMS_Menus");
-    query.descending("updatedAt");
+    query.descending('createdAt')
     query
       .first()
       .then((res) => {

@@ -9,6 +9,7 @@ import styles from './index.module.scss'
 import Layout from 'src/components/_demo/Layout'
 import PostEditor from 'src/components/_demo/PostEditor'
 import PostItem from 'src/components/_demo/PostItem'
+import Ad from 'src/components/_demo/Ad'
 import { getTopicList } from 'src/service/topics'
 import { getPostList } from 'src/service/post'
 
@@ -17,6 +18,7 @@ function MyComponent() {
   const [topiclist, settopiclist] = useState([])
   const [postlist, setpostlist] = useState([])
   const [userinfo, setuserinfo] = useState(null)
+  const [profile, setprofile] = useState(null)
 
   const getTopics = async (params = {}) => {
     const res = await getTopicList(params)
@@ -36,13 +38,14 @@ function MyComponent() {
   return (
     <Layout
       onChange={(params) => {
+        setprofile(params.profile)
         setuserinfo(params.userinfo)
       }}
     >
       <div className={styles.container}>
         <div className={styles.body}>
           <div className={styles.sidebar}>
-            <div className={styles.block}>
+            <div className={styles.sidebar_block}>
               {/* <Link href={`/_demo/posts`}>
                 <div
                   className={
@@ -74,7 +77,9 @@ function MyComponent() {
             })}
           </div>
           <div className={styles.userinfo}>
-            <div className={styles.block}></div>
+            {profile && profile.ads[3].show && (
+              <Ad item={profile.ads[3]}/>
+            )}
           </div>
         </div>
       </div>

@@ -4,7 +4,7 @@ export const createArticle = (params) => {
   return new Promise((resolve, reject) => {
     const articles = new AV.Object('CMS_Articles')
     articles.set('status', 1)
-    articles.set('user', AV.User.current())
+    // articles.set('user', AV.User.current())
     Object.keys(params).map((keyname) => {
       articles.set(keyname, params[keyname])
     })
@@ -43,7 +43,8 @@ export const updateArticle = ({ articleItem, params }) => {
 export const getArticleList = (params = {}) => {
   return new Promise((resolve, reject) => {
     const query = new AV.Query('CMS_Articles')
-    query.descending('updatedAt')
+    query.descending('createdAt')
+    query.include('author')
     query.limit(50)
     Object.keys(params).map((keyname) => {
       query.equalTo(keyname, params[keyname])
@@ -62,6 +63,7 @@ export const getArticleList = (params = {}) => {
 export const getArticleById = ({ id }) => {
   return new Promise((resolve, reject) => {
     const query = new AV.Query('CMS_Articles')
+    query.include('author')
     query
       .get(id)
       .then((res) => {
