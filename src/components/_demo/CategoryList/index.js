@@ -19,6 +19,9 @@ function Components(props) {
 
   useEffect(() => {
     window.addEventListener('scroll', handleScroll)
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+    }
   }, [])
 
   useEffect(() => {
@@ -34,7 +37,6 @@ function Components(props) {
   }, [JSON.stringify(props.nav)])
 
   const { nav } = props
-  console.log(nav);
 
   return (
     <div

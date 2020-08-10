@@ -8,6 +8,7 @@ import { Tree, Button, notification, Input, Modal, TreeSelect, Menu, Dropdown, S
 
 import styles from './index.module.scss'
 import Comments from 'src/components/_demo/Comments'
+import UserInfo from 'src/components/_demo/UserInfo'
 import { updatePost } from 'src/service/post'
 
 require('dayjs/locale/zh-cn')
@@ -34,7 +35,7 @@ function Components(props) {
   return (
     <div className={styles.block}>
       <div className={styles.postItem}>
-        <div className={styles.postItem_top}>
+        {/* <div className={styles.postItem_top}>
           <div className={styles.avatar} style={{ backgroundImage: `url(${itemNew.userinfo.avatar})` }}></div>
           <div className={styles.postItem_top_info}>
             <p className={styles.nickname}>{itemNew.userinfo.nickname}</p>
@@ -44,7 +45,9 @@ function Components(props) {
               {dayjs(itemNew.createdAt).fromNow()}
             </p>
           </div>
-        </div>
+        </div> */}
+        <UserInfo userinfo={props.item.attributes.userinfo} time={dayjs(props.item.createdAt).format('YYYY/MM/DD')} />
+
         <div className={styles.postItem_middle}>
           <p className={styles.desc}>{itemNew.desc}</p>
           {itemNew.imgUrl && <div className={styles.imgUrl} style={{ backgroundImage: `url(${itemNew.imgUrl})` }}></div>}

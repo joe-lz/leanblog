@@ -9,12 +9,11 @@ import styles from './index.module.scss'
 
 function Components(props) {
   return (
-    <a
-      className={styles.block}
-      style={{ backgroundImage: `url(${props.item.imgUrl})` }}
-      href={props.item.adUrl}
-      target="_blank"
-    ></a>
+    <>
+      {props.item.show && (
+        <a className={styles.block} style={{ backgroundImage: `url(${props.item.imgUrl})` }} href={props.item.adUrl} target="_blank"></a>
+      )}
+    </>
   )
 }
 

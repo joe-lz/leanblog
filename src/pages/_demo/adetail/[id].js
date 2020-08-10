@@ -109,7 +109,7 @@ function MyComponent() {
                 </div>
               </div>
             )} */}
-            {profile && profile.ads[2].show && <Ad item={profile.ads[2]} />}
+            {profile && profile.ads && <Ad item={profile.ads[2]} />}
             <CategoryList nav={nav} />
           </div>
         </div>

@@ -19,6 +19,7 @@ function MyComponent() {
   const [postlist, setpostlist] = useState([])
   const [userinfo, setuserinfo] = useState(null)
   const [profile, setprofile] = useState(null)
+  const [scrollTop, setscrollTop] = useState(10)
 
   const getTopics = async (params = {}) => {
     const res = await getTopicList(params)
@@ -29,10 +30,18 @@ function MyComponent() {
     setpostlist(res)
   }
 
+  const handleScroll = (event) => {
+    setscrollTop(document.documentElement.scrollTop)
+  }
   // 获取话题
   useEffect(() => {
     getTopics({ status: 2 })
     getLists()
+
+    window.addEventListener('scroll', handleScroll)
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+    }
   }, [])
 
   return (
@@ -77,9 +86,18 @@ function MyComponent() {
             })}
           </div>
           <div className={styles.userinfo}>
-            {profile && profile.ads[3].show && (
-              <Ad item={profile.ads[3]}/>
-            )}
+            <div
+              style={
+                scrollTop > 100
+                  ? {
+                      position: 'fixed',
+                      top: 15,
+                    }
+                  : {}
+              }
+            >
+              {profile && profile.ads && <Ad item={profile.ads[3]} />}
+            </div>
           </div>
         </div>
       </div>

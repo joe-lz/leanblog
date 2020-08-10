@@ -28,7 +28,12 @@ function Components(props) {
             </div>
           </a>
           <div className={styles.userinfo_follow}>
-            <Button type='primary'>关注</Button>
+            <Button
+              // type='primary'
+              size="small"
+            >
+              关注
+            </Button>
           </div>
         </div>
       )}
