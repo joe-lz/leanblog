@@ -13,6 +13,7 @@ import styles from './index.module.scss'
 import Layout from 'src/components/_demo/Layout'
 import Comments from 'src/components/_demo/Comments'
 import Ad from 'src/components/_demo/Ad'
+import UserInfo from 'src/components/_demo/UserInfo'
 import { getArticleById } from 'src/service/article'
 
 require('dayjs/locale/zh-cn')
@@ -68,6 +69,7 @@ function MyComponent() {
         <div className={styles.container}>
           <div className={styles.left}>
             <div className={styles.left_content}>
+              <UserInfo userinfo={author} time={dayjs(articleObj.createdAt).format('YYYY/MM/DD')} />
               <p className={styles.title}>{articleObj.attributes.title}</p>
               <article
                 className="markdown-body"
@@ -81,24 +83,14 @@ function MyComponent() {
             </div>
           </div>
           <div className={styles.right}>
-            {author && (
+            {/* {author && (
               <div className={styles.author}>
                 <div className={styles.author_title}>关于作者</div>
-                <a href={`/_demo/user/${author.id}`} target="_blank">
-                  <div className={styles.author_content}>
-                    <div className={styles.author_avatar} style={{ backgroundImage: `url(${author.attributes.avatar})` }}></div>
-                    <div className={styles.author_info}>
-                      <div className={styles.nickname}>{author.attributes.nickname}</div>
-                      <p className={styles.about}>
-                        {author.attributes.position}
-                        {author.attributes.co_name ? `@${author.attributes.co_name}` : ''}
-                        {/* {dayjs(articleObj.createdAt).fromNow()} */}
-                      </p>
-                    </div>
-                  </div>
-                </a>
+                <div className={styles.author_content}>
+                  <UserInfo userinfo={userinfo} />
+                </div>
               </div>
-            )}
+            )} */}
             {profile && profile.ads[2].show && <Ad item={profile.ads[2]} />}
           </div>
         </div>
