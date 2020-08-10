@@ -1,0 +1,46 @@
+@import '~src/styles/variables.scss';
+
+.container {
+  width: 100%;
+  padding: 15px;
+  // background-color: white;
+  .item,
+  .item_mini {
+    position: relative;
+    display: block;
+    line-height: 30px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    font-size: 14px;
+    color: $color-font;
+    .text {
+      position: relative;
+      &::before {
+        content: '';
+        display: inline-block;
+        position: absolute;
+        left: -12px;
+        top: 8px;
+        width: 6px;
+        height: 6px;
+        border-radius: 3px;
+        background-color: black;
+      }
+    }
+    &_mini {
+      .text {
+        &::before {
+          content: '';
+          display: inline-block;
+          position: absolute;
+          left: -10px;
+          top: 9px;
+          width: 4px;
+          height: 4px;
+          border-radius: 2px;
+          background-color: black;
+        }
+      }
+    }
+  }
+}

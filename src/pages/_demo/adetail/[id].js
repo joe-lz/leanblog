@@ -4,7 +4,7 @@ import AV from 'leancloud-storage'
 import dynamic from 'next/dynamic'
 import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
-import { Remarkable } from 'remarkable'
+const marked = require('marked')
 import hljs from 'highlight.js'
 import { BackTop } from 'antd'
 import dayjs from 'dayjs'
@@ -12,6 +12,7 @@ import dayjs from 'dayjs'
 import styles from './index.module.scss'
 import Layout from 'src/components/_demo/Layout'
 import Comments from 'src/components/_demo/Comments'
+import CategoryList from 'src/components/_demo/CategoryList'
 import Ad from 'src/components/_demo/Ad'
 import UserInfo from 'src/components/_demo/UserInfo'
 import { getArticleById } from 'src/service/article'
@@ -21,21 +22,30 @@ dayjs.locale('zh-cn')
 const relativeTime = require('dayjs/plugin/relativeTime')
 dayjs.extend(relativeTime)
 
-var md = new Remarkable({
-  html: true,
-  highlight: function (str, lang) {
-    if (lang && hljs.getLanguage(lang)) {
-      try {
-        return hljs.highlight(lang, str).value
-      } catch (err) {}
-    }
+const nav = []
+const renderer = new marked.Renderer()
+renderer.heading = function heading(text, level, raw, slugger) {
+  nav.push({ text, level, raw, slugger })
+  if (this.options.headerIds) {
+    return '<h' + level + ' id="' + this.options.headerPrefix + slugger.slug(raw) + '">' + text + '</h' + level + '>\n'
+  } // ignore IDs
+  return '<h' + level + '>' + text + '</h' + level + '>\n'
+}
 
-    try {
-      return hljs.highlightAuto(str).value
-    } catch (err) {}
-
-    return '' // use external default escaping
+marked.setOptions({
+  renderer,
+  highlight: function (code, language) {
+    const hljs = require('highlight.js')
+    const validLanguage = hljs.getLanguage(language) ? language : 'plaintext'
+    return hljs.highlight(validLanguage, code).value
   },
+  pedantic: false,
+  gfm: true,
+  breaks: false,
+  sanitize: false,
+  smartLists: true,
+  smartypants: false,
+  xhtml: false,
 })
 function MyComponent() {
   const router = useRouter()
@@ -44,6 +54,7 @@ function MyComponent() {
   const [author, setauthor] = useState(null)
   const [profile, setprofile] = useState(null)
   const [userinfo, setuserinfo] = useState(null)
+  const [html, sethtml] = useState(null)
 
   useEffect(() => {
     async function fetchData() {
@@ -51,6 +62,7 @@ function MyComponent() {
         const res = await getArticleById({ id: aid })
         setarticleObj(res)
         setauthor(res.attributes.author)
+        sethtml(marked(res.attributes.articleVal))
       }
     }
     fetchData()
@@ -74,7 +86,7 @@ function MyComponent() {
               <article
                 className="markdown-body"
                 dangerouslySetInnerHTML={{
-                  __html: md.render(articleObj.attributes.articleVal),
+                  __html: html,
                 }}
               ></article>
             </div>
@@ -92,6 +104,7 @@ function MyComponent() {
               </div>
             )} */}
             {profile && profile.ads[2].show && <Ad item={profile.ads[2]} />}
+            <CategoryList nav={nav}/>
           </div>
         </div>
       )}
