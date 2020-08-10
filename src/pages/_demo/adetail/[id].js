@@ -4,7 +4,7 @@ import AV from 'leancloud-storage'
 import dynamic from 'next/dynamic'
 import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
-const marked = require('marked')
+import marked from 'marked'
 import hljs from 'highlight.js'
 import { BackTop } from 'antd'
 import dayjs from 'dayjs'
@@ -25,7 +25,13 @@ dayjs.extend(relativeTime)
 const nav = []
 const renderer = new marked.Renderer()
 renderer.heading = function heading(text, level, raw, slugger) {
-  nav.push({ text, level, raw, slugger })
+  nav.push({
+    text,
+    level,
+    raw,
+    slugger,
+    id: this.options.headerPrefix + slugger.slug(raw) + '-1',
+  })
   if (this.options.headerIds) {
     return '<h' + level + ' id="' + this.options.headerPrefix + slugger.slug(raw) + '">' + text + '</h' + level + '>\n'
   } // ignore IDs
@@ -104,7 +110,7 @@ function MyComponent() {
               </div>
             )} */}
             {profile && profile.ads[2].show && <Ad item={profile.ads[2]} />}
-            <CategoryList nav={nav}/>
+            <CategoryList nav={nav} />
           </div>
         </div>
       )}

@@ -4,7 +4,7 @@ import dynamic from 'next/dynamic'
 import React, { useState, useEffect } from 'react'
 import { Tree, Button, notification, Input, Modal, TreeSelect } from 'antd'
 import { useRouter } from 'next/router'
-import { Remarkable } from 'remarkable'
+import marked from 'marked'
 import hljs from 'highlight.js'
 import { getArticleById, updateArticle } from 'src/service/article'
 
@@ -13,23 +13,21 @@ import Layout from 'src/components/_user/Layout'
 import { getMenusList } from 'src/service/menu'
 
 const { TextArea } = Input
-
-// const md = new Remarkable();
-var md = new Remarkable({
-  html: true,
-  highlight: function (str, lang) {
-    if (lang && hljs.getLanguage(lang)) {
-      try {
-        return hljs.highlight(lang, str).value
-      } catch (err) {}
-    }
-
-    try {
-      return hljs.highlightAuto(str).value
-    } catch (err) {}
-
-    return '' // use external default escaping
+const renderer = new marked.Renderer()
+marked.setOptions({
+  renderer,
+  highlight: function (code, language) {
+    const hljs = require('highlight.js')
+    const validLanguage = hljs.getLanguage(language) ? language : 'plaintext'
+    return hljs.highlight(validLanguage, code).value
   },
+  pedantic: false,
+  gfm: true,
+  breaks: false,
+  sanitize: false,
+  smartLists: true,
+  smartypants: false,
+  xhtml: false,
 })
 function AdminHome() {
   const router = useRouter()
@@ -43,17 +41,43 @@ function AdminHome() {
   const [category_2_key, setcategory_2_key] = useState(null)
   const [category_2_title, setcategory_2_title] = useState(null)
   const [articleTitle, setarticleTitle] = useState('')
-  const [articleVal, setarticleVal] = useState(`# Remarkable
-> Experience real-time editing with Remarkable!
+  const [articleVal, setarticleVal] = useState(`
+Marked - Markdown Parser
+========================
 
-***
+[Marked] lets you convert [Markdown] into HTML.  Markdown is a simple text format whose goal is to be very easy to read and write, even when not converted to HTML.  This demo page will let you type anything you like and see how it gets converted.  Live.  No more waiting around.
 
-# h1 Heading
-## h2 Heading
-### h3 Heading
-#### h4 Heading
-##### h5 Heading
-###### h6 Heading
+How To Use The Demo
+-------------------
+
+1. Type in stuff on the left.
+2. See the live updates on the right.
+
+That's it.  Pretty simple.  There's also a drop-down option in the upper right to switch between various views:
+
+- **Preview:**  A live display of the generated HTML as it would render in a browser.
+- **HTML Source:**  The generated HTML before your browser makes it pretty.
+- **Lexer Data:**  What [marked] uses internally, in case you like gory stuff like this.
+- **Quick Reference:**  A brief run-down of how to format things using markdown.
+
+Why Markdown?
+-------------
+
+It's easy.  It's not overly bloated, unlike HTML.  Also, as the creator of [markdown] says,
+
+> The overriding design goal for Markdown's
+> formatting syntax is to make it as readable
+> as possible. The idea is that a
+> Markdown-formatted document should be
+> publishable as-is, as plain text, without
+> looking like it's been marked up with tags
+> or formatting instructions.
+
+Ready to start writing?  Either start changing stuff on the left or
+[clear everything](/demo/?text=) with a simple click.
+
+[Marked]: https://github.com/markedjs/marked/
+[Markdown]: http://daringfireball.net/projects/markdown/
 `)
 
   const handleGetMenu = async () => {
@@ -105,7 +129,7 @@ function AdminHome() {
         category_1_title,
         category_2_key,
         category_2_title,
-        ...params
+        ...params,
       },
     })
     notification.success({
@@ -211,7 +235,7 @@ function AdminHome() {
               <article
                 className="markdown-body"
                 dangerouslySetInnerHTML={{
-                  __html: md.render(articleVal),
+                  __html: marked(articleVal),
                 }}
               ></article>
             </div>

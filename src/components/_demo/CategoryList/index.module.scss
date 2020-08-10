@@ -3,23 +3,27 @@
 .container {
   width: 100%;
   padding: 15px;
-  // background-color: white;
+  max-width: 270px;
+  max-height: 90vh;
+  overflow-y: scroll;
   .item,
   .item_mini {
+    overflow: hidden;
     position: relative;
     display: block;
+    padding-left: 15px;
     line-height: 30px;
-    white-space: nowrap;
-    text-overflow: ellipsis;
     font-size: 14px;
     color: $color-font;
+    white-space: nowrap;
+    text-overflow: ellipsis;
     .text {
       position: relative;
       &::before {
         content: '';
         display: inline-block;
         position: absolute;
-        left: -12px;
+        left: -15px;
         top: 8px;
         width: 6px;
         height: 6px;
@@ -31,14 +35,11 @@
       .text {
         &::before {
           content: '';
-          display: inline-block;
-          position: absolute;
-          left: -10px;
+          left: -15px;
           top: 9px;
           width: 4px;
           height: 4px;
           border-radius: 2px;
-          background-color: black;
         }
       }
     }

@@ -101,6 +101,14 @@ body {
 .github-corner:hover .octo-arm {
   animation: octocat-wave 560ms ease-in-out;
 }
+.article_category_list {
+  a.active {
+    color: $color-link;
+    span {
+      color: $color-link;
+    }
+  }
+}
 @keyframes octocat-wave {
   0%,
   100% {
