@@ -19,20 +19,26 @@ function Components(props) {
     // 获取菜单
     localStorage.getItem('CMS_Menus') && setmenus(JSON.parse(localStorage.getItem('CMS_Menus')))
     const resMenu = await getMenusList()
-    setmenus(resMenu.attributes.value)
-    localStorage.setItem('CMS_Menus', JSON.stringify(resMenu.attributes.value))
+    if (resMenu) {
+      setmenus(resMenu.attributes.value)
+      localStorage.setItem('CMS_Menus', JSON.stringify(resMenu.attributes.value))
+    }
 
     // 获取品牌资料
     localStorage.getItem('CMS_Profile') && setprofile(JSON.parse(localStorage.getItem('CMS_Profile')))
     const resProfile = await getProfileList()
-    setprofile(JSON.parse(JSON.stringify(resProfile)))
-    localStorage.setItem('CMS_Profile', JSON.stringify(resProfile))
+    if (resProfile) {
+      setprofile(JSON.parse(JSON.stringify(resProfile)))
+      localStorage.setItem('CMS_Profile', JSON.stringify(resProfile))
+    }
 
     // 获取用户信息
     localStorage.getItem('CMS_UserInfo') && setcurUserInfo(JSON.parse(localStorage.getItem('CMS_UserInfo')))
     const resUserInfo = await getMyUserInfo()
-    setcurUserInfo(JSON.parse(JSON.stringify(resUserInfo)))
-    localStorage.setItem('CMS_UserInfo', JSON.stringify(resUserInfo))
+    if (resUserInfo) {
+      setcurUserInfo(JSON.parse(JSON.stringify(resUserInfo)))
+      localStorage.setItem('CMS_UserInfo', JSON.stringify(resUserInfo))
+    }
   }
 
   useEffect(() => {

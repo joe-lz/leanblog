@@ -4,6 +4,8 @@ import Particles from 'react-particles-js'
 import React, { useState, useEffect } from 'react'
 import AV from 'leancloud-storage'
 import { Spin, Alert, notification } from 'antd'
+import shortid from 'shortid'
+
 
 import styles from './index.module.scss'
 import leanerrors from 'src/lib/leancloud_error_code.json'
@@ -29,6 +31,7 @@ function Components(props) {
         userinfo.set('user', AV.User.current())
         userinfo.set('nickname', AV.User.current().attributes.username)
         userinfo.set('priority', 1) // 权限等级 默认：1 未授权
+        userinfo.set('shortid', shortid.generate()) // shortid
         // 将对象保存到云端
         userinfo.save().then(
           (todo) => {

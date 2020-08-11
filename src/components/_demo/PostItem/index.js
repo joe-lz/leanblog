@@ -26,7 +26,7 @@ function Components(props) {
     if (props.item && props.userinfo) {
       const itemNew = JSON.parse(JSON.stringify(props.item))
       const likesUser = itemNew.likesUser || []
-      sethasLiked(likesUser.includes(props.userinfo.objectId))
+      sethasLiked(likesUser.includes(props.userinfo.shortid))
       setlikes(itemNew.likes || 0)
     }
   }, [props.item, props.userinfo])
@@ -46,12 +46,20 @@ function Components(props) {
             </p>
           </div>
         </div> */}
-        <UserInfo userinfo={props.item.attributes.userinfo} time={dayjs(props.item.createdAt).format('YYYY/MM/DD')} />
+        <UserInfo
+          userinfo={props.item.attributes.userinfo}
+          time={dayjs(props.item.createdAt).format('YYYY/MM/DD')}
+          followeeList={props.followeeList}
+        />
 
         <div className={styles.postItem_middle}>
           <p className={styles.desc}>{itemNew.desc}</p>
           {itemNew.imgUrl && <div className={styles.imgUrl} style={{ backgroundImage: `url(${itemNew.imgUrl})` }}></div>}
-          {itemNew.topic && <div className={styles.topic}>{itemNew.topic.title}</div>}
+          {itemNew.topic && (
+            <Link href={`/_demo/posts?topic=${itemNew.topic.objectId}`}>
+              <div className={styles.topic}>{itemNew.topic.title}</div>
+            </Link>
+          )}
         </div>
         <div className={styles.postItem_operation}>
           <div
@@ -61,7 +69,7 @@ function Components(props) {
                 postItem: props.item,
                 params: {
                   likes: hasLiked ? -1 : 1,
-                  likesUser_id: props.userinfo.objectId,
+                  likesUser_id: props.userinfo.shortid,
                 },
               })
               setlikes(likes + (hasLiked ? -1 : 1))
