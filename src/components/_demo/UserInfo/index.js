@@ -9,6 +9,13 @@ import { Button, message } from 'antd'
 import styles from './index.module.scss'
 import { userFollow, userUnFollow, userFolloweeList } from 'src/service/user'
 
+
+Components.defaultProps = {
+  followeeList: [],
+  userinfo: null,
+  time: null, 
+}
+
 function Components(props) {
   const userinfoNew = JSON.parse(JSON.stringify(props.userinfo))
   // const [followeeList, setfolloweeList] = useState([])

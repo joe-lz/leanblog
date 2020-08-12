@@ -8,6 +8,11 @@ import { Menu, Dropdown } from 'antd'
 
 import styles from './index.module.scss'
 
+Components.defaultProps = {
+  menus: [],
+  profile: null,
+}
+
 function Components(props) {
   const [modalShow, setmodalShow] = useState(false)
 

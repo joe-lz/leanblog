@@ -10,6 +10,9 @@ import { getMyUserInfo } from 'src/service/user'
 import styles from './index.module.scss'
 import Nav from '../Nav'
 
+Components.defaultProps = {
+  onChange: () => {},
+}
 function Components(props) {
   const [menus, setmenus] = useState(null)
   const [profile, setprofile] = useState(null)
@@ -17,27 +20,54 @@ function Components(props) {
 
   const handleInit = async () => {
     // 获取菜单
-    localStorage.getItem('CMS_Menus') && setmenus(JSON.parse(localStorage.getItem('CMS_Menus')))
-    const resMenu = await getMenusList()
-    if (resMenu) {
-      setmenus(resMenu.attributes.value)
-      localStorage.setItem('CMS_Menus', JSON.stringify(resMenu.attributes.value))
-    }
+    // const local_CMS_Menus = localStorage.getItem('CMS_Menus')
+    // local_CMS_Menus && setmenus(JSON.parse(local_CMS_Menus))
+    // const resMenu = await getMenusList()
+    // if (resMenu) {
+    //   setmenus(resMenu.attributes.value)
+    //   localStorage.setItem('CMS_Menus', JSON.stringify(resMenu.attributes.value))
+    // }
 
     // 获取品牌资料
-    localStorage.getItem('CMS_Profile') && setprofile(JSON.parse(localStorage.getItem('CMS_Profile')))
-    const resProfile = await getProfileList()
-    if (resProfile) {
-      setprofile(JSON.parse(JSON.stringify(resProfile)))
-      localStorage.setItem('CMS_Profile', JSON.stringify(resProfile))
-    }
+    // const local_CMS_Profile = localStorage.getItem('CMS_Profile')
+    // local_CMS_Profile && setprofile(JSON.parse(local_CMS_Profile))
+    // const resProfile = await getProfileList()
+    // if (resProfile) {
+    //   setprofile(JSON.parse(JSON.stringify(resProfile)))
+    //   localStorage.setItem('CMS_Profile', JSON.stringify(resProfile))
+    // }
 
     // 获取用户信息
-    localStorage.getItem('CMS_UserInfo') && setcurUserInfo(JSON.parse(localStorage.getItem('CMS_UserInfo')))
-    const resUserInfo = await getMyUserInfo()
-    if (resUserInfo) {
-      setcurUserInfo(JSON.parse(JSON.stringify(resUserInfo)))
-      localStorage.setItem('CMS_UserInfo', JSON.stringify(resUserInfo))
+    // const local_CMS_UserInfo = localStorage.getItem('CMS_UserInfo')
+    // local_CMS_UserInfo && setcurUserInfo(JSON.parse(local_CMS_UserInfo))
+    // const resUserInfo = await getMyUserInfo()
+    // if (resUserInfo) {
+    //   setcurUserInfo(JSON.parse(JSON.stringify(resUserInfo)))
+    //   localStorage.setItem('CMS_UserInfo', JSON.stringify(resUserInfo))
+    // }
+    try {
+      await getData('CMS_Menus', getMenusList, setmenus)
+      await getData('CMS_Profile', getProfileList, setprofile)
+      await getData('CMS_UserInfo', getMyUserInfo, setcurUserInfo)
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  const getData = async (keyname, func, setFunc) => {
+    // 获取菜单
+    const local_data = localStorage.getItem(keyname)
+    const local_time = Number(localStorage.getItem(`${keyname}_time`))
+    local_data && setFunc(JSON.parse(local_data))
+    if (local_data && local_time + 5 * 60 * 1000 > Date.now()) {
+      setFunc(JSON.parse(local_data))
+    } else {
+      const res = await func()
+      if (res) {
+        setFunc(JSON.parse(JSON.stringify(res)))
+        localStorage.setItem(keyname, JSON.stringify(res))
+        localStorage.setItem(`${keyname}_time`, Date.now())
+      }
     }
   }
 
@@ -46,11 +76,12 @@ function Components(props) {
   }, [])
 
   useEffect(() => {
-    props.onChange && props.onChange({
-      menus,
-      profile,
-      userinfo: curUserInfo,
-    })
+    props.onChange &&
+      props.onChange({
+        menus,
+        profile,
+        userinfo: curUserInfo,
+      })
   }, [menus, profile, curUserInfo])
 
   return (
@@ -80,7 +111,7 @@ function Components(props) {
         </a>
       ) : null}
       {/* {menus && profile && <Nav menus={menus} profile={profile} userinfo={curUserInfo} />} */}
-      {menus && profile && <Nav menus={menus} profile={profile} userinfo={curUserInfo} />}
+      {menus && profile && <Nav menus={menus.value} profile={profile} userinfo={curUserInfo} />}
       <div className={styles.body}>{props.children}</div>
       {profile && (
         <footer>
