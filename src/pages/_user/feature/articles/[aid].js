@@ -6,11 +6,19 @@ import { Tree, Button, notification, Input, Modal, TreeSelect } from 'antd'
 import { useRouter } from 'next/router'
 import marked from 'marked'
 import hljs from 'highlight.js'
-import { getArticleById, updateArticle } from 'src/service/article'
+
+let CodeMirror = null
+if (typeof window !== 'undefined' && typeof window.navigator !== 'undefined') {
+  const { UnControlled } = require('react-codemirror2')
+  CodeMirror = UnControlled
+  require('codemirror/mode/javascript/javascript')
+  // require('codemirror/mode/markdown/markdown')
+}
 
 import styles from './index.module.scss'
 import Layout from 'src/components/_user/Layout'
 import { getMenusList } from 'src/service/menu'
+import { getArticleById, updateArticle } from 'src/service/article'
 
 const { TextArea } = Input
 const renderer = new marked.Renderer()
@@ -223,14 +231,27 @@ Ready to start writing?  Either start changing stuff on the left or
           </div>
           <div className={styles.articles_detail_body}>
             <div className={styles.articles_detail_left}>
-              <TextArea
+              {/* <TextArea
                 autoSize
                 className={styles.articles_detail_left_editor}
                 value={articleVal}
                 onChange={(e) => {
                   setarticleVal(e.target.value)
                 }}
-              />
+              /> */}
+              {CodeMirror && (
+                <CodeMirror
+                  value={articleVal}
+                  options={{
+                    mode: 'javascript',
+                    theme: 'github-light',
+                    lineNumbers: true,
+                  }}
+                  onChange={(editor, data, value) => {
+                    setarticleVal(value)
+                  }}
+                />
+              )}
             </div>
             <div className={styles.articles_detail_right}>
               <article

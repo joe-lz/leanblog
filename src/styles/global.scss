@@ -26,6 +26,9 @@ body {
   color: #333 !important;
 }
 
+.CodeMirror, .react-codemirror2 {
+  height: 100% !important;
+}
 .ant-table-pagination.ant-pagination {
   margin-right: 15px;
 }
