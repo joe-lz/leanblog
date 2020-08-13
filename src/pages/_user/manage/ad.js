@@ -66,12 +66,12 @@ function AdminHome(props) {
 
   return (
     <Layout
-      onGetUserInfo={(e) => {
-        setcurUserInfo(e)
+      onChange={(params) => {
+        setcurUserInfo(params.userinfo)
       }}
     >
       <p className="_admin_body_section_title">广告设置</p>
-      {curUserInfo && curUserInfo.priority === 100 && profile ? (
+      {curUserInfo && curUserInfo.toJSON().priority === 100 && profile ? (
         <div className={styles.ad}>
           {adValues.map((obj, index) => {
             return (

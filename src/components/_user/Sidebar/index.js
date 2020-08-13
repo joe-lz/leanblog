@@ -28,7 +28,7 @@ function Components(props) {
           功能
         </div>
         <div className={styles.sidebar_item_placeholder}></div>
-        <Item2 path="/_user/feature/articles" title="文章管理" />
+        <Item2 path="/_user/feature/articles" title="我的文章" />
         <Item2 path="/_user/feature/assets" title="素材管理" />
       </div>
       <div className={styles.sidebar_item}>

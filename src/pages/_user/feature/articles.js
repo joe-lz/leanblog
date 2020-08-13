@@ -20,10 +20,16 @@ function AdminHome() {
   // const [author, setauthor] = useState('')
   const [articleLists, setarticleLists] = useState([])
   const [curUserInfo, setcurUserInfo] = useState(null)
+  const [curUser, setcurUser] = useState(null)
+  const curUserInfoItem = curUserInfo ? curUserInfo.toJSON() : null
 
   const handleCreate = async () => {
     if (title) {
-      await createArticle({ title, author: AV.Object.createWithoutData('CMS_UserInfo', curUserInfo.objectId) })
+      await createArticle({
+        title,
+        author: curUserInfo,
+        user: curUser,
+      })
       setcreateModalShow(false)
       // 获取文章列表
       await getList()
@@ -34,7 +40,11 @@ function AdminHome() {
     setisSpin(true)
     // 获取文章列表
     const resList = await getArticleList(
-      Object.assign({ status }, curUserInfo && curUserInfo.priority === 100 ? {} : { user: AV.User.current() })
+      // Object.assign({ status }, curUserInfoItem && curUserInfoItem.priority === 100 ? {} : { user: AV.User.current() })
+      Object.assign({
+        status,
+        user: AV.User.current(),
+      })
     )
     setarticleLists(resList)
     setisSpin(false)
@@ -60,11 +70,12 @@ function AdminHome() {
 
   return (
     <Layout
-      onGetUserInfo={(e) => {
-        setcurUserInfo(e)
+      onChange={(params) => {
+        setcurUserInfo(params.userinfo)
+        setcurUser(params.curUser)
       }}
     >
-      <p className="_admin_body_section_title">文章管理</p>
+      <p className="_admin_body_section_title">我的文章</p>
       <div className="_admin_body_section_block">
         <div className="_admin_body_section_block_nav">
           {articleStatus.map((obj) => {
@@ -84,17 +95,19 @@ function AdminHome() {
       </div>
       <Spin spinning={isSpin} tip="加载中...">
         <div className={styles.articles}>
-          <div
-            className={styles.articles_add}
-            onClick={() => {
-              setcreateModalShow(true)
-            }}
-          >
-            <div className={styles.articles_add_content}>
-              <p className={styles.icon}>+</p>
-              <p>新的创作</p>
+          {status === 1 && (
+            <div
+              className={styles.articles_add}
+              onClick={() => {
+                setcreateModalShow(true)
+              }}
+            >
+              <div className={styles.articles_add_content}>
+                <p className={styles.icon}>+</p>
+                <p>新的创作</p>
+              </div>
             </div>
-          </div>
+          )}
           {articleLists.map((obj) => {
             return (
               <ArticleItem

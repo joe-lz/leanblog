@@ -108,11 +108,11 @@ function AdminHome() {
 
   return (
     <Layout
-      onGetUserInfo={(e) => {
-        setcurUserInfo(e)
+      onChange={(params) => {
+        setcurUserInfo(params.userinfo)
       }}
     >
-      {curUserInfo && curUserInfo.priority === 100 ? (
+      {curUserInfo && curUserInfo.toJSON().priority === 100 ? (
         <div className={styles.menus}>
           <p className="_admin_body_section_title">自定义菜单</p>
           <div className="_admin_body_section_block" style={{ padding: 30 }}>

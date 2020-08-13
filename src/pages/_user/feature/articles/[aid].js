@@ -83,7 +83,7 @@ Ready to start writing?  Either start changing stuff on the left or
   const handleGetMenu = async () => {
     // 获取菜单
     const res = await getMenusList()
-    setmenus(res.attributes.value)
+    setmenus(res.toJSON().value)
   }
 
   const onCategoryChange = (selectKey) => {
@@ -148,18 +148,19 @@ Ready to start writing?  Either start changing stuff on the left or
         async function fetchData() {
           // 获取文章
           const res = await getArticleById({ id: aid })
-          setcategory_1_key(res.attributes.category_1_key)
-          setcategory_1_title(res.attributes.category_1_title)
-          setcategory_2_key(res.attributes.category_2_key)
-          setcategory_2_title(res.attributes.category_2_title)
+          const articleItem = res.toJSON()
+          setcategory_1_key(articleItem.category_1_key)
+          setcategory_1_title(articleItem.category_1_title)
+          setcategory_2_key(articleItem.category_2_key)
+          setcategory_2_title(articleItem.category_2_title)
           try {
             setarticleItem(res)
-            setarticleTitle(res.attributes.title)
+            setarticleTitle(articleItem.title)
           } catch (error) {
             console.log(error)
           }
-          if (res.attributes.articleVal) {
-            setarticleVal(res.attributes.articleVal)
+          if (articleItem.articleVal) {
+            setarticleVal(articleItem.articleVal)
           }
         }
         fetchData()

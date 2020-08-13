@@ -17,9 +17,9 @@ function AdminHome(props) {
     // 获取我的授权状态
     const query = new AV.Query('CMS_UserInfo')
     // query.equalTo("user", curUser);
-    query.include('user')
+    // query.include('user')
     query.limit(50)
-    query.descending('updatedAt')
+    query.descending('createdAt')
     query
       .find()
       .then((res) => {
@@ -58,7 +58,8 @@ function AdminHome(props) {
       dataIndex: 'username',
       key: 'username',
       render: (res, item) => {
-        return <div>{item.attributes.user.attributes.username}</div>
+        const itemJSON = item.toJSON()
+        return <div>{itemJSON.nickname}</div>
       },
     },
     {
@@ -114,7 +115,7 @@ function AdminHome(props) {
       render: (res, item) => (
         <div>
           <Radio.Group
-            defaultValue={item.attributes.priority}
+            defaultValue={item.toJSON().priority}
             buttonStyle="solid"
             style={{}}
             onChange={(e) => {
@@ -128,7 +129,7 @@ function AdminHome(props) {
           >
             {priorityArr.map((obj) => {
               return (
-                <Radio.Button value={obj.value} key={`${obj.value}_${obj.labbel}`} checked={obj.value === item.attributes.priority}>
+                <Radio.Button value={obj.value} key={`${obj.value}_${obj.labbel}`} checked={obj.value === item.toJSON().priority}>
                   {obj.label}
                 </Radio.Button>
               )
@@ -141,12 +142,12 @@ function AdminHome(props) {
 
   return (
     <Layout
-      onGetUserInfo={(e) => {
-        setcurUserInfo(e)
+      onChange={(params) => {
+        setcurUserInfo(params.userinfo)
       }}
     >
       <p className="_admin_body_section_title">用户管理</p>
-      {curUserInfo && curUserInfo.priority === 100 ? (
+      {curUserInfo && curUserInfo.toJSON().priority === 100 ? (
         <div className="_admin_body_section_block">
           <Table columns={columns} dataSource={userlist} rowKey={(record) => record.id} style={{ width: '100%' }} />
         </div>

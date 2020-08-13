@@ -6,35 +6,43 @@ import { Menu, Dropdown } from 'antd'
 import styles from './index.module.scss'
 import priorityArr from 'src/lib/priority'
 
+Components.defaultProps = {
+  curUser: null, //pointer
+  userinfo: null, // pointer
+  profile: null,  // pointer
+}
 function Components(props) {
-  let { curUser, userinfo } = props
-  curUser = JSON.parse(JSON.stringify(curUser))
+  let { curUser, userinfo, profile } = props
+
   let priorityLabel = ''
   priorityArr.map((obj) => {
-    if (userinfo && obj.value == userinfo.priority) {
+    if (userinfo && obj.value == userinfo.attributes.priority) {
       priorityLabel = obj.label
     }
   })
 
-  const { profile } = props
 
   const menu = (
-    <Menu>
-      {/* <Menu.Item>
-        <a target="_blank" rel="noopener noreferrer" href="http://www.alipay.com/">
-          1st menu item
-        </a>
-      </Menu.Item> */}
-      <Menu.Item
-        danger
-        onClick={() => {
-          localStorage.clear()
-          window.location.reload()
-        }}
-      >
-        退出登录
-      </Menu.Item>
-    </Menu>
+    <>
+      {userinfo && (
+        <Menu>
+          <Menu.Item>
+            <a target="_blank" href={`/_demo/user/${userinfo.id}`}>
+              我的主页
+            </a>
+          </Menu.Item>
+          <Menu.Item
+            danger
+            onClick={() => {
+              localStorage.clear()
+              window.location.reload()
+            }}
+          >
+            退出登录
+          </Menu.Item>
+        </Menu>
+      )}
+    </>
   )
 
   return (
@@ -53,13 +61,13 @@ function Components(props) {
           <div className={styles.priority}>
             <span>{priorityLabel}</span>
           </div>
-          {curUser && (
+          {userinfo && (
             <>
               <span className={styles.divider}>|</span>
               <Dropdown overlay={menu} arrow placement="bottomRight">
                 <div className={styles.link} onClick={(e) => e.preventDefault()}>
                   <div className={styles.btn}>
-                    <span>{curUser.username}</span>
+                    <span>{userinfo.attributes.nickname}</span>
                     <i className="iconfont icon-down" style={{ fontSize: 12 }}></i>
                   </div>
                 </div>

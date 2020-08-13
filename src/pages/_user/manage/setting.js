@@ -23,7 +23,7 @@ function AdminHome(props) {
   const [allowBComment, setallowBComment] = useState(false)
   const [showBlog, setshowBlog] = useState(false)
   const [blogName, setblogName] = useState('')
-  
+
   // 获取资料
   const getProfile = () => {
     getProfileList().then((res) => {
@@ -75,12 +75,12 @@ function AdminHome(props) {
 
   return (
     <Layout
-      onGetUserInfo={(e) => {
-        setcurUserInfo(e)
+      onChange={(params) => {
+        setcurUserInfo(params.userinfo)
       }}
     >
       <p className="_admin_body_section_title">基本设置</p>
-      {curUserInfo && curUserInfo.priority === 100 && profile ? (
+      {curUserInfo && curUserInfo.toJSON().priority === 100 && profile ? (
         <div className={styles.setting}>
           <div className="_admin_body_section_block" style={{ padding: 30 }}>
             <InputItem
