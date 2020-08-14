@@ -1,7 +1,6 @@
 {
   "name": "leanblog",
   "version": "0.1.0",
-  "private": true,
   "scripts": {
     "postinstall": "npm run build",
     "dev": "next dev",
