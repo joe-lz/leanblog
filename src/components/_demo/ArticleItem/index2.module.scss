@@ -42,6 +42,22 @@
       //   font-size: 14px;
       //   color: $color-disabled;
       // }
+      .actions {
+        padding-top: 15px;
+        &_item {
+          display: inline-block;
+          margin-right: 15px;
+          color: $color-disabled;
+          font-size: 12px;
+          height: 30px;
+          line-height: 30px;
+          i {
+            display: inline-block;
+            width: 20px;
+            color: $color-disabled;
+          }
+        }
+      }
     }
   }
 }

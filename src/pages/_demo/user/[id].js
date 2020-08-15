@@ -92,6 +92,7 @@ function MyComponent() {
               <div className={styles.nav}>
                 <div className={styles.nav_item}>文章</div>
                 {profile.showBlog && <div className={styles.nav_item}>{profile.blogName}</div>}
+                <div className={styles.nav_item}>收藏</div>
               </div>
             </div>
           </div>

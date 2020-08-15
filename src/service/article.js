@@ -25,9 +25,13 @@ export const updateArticle = ({ articleItem, params }) => {
   return new Promise((resolve, reject) => {
     // articleItem.set("articleVal", articleVal);
     // articleItem.set("title", articleTitle);
-    Object.keys(params).map((keyname) => {
-      articleItem.set(keyname, params[keyname])
-    })
+    if (params.views) {
+      articleItem.increment('views', params.views)
+    } else {
+      Object.keys(params).map((keyname) => {
+        articleItem.set(keyname, params[keyname])
+      })
+    }
     articleItem.save().then(
       (res) => {
         resolve(res)

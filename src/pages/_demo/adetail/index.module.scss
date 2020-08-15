@@ -6,6 +6,52 @@
   margin: 30px auto;
   width: 100%;
   max-width: 1200px;
+  .actions {
+    // position: fixed;
+    // bottom: 0;
+    // z-index: 100;
+    // width: 900px;
+    // margin-left: -80px;
+    // background-color: white;
+    padding-top: 50px;
+    padding-bottom: 50px;
+    margin-top: 50px;
+    border-top: 1px solid $color-border;
+    text-align: center;
+    &_item, &_item_active {
+      position: relative;
+      display: inline-block;
+      margin: 0px 50px;
+      cursor: pointer;
+      width: 50px;
+      height: 50px;
+      line-height: 50px;
+      text-align: center;
+      border-radius: 50%;
+      background-color: $color-btnbg-hover;
+      &_active {
+        background-color: $color-btnbg-dark;
+      }
+      i {
+        color: $color-disabled;
+        font-size: 20px;
+      }
+      .number {
+        position: absolute;
+        left: 30px;
+        top: -5px;
+        transform: scale(0.8);
+        padding: 0 8px;
+        height: 20px;
+        line-height: 20px;
+        border-radius: 20px;
+        font-size: 12px;
+        background-color: $color-disabled;
+        color: white;
+
+      }
+    }
+  }
   .left {
     // width: 900px;
     // overflow: hidden;

@@ -6,7 +6,7 @@ import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import marked from 'marked'
 import hljs from 'highlight.js'
-import { BackTop } from 'antd'
+import { BackTop, message } from 'antd'
 import dayjs from 'dayjs'
 
 import styles from './index.module.scss'
@@ -15,7 +15,8 @@ import Comments from 'src/components/_demo/Comments'
 import CategoryList from 'src/components/_demo/CategoryList'
 import Ad from 'src/components/_demo/Ad'
 import UserInfo from 'src/components/_demo/UserInfo'
-import { getArticleById } from 'src/service/article'
+import { getArticleById, updateArticle } from 'src/service/article'
+import { createCollect, deleteCollect, countCollect, getMyCollect } from 'src/service/collect'
 
 require('dayjs/locale/zh-cn')
 dayjs.locale('zh-cn')
@@ -57,22 +58,52 @@ function MyComponent() {
   const router = useRouter()
   const aid = router.query.id
   const [articleObj, setarticleObj] = useState(null)
+  const [articleObjJSON, setarticleObjJSON] = useState(null)
   const [author, setauthor] = useState(null)
   const [profile, setprofile] = useState(null)
   const [userinfo, setuserinfo] = useState(null)
   const [html, sethtml] = useState(null)
+  const [views, setviews] = useState(0)
+  const [collects, setcollects] = useState(0)
+  const [myCollect, setmyCollect] = useState(null)
 
   useEffect(() => {
     async function fetchData() {
       if (aid) {
         const res = await getArticleById({ id: aid })
         setarticleObj(res)
+        setarticleObjJSON(res.toJSON())
         setauthor(res.attributes.author)
         sethtml(marked(res.attributes.articleVal))
+        // 访问数+1
+        await updateArticle({
+          articleItem: res,
+          params: { views: 1 },
+        })
+        // 收藏数量
+        setcollects(await countCollect({ article: res }))
+        setviews(res.attributes.views)
+
+        // 我是否收藏
+        setmyCollect(await getMyCollect({ article: res }))
       }
     }
     fetchData()
   }, [router])
+
+  const handleCollect = async () => {
+    if (myCollect) {
+      await deleteCollect({ collect: myCollect })
+      setcollects(await countCollect({ article: articleObj }))
+      setmyCollect(await getMyCollect({ article: articleObj }))
+      message.success('取消收藏')
+    } else {
+      await createCollect({ article: articleObj })
+      setcollects(await countCollect({ article: articleObj }))
+      setmyCollect(await getMyCollect({ article: articleObj }))
+      message.success('收藏成功')
+    }
+  }
 
   return (
     <Layout
@@ -83,18 +114,36 @@ function MyComponent() {
     >
       <BackTop />
       {/* 文章列表 */}
-      {articleObj && (
+      {articleObj && articleObjJSON && (
         <div className={styles.container}>
           <div className={styles.left}>
             <div className={styles.left_content}>
-              <UserInfo userinfo={author} time={dayjs(articleObj.createdAt).format('YYYY/MM/DD')} />
-              <p className={styles.title}>{articleObj.attributes.title}</p>
+              <UserInfo userinfo={author} time={dayjs(articleObj.createdAt).format('YYYY/MM/DD')} views={views} />
+              <p className={styles.title}>{articleObjJSON.title}</p>
               <article
                 className="markdown-body"
                 dangerouslySetInnerHTML={{
                   __html: html,
                 }}
               ></article>
+              <div className={styles.actions}>
+                <div className={styles.actions_item}>
+                  <i className="iconfont icon-tubiaozhizuo-"></i>
+                  {articleObjJSON.likes && <span className={styles.number}>{articleObjJSON.likes || 0}</span>}
+                </div>
+                <div className={styles.actions_item}>
+                  <i className="iconfont icon-tubiaozhizuo--copy"></i>
+                  {articleObjJSON.dislikes && <span className={styles.number}>{articleObjJSON.dislikes || 0}</span>}
+                </div>
+                <div className={myCollect ? styles.actions_item_active : styles.actions_item} onClick={handleCollect}>
+                  <i className="iconfont icon-star"></i>
+                  {collects ? <span className={styles.number}>{collects || 0}</span> : ''}
+                </div>
+                <div className={styles.actions_item}>
+                  <i className="iconfont icon-message_three_points"></i>
+                  {articleObjJSON.comments && <span className={styles.number}>{articleObjJSON.comments || 0}</span>}
+                </div>
+              </div>
             </div>
             <div className={styles.left_content}>
               <Comments type="article" id={articleObj} userinfo={userinfo} />

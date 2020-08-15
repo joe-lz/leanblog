@@ -9,11 +9,11 @@ import { Button, message } from 'antd'
 import styles from './index.module.scss'
 import { userFollow, userUnFollow, userFolloweeList } from 'src/service/user'
 
-
 Components.defaultProps = {
   followeeList: [],
   userinfo: null,
-  time: null, 
+  time: null,
+  views: 0,
 }
 
 function Components(props) {
@@ -65,7 +65,9 @@ function Components(props) {
                 <p className={styles.about}>
                   {userinfoNew.position}
                   {userinfoNew.co_name ? `@${userinfoNew.co_name}` : ''}
-                  {props.time ? `・${props.time}` : ''}
+                  {userinfoNew.position || userinfoNew.co_name ? '・' : ''}
+                  {props.time ? `${props.time}` : ''}
+                  {props.views ? `・阅读 ${props.views}` : ''}
                 </p>
               </div>
             </div>
