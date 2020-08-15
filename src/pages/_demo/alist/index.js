@@ -55,7 +55,7 @@ function MyComponent() {
           {articleLists &&
             articleLists.length > 0 &&
             articleLists.map((obj) => {
-              return <ArticleItem key={obj.id} data={obj} />
+              return <ArticleItem key={obj.id} data={obj.toJSON()} />
             })}
           {articleLists && articleLists.length === 0 && (
             <div className={styles.nodata}>

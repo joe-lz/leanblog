@@ -20,6 +20,8 @@ import { getMyUserInfo } from 'src/service/user'
 
 Components.defaultProps = {
   onChange: () => {},
+  hideSidebar: false,
+  bodyStyle: {},
 }
 
 function Components(props) {
@@ -84,7 +86,7 @@ function Components(props) {
         <title>管理后台</title>
       </Head>
       <Nav type="login" curUser={curUser} userinfo={userinfo} profile={profile} />
-      <div className={styles.body}>
+      <div className={styles.body} style={props.bodyStyle}>
         {!curUser && <Login profile={profile} />}
         {curUser && (
           <BodyContent priority={userinfo ? userinfo.toJSON().priority : 0} userinfo={userinfo} hideSidebar={props.hideSidebar}>

@@ -1,7 +1,7 @@
 import Head from 'next/head'
 import Link from 'next/link'
 import React, { useState, useEffect } from 'react'
-import { Menu, Dropdown } from 'antd'
+import { Menu, Dropdown, Divider } from 'antd'
 
 import styles from './index.module.scss'
 import priorityArr from 'src/lib/priority'
@@ -9,7 +9,7 @@ import priorityArr from 'src/lib/priority'
 Components.defaultProps = {
   curUser: null, //pointer
   userinfo: null, // pointer
-  profile: null,  // pointer
+  profile: null, // pointer
 }
 function Components(props) {
   let { curUser, userinfo, profile } = props
@@ -20,7 +20,6 @@ function Components(props) {
       priorityLabel = obj.label
     }
   })
-
 
   const menu = (
     <>

@@ -36,7 +36,7 @@ export default class MyDocument extends Document {
           `,
             }}
           />
-          <link rel="stylesheet" href="//at.alicdn.com/t/font_1979855_em8l4hl3jzq.css"></link>
+          <link rel="stylesheet" href="//at.alicdn.com/t/font_1979855_khyu32yhn4.css"></link>
         </Head>
         <body>
           <Main />

@@ -16,6 +16,20 @@ export const getMyUserInfo = (params = {}) => {
   })
 }
 
+export const getUserInfoById = (params = {}) => {
+  return new Promise((resolve, reject) => {
+    const query = new AV.Query('CMS_UserInfo')
+    query
+      .get(params.id)
+      .then((res) => {
+        resolve(res)
+      })
+      .catch((err) => {
+        reject(err)
+      })
+  })
+}
+
 export const updateUserInfo = ({ userinfoItem, params }) => {
   return new Promise((resolve, reject) => {
     Object.keys(params).map((keyname) => {

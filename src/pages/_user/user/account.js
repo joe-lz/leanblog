@@ -19,6 +19,8 @@ function AdminHome() {
   const [social_link, setsocial_link] = useState('')
   const [co_name, setco_name] = useState('')
   const [position, setposition] = useState('')
+  const [city, setcity] = useState('')
+  const [email, setemail] = useState('')
 
   // 更新
   const handlesubmit = async () => {
@@ -32,6 +34,8 @@ function AdminHome() {
         social_link,
         co_name,
         position,
+        city,
+        email
       },
     })
     getData()
@@ -51,6 +55,8 @@ function AdminHome() {
     setsocial_link(res.attributes.social_link)
     setco_name(res.attributes.co_name)
     setposition(res.attributes.position)
+    setcity(res.attributes.city)
+    setemail(res.attributes.email)
   }
   useEffect(() => {
     getData()
@@ -78,22 +84,6 @@ function AdminHome() {
             }}
           />
           <InputItem
-            title="公司名称"
-            placeholder="请输入公司名称"
-            value={co_name}
-            onChange={(e) => {
-              setco_name(e)
-            }}
-          />
-          <InputItem
-            title="职业"
-            placeholder="请输入职业"
-            value={position}
-            onChange={(e) => {
-              setposition(e)
-            }}
-          />
-          <InputItem
             title="简介"
             placeholder="请输入简介"
             value={desc}
@@ -101,6 +91,18 @@ function AdminHome() {
               setdesc(e)
             }}
           />
+          <InputItem
+            title="所在城市"
+            placeholder="请输入所在城市"
+            value={city}
+            onChange={(e) => {
+              setcity(e)
+            }}
+          />
+        </div>
+      </div>
+      <div className="_admin_body_section_block" style={{ padding: 30 }}>
+        <div className={styles.user}>
           <InputItem
             title="社交账号"
             placeholder="请输入社交账号"
@@ -115,6 +117,34 @@ function AdminHome() {
             value={github}
             onChange={(e) => {
               setgithub(e)
+            }}
+          />
+          <InputItem
+            title="Email"
+            placeholder="请输入Email"
+            value={email}
+            onChange={(e) => {
+              setemail(e)
+            }}
+          />
+        </div>
+      </div>
+      <div className="_admin_body_section_block" style={{ padding: 30 }}>
+        <div className={styles.user}>
+          <InputItem
+            title="公司名称"
+            placeholder="请输入公司名称"
+            value={co_name}
+            onChange={(e) => {
+              setco_name(e)
+            }}
+          />
+          <InputItem
+            title="职业"
+            placeholder="请输入职业"
+            value={position}
+            onChange={(e) => {
+              setposition(e)
             }}
           />
         </div>

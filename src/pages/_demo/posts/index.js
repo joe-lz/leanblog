@@ -69,12 +69,13 @@ function MyComponent() {
   useEffect(() => {
     const topicid = router.query.topic
     const actionType = router.query.type
+
     if (topicid) {
       fetchPosts({ topic: AV.Object.createWithoutData('CMS_Topics', topicid) })
     } else if (actionType === 'follow') {
       // 获取我关注的动态
     } else {
-      fetchPosts()
+      // fetchPosts()
     }
   }, [router])
 

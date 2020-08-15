@@ -177,7 +177,7 @@ Ready to start writing?  Either start changing stuff on the left or
   }, [router])
 
   return (
-    <Layout hideSidebar>
+    <Layout hideSidebar bodyStyle={{ paddingBottom: 0 }}>
       {articleItem && (
         <div className={styles.articles_detail}>
           <div className={styles.articles_detail_title}>
