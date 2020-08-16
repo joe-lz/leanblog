@@ -7,6 +7,7 @@ import React, { useState, useEffect } from 'react'
 
 import styles from './index.module.scss'
 import PostItem from 'src/components/_demo/PostItem'
+import NoData from 'src/components/_user/NoData'
 import { getPostList } from 'src/service/post'
 
 Components.defaultProps = {
@@ -30,9 +31,8 @@ function Components(props) {
     }
   }, [props.userinfo])
 
-  useEffect(() => {
-  }, [])
-  
+  useEffect(() => {}, [])
+
   return (
     <div className={styles.list}>
       {postLists &&
@@ -40,6 +40,7 @@ function Components(props) {
         postLists.map((obj) => {
           return <PostItem key={obj.id} item={obj} userinfo={props.userinfo} followeeList={[]} />
         })}
+      {postLists && postLists.length === 0 && <NoData />}
     </div>
   )
 }

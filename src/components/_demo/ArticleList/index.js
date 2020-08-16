@@ -7,6 +7,7 @@ import React, { useState, useEffect } from 'react'
 
 import styles from './index.module.scss'
 import ArticleItem from 'src/components/_demo/ArticleItem'
+import NoData from 'src/components/_user/NoData'
 import { getArticleList } from 'src/service/article'
 
 Components.defaultProps = {
@@ -37,6 +38,7 @@ function Components(props) {
           return <ArticleItem key={obj.id} data={obj.toJSON()} />
           // return <ArticleItem key={obj.id} data={obj.toJSON()} style={{ paddingLeft: 0 }} />
         })}
+      {articleLists && articleLists.length === 0 && <NoData />}
     </div>
   )
 }

@@ -7,6 +7,7 @@ import React, { useState, useEffect } from 'react'
 
 import styles from './index.module.scss'
 import ArticleItem from 'src/components/_demo/ArticleItem'
+import NoData from 'src/components/_user/NoData'
 import { getCollectList } from 'src/service/collect'
 
 Components.defaultProps = {
@@ -29,6 +30,7 @@ function Components(props) {
     }
   }, [props.userinfo])
 
+console.error(collectLists);
   return (
     <div className={styles.list}>
       {collectLists &&
@@ -37,6 +39,7 @@ function Components(props) {
           return <ArticleItem key={obj.id} data={obj.toJSON().article} />
           // return <ArticleItem key={obj.id} data={obj.toJSON().article} style={{ paddingLeft: 0 }} />
         })}
+      {collectLists && collectLists.length === 0 && <NoData />}
     </div>
   )
 }

@@ -31,14 +31,14 @@ function Components(props) {
       : dayjs(props.data.createdAt).format('YYYY/MM/DD')
   return (
     <>
-      {props.data && props.data.author && (
+      {props.data && (
         <a
           target="_blank"
           href={`/_demo/adetail/${props.data.objectId}?cate1=${props.data.category_1_key}&cate2=${props.data.category_2_key}`}
         >
           <div className={styles.articleItem} style={props.style}>
             <div className={styles.articleItem_userinfo}>
-              <span className="username">{props.data.author.nickname}</span>
+              <span className="username">{props.data.author ? props.data.author.nickname : '匿名'}</span>
               <span className={styles.time}>・{time}</span>
               <span className={styles.time}>・{`${props.data.category_2_title}`}</span>
             </div>
