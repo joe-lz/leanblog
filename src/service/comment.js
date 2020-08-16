@@ -69,3 +69,15 @@ export const getCommentList = (params = {}) => {
       })
   })
 }
+
+
+export const countComments = (params = {}) => {
+  return new Promise((resolve, reject) => {
+    const query = new AV.Query('CMS_Comments')
+    query.equalTo('aid', params.article)
+
+    query.count().then((number) => {
+      resolve(number)
+    })
+  })
+}

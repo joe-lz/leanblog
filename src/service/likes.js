@@ -1,12 +1,12 @@
 import AV from 'leancloud-storage'
 
-export const createCollect = (params = {}) => {
+export const createLike = (params = {}) => {
   return new Promise((resolve, reject) => {
-    const collects = new AV.Object('CMS_Collects')
-    collects.set('user', AV.User.current())
-    collects.set('article', params.article)
+    const likes = new AV.Object('CMS_Likes')
+    likes.set('user', AV.User.current())
+    likes.set('article', params.article)
     // 将对象保存到云端
-    collects.save().then(
+    likes.save().then(
       (res) => {
         resolve(res)
       },
@@ -18,7 +18,7 @@ export const createCollect = (params = {}) => {
   })
 }
 
-export const deleteCollect = (params = {}) => {
+export const deleteLike = (params = {}) => {
   return new Promise((resolve, reject) => {
     params.item.destroy().then(() => {
       resolve()
@@ -26,9 +26,9 @@ export const deleteCollect = (params = {}) => {
   })
 }
 
-export const countCollect = (params = {}) => {
+export const countLike = (params = {}) => {
   return new Promise((resolve, reject) => {
-    const query = new AV.Query('CMS_Collects')
+    const query = new AV.Query('CMS_Likes')
     // query.equalTo('user', AV.User.current())
     query.equalTo('article', params.article)
 
@@ -38,9 +38,9 @@ export const countCollect = (params = {}) => {
   })
 }
 
-export const getMyCollect = (params = {}) => {
+export const getMyLike = (params = {}) => {
   return new Promise((resolve, reject) => {
-    const query = new AV.Query('CMS_Collects')
+    const query = new AV.Query('CMS_Likes')
     query.equalTo('user', AV.User.current())
     query.equalTo('article', params.article)
     query

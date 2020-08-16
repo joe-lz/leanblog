@@ -28,9 +28,15 @@
       line-height: 50px;
       text-align: center;
       border-radius: 50%;
-      background-color: $color-btnbg-hover;
+      background-color: $color-btnbg;
+      box-shadow: $box-shadow;
+      // border: 1px solid $color-border;
       &_active {
-        background-color: $color-btnbg-dark;
+        // background-color: $color-btnbg-dark;
+        background-color: $color-error;
+        i {
+          color: white !important;
+        }
       }
       i {
         color: $color-disabled;

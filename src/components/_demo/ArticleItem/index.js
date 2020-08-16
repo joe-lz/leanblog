@@ -43,12 +43,13 @@ function Components(props) {
             <div className={styles.actions}>
               <div className={styles.actions_item}>
                 <i className="iconfont icon-tubiaozhizuo-"></i>
-                120
+                {props.data.likes || ''}
               </div>
               <div className={styles.actions_item}>
-                <i className="iconfont icon-tubiaozhizuo--copy" style={{position: 'relative', top: 3}}></i>
-                120
+                <i className="iconfont icon-star"></i>
+                {props.data.collects || ''}
               </div>
+              <div className={styles.actions_item}>{`阅读 ${props.data.views || 0}`}</div>
             </div>
           </div>
         </div>

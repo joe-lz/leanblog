@@ -27,6 +27,10 @@ export const updateArticle = ({ articleItem, params }) => {
     // articleItem.set("title", articleTitle);
     if (params.views) {
       articleItem.increment('views', params.views)
+    } else if (params.collects) {
+      articleItem.increment('collects', params.collects)
+    } else if (params.likes) {
+      articleItem.increment('likes', params.likes)
     } else {
       Object.keys(params).map((keyname) => {
         articleItem.set(keyname, params[keyname])
