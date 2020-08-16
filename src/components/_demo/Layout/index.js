@@ -121,9 +121,9 @@ function Components(props) {
           </div>
           <div className={styles.footer_powerby}>
             <p className={styles.title}>
-              <i className="iconfont icon-github"></i>
               {`Powered By `}
               <a href={process.env.brandLink} className="link" target='_blank'>
+                <i className="iconfont icon-github"></i>
                 「{process.env.brandName}」
               </a>
               .
