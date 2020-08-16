@@ -1,14 +1,19 @@
 import Head from 'next/head'
 import AV from 'leancloud-storage'
+import Link from 'next/link'
 import dynamic from 'next/dynamic'
 import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import hljs from 'highlight.js'
-import { BackTop } from 'antd'
+import { BackTop, Button } from 'antd'
 import dayjs from 'dayjs'
 
 import styles from './index.module.scss'
 import Layout from 'src/components/_demo/Layout'
+import UserInfoCenter from 'src/components/_demo/UserInfoCenter'
+import ArticleList from 'src/components/_demo/ArticleList'
+import CollectList from 'src/components/_demo/CollectList'
+import PostList from 'src/components/_demo/PostList'
 import { getUserInfoById } from 'src/service/user'
 
 require('dayjs/locale/zh-cn')
@@ -22,12 +27,12 @@ function MyComponent() {
   const [profile, setprofile] = useState(null)
   const [userinfo, setuserinfo] = useState(null)
   const [curUserInfo, setcurUserInfo] = useState(null)
+  const [activeNumber, setactiveNumber] = useState(1)
 
   useEffect(() => {
     async function fetchData() {
       if (uId) {
         const res = await getUserInfoById({ id: uId })
-        console.log(res)
         setcurUserInfo(res)
       }
     }
@@ -47,53 +52,40 @@ function MyComponent() {
         <div className={styles.container}>
           <div className={styles.content}>
             <div className={styles.left}>
-              <div className={styles.avatar} style={{ backgroundImage: `url(${curUserInfoJOSN.avatar})` }}></div>
-              <div className={styles.nickname}>{curUserInfoJOSN.nickname}</div>
-              {curUserInfoJOSN.position && <p className={styles.position}>{curUserInfoJOSN.position}</p>}
-              {curUserInfoJOSN.desc && <div className={styles.desc}>{curUserInfoJOSN.desc}</div>}
-              {curUserInfoJOSN.co_name && (
-                <div className={styles.item}>
-                  <i className="iconfont icon-company"></i>
-                  {curUserInfoJOSN.co_name}
-                </div>
-              )}
-              {curUserInfoJOSN.city && (
-                <div className={styles.item}>
-                  <i className="iconfont icon-location"></i>
-                  {curUserInfoJOSN.city}
-                </div>
-              )}
-              {curUserInfoJOSN.email && (
-                <div className={styles.item}>
-                  <i className="iconfont icon-email"></i>
-                  <a href={`mailto:${curUserInfoJOSN.email}`} className="link">
-                    {curUserInfoJOSN.email}
-                  </a>
-                </div>
-              )}
-              {curUserInfoJOSN.github && (
-                <div className={styles.item}>
-                  <i className="iconfont icon-github-line"></i>
-                  <a target="_blank" href={curUserInfoJOSN.github} className="link">
-                    {curUserInfoJOSN.github}
-                  </a>
-                </div>
-              )}
-              {curUserInfoJOSN.social_link && (
-                <div className={styles.item}>
-                  <i className="iconfont icon-link"></i>
-                  <a target="_blank" href={curUserInfoJOSN.social_link} className="link">
-                    {curUserInfoJOSN.social_link}
-                  </a>
-                </div>
-              )}
+              <UserInfoCenter curUserInfo={curUserInfo} />
             </div>
             <div className={styles.right}>
               <div className={styles.nav}>
-                <div className={styles.nav_item}>文章</div>
-                {profile.showBlog && <div className={styles.nav_item}>{profile.blogName}</div>}
-                <div className={styles.nav_item}>收藏</div>
+                <div
+                  className={activeNumber === 1 ? styles.nav_item_active : styles.nav_item}
+                  onClick={() => {
+                    setactiveNumber(1)
+                  }}
+                >
+                  文章
+                </div>
+                <div
+                  className={activeNumber === 2 ? styles.nav_item_active : styles.nav_item}
+                  onClick={() => {
+                    setactiveNumber(2)
+                  }}
+                >
+                  收藏
+                </div>
+                {profile.showBlog && (
+                  <div
+                    className={activeNumber === 3 ? styles.nav_item_active : styles.nav_item}
+                    onClick={() => {
+                      setactiveNumber(3)
+                    }}
+                  >
+                    {profile.blogName}
+                  </div>
+                )}
               </div>
+              {activeNumber === 1 && <ArticleList userinfo={curUserInfo} />}
+              {activeNumber === 2 && <CollectList userinfo={curUserInfo} />}
+              {activeNumber === 3 && <PostList userinfo={curUserInfo} />}
             </div>
           </div>
         </div>

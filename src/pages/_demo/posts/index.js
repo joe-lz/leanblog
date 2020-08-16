@@ -9,6 +9,7 @@ import styles from './index.module.scss'
 import Layout from 'src/components/_demo/Layout'
 import PostEditor from 'src/components/_demo/PostEditor'
 import PostItem from 'src/components/_demo/PostItem'
+import NoData from 'src/components/_user/NoData'
 import Ad from 'src/components/_demo/Ad'
 import { getTopicList } from 'src/service/topics'
 import { getPostList } from 'src/service/post'
@@ -16,7 +17,7 @@ import { userFollow, userUnFollow, userFolloweeList } from 'src/service/user'
 
 function MyComponent() {
   const [topiclist, settopiclist] = useState([])
-  const [postlist, setpostlist] = useState([])
+  const [postlist, setpostlist] = useState(null)
   const [userinfo, setuserinfo] = useState(null)
   const [profile, setprofile] = useState(null)
   const [scrollTop, setscrollTop] = useState(10)
@@ -116,9 +117,12 @@ function MyComponent() {
           </div>
           <div className={styles.content}>
             <PostEditor topiclist={topiclist} userinfo={userinfo} onChange={() => {}} />
-            {postlist.map((obj) => {
+            {postlist && postlist.map((obj) => {
               return <PostItem key={obj.id} item={obj} userinfo={userinfo} followeeList={followeeList} />
             })}
+            {postlist && postlist.length === 0 ? (
+              <NoData />
+            ) : null}
           </div>
           <div className={styles.userinfo}>
             <div

@@ -68,7 +68,9 @@ function Components(props) {
 
   useEffect(() => {
     getProfile()
-    fetchUserInfo()
+    if (curUser) {
+      fetchUserInfo()
+    }
   }, [])
 
   useEffect(() => {

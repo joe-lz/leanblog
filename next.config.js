@@ -6,5 +6,7 @@ module.exports = {
     YOUR_LEANCLOUD_SERVER_URL: 'https://leanblog-api.todokit.xyz', //leancloud serverUrl
 
     blogname: '动态模块',
+    brandName: 'oh my blog',
+    brandLink: 'https://github.com/joe-lz/oh-my-blog',
   },
 }

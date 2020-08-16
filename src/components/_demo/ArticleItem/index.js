@@ -15,6 +15,7 @@ dayjs.extend(relativeTime)
 
 Components.defaultProps = {
   data: null,
+  style: {}
 }
 
 function Components(props) {
@@ -26,35 +27,42 @@ function Components(props) {
 
   const time =
     dayjs(props.data.updatedAt).unix() * 1000 > Date.now() - 1000 * 60 * 60 * 24 * 1
-      ? dayjs(props.data.updatedAt).fromNow()
-      : dayjs(props.data.updatedAt).format('YYYY/MM/DD')
+      ? dayjs(props.data.createdAt).fromNow()
+      : dayjs(props.data.createdAt).format('YYYY/MM/DD')
   return (
-    <a target="_blank" href={`/_demo/adetail/${props.data.objectId}?cate1=${props.data.category_1_key}&cate2=${props.data.category_2_key}`}>
-      <div className={styles.articleItem}>
-        <div className={styles.articleItem_userinfo}>
-          <span className="username">{props.data.author.nickname}</span>
-          <span className={styles.time}>・{time}</span>
-          <span className={styles.time}>・{`${props.data.category_2_title}`}</span>
-        </div>
-        <div className={styles.articleItem_content}>
-          <div className={styles.poster} style={{ backgroundImage: `url(${props.data.poster})` }}></div>
-          <div className={styles.info}>
-            <p className={styles.title}>{props.data.title}</p>
-            <div className={styles.actions}>
-              <div className={styles.actions_item}>
-                <i className="iconfont icon-tubiaozhizuo-"></i>
-                {props.data.likes || ''}
+    <>
+      {props.data && props.data.author && (
+        <a
+          target="_blank"
+          href={`/_demo/adetail/${props.data.objectId}?cate1=${props.data.category_1_key}&cate2=${props.data.category_2_key}`}
+        >
+          <div className={styles.articleItem} style={props.style}>
+            <div className={styles.articleItem_userinfo}>
+              <span className="username">{props.data.author.nickname}</span>
+              <span className={styles.time}>・{time}</span>
+              <span className={styles.time}>・{`${props.data.category_2_title}`}</span>
+            </div>
+            <div className={styles.articleItem_content}>
+              <div className={styles.poster} style={{ backgroundImage: `url(${props.data.poster})` }}></div>
+              <div className={styles.info}>
+                <p className={styles.title}>{props.data.title}</p>
+                <div className={styles.actions}>
+                  <div className={styles.actions_item}>
+                    <i className="iconfont icon-tubiaozhizuo-"></i>
+                    {props.data.likes || ''}
+                  </div>
+                  <div className={styles.actions_item}>
+                    <i className="iconfont icon-star"></i>
+                    {props.data.collects || ''}
+                  </div>
+                  <div className={styles.actions_item}>{`阅读 ${props.data.views || 0}`}</div>
+                </div>
               </div>
-              <div className={styles.actions_item}>
-                <i className="iconfont icon-star"></i>
-                {props.data.collects || ''}
-              </div>
-              <div className={styles.actions_item}>{`阅读 ${props.data.views || 0}`}</div>
             </div>
           </div>
-        </div>
-      </div>
-    </a>
+        </a>
+      )}
+    </>
   )
 }
 

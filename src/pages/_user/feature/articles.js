@@ -6,6 +6,7 @@ import { Tree, Button, notification, Input, Modal, Spin } from 'antd'
 
 import styles from './index.module.scss'
 import Layout from 'src/components/_user/Layout'
+import NoData from 'src/components/_user/NoData'
 import ArticleItem from 'src/components/_user/ArticleItem'
 import { createArticle, getArticleList } from 'src/service/article'
 import articleStatus from 'src/lib/articleStatus'
@@ -119,6 +120,7 @@ function AdminHome() {
               />
             )
           })}
+          {articleLists && articleLists.length === 0 && status !== 1 ? <NoData /> : null}
           <Modal
             title="创建文章"
             width={400}

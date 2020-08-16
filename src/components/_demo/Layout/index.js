@@ -114,10 +114,20 @@ function Components(props) {
       {menus && profile && <Nav menus={menus.value} profile={profile} userinfo={curUserInfo} />}
       <div className={styles.body}>{props.children}</div>
       {profile && (
-        <footer>
+        <footer className={styles.footer}>
           <div className={styles.footer_content}>
             <img src={profile.logo} alt="" className={styles.logo} />
             <p className={styles.copyright}>{profile.copyright}</p>
+          </div>
+          <div className={styles.footer_powerby}>
+            <p className={styles.title}>
+              <i className="iconfont icon-github"></i>
+              {`power by `}
+              <a href={process.env.brandLink} className="link" target='_blank'>
+                「{process.env.brandName}」
+              </a>
+              .
+            </p>
           </div>
         </footer>
       )}

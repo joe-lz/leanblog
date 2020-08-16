@@ -48,7 +48,18 @@ function Components(props) {
   }, [])
 
   return (
-    <div className={styles.assets}>
+    <div
+      className={styles.assets}
+      style={
+        props.onChoose
+          ? {
+              height: 600,
+              overflow: 'hidden',
+              overflowY: 'scroll',
+            }
+          : {}
+      }
+    >
       <div
         className="_admin_body_section_block"
         style={
@@ -70,7 +81,16 @@ function Components(props) {
           {/* <span className='_admin_body_section_block_nav_item'>回收站</span> */}
         </div>
       </div>
-      <div className="_admin_body_section_block">
+      <div
+        className="_admin_body_section_block"
+        style={
+          props.onChoose
+            ? {
+                boxShadow: 'none',
+              }
+            : {}
+        }
+      >
         <div className={styles.assets_body} style={props.onChoose ? { paddingTop: 60 } : {}}>
           <div className={styles.assets_imgitem}>
             <Upload

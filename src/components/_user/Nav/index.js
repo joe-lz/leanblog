@@ -48,7 +48,7 @@ function Components(props) {
     <header className={styles.header}>
       <nav>
         {profile && (
-          <Link href="/_user/home">
+          <Link href="/">
             {/* <img
             className={styles.logoimg}
             src={profile && profile.attributes.logo ? profile.attributes.logo : 'https://qiniu.jingdian.club/FpFCrbbNmg-GmFfVLdsxmmbPZFHw'}

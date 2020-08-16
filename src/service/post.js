@@ -54,13 +54,13 @@ export const updatePost = ({ postItem, params }) => {
 export const getPostList = (params = {}) => {
   return new Promise((resolve, reject) => {
     const query = new AV.Query('CMS_Posts')
+    Object.keys(params).map((keyname) => {
+      query.equalTo(keyname, params[keyname])
+    })
     query.include('userinfo')
     query.include('topic')
     query.descending('createdAt')
     query.limit(50)
-    Object.keys(params).map((keyname) => {
-      query.equalTo(keyname, params[keyname])
-    })
     query
       .find()
       .then((res) => {

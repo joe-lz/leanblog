@@ -3,7 +3,8 @@
 .articleItem {
   overflow: hidden;
   padding: 30px;
-  width: 700px;
+  // width: 700px;
+  width: 100%;
   border-bottom: 1px solid $color-border;
   background-color: white;
   &_userinfo {

@@ -53,3 +53,20 @@ export const getMyCollect = (params = {}) => {
       })
   })
 }
+
+export const getCollectList = (params = {}) => {
+  return new Promise((resolve, reject) => {
+    const query = new AV.Query('CMS_Collects')
+    query.equalTo('user', params.user)
+    query.include('article')
+    query.include('article.author')
+    query
+      .find()
+      .then((res) => {
+        resolve(res)
+      })
+      .catch((err) => {
+        reject(err)
+      })
+  })
+}

@@ -104,3 +104,22 @@ export const userFolloweeList = () => {
     }
   })
 }
+// 获取用户关注数
+export const userFolloweeNumber = ({ userItem }) => {
+  return new Promise((resolve, reject) => {
+    var query = userItem.followeeQuery()
+    query.count().then((number) => {
+      resolve(number)
+    })
+  })
+}
+
+// 获取用户粉丝数
+export const userFollowerNumber = ({ userItem }) => {
+  return new Promise((resolve, reject) => {
+    var query = userItem.followerQuery()
+    query.count().then((number) => {
+      resolve(number)
+    })
+  })
+}
