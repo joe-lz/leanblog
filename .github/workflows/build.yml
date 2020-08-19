@@ -27,3 +27,12 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./
           publish_branch: release
+
+      - name: Dispatch Action
+        uses: mvasigh/dispatch-action@1.1.6
+        with:
+          # You should create a personal access token and store it in your repository
+          token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          repo: leanblog
+          owner: joe-lz
+          event_type: start_deploy
