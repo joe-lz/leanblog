@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "scripts": {
     "postinstall": "npm run build",
+    "download-theme": "node scripts/download-theme.js",
     "dev": "next dev",
     "build": "next build",
     "start": "next start"
@@ -31,6 +32,7 @@
   "devDependencies": {
     "antd": "^4.5.1",
     "autodll-webpack-plugin": "^0.4.2",
+    "download-git-repo": "^3.0.2",
     "eslint-config-standard": "^14.1.1",
     "eslint-plugin-import": "^2.22.0",
     "eslint-plugin-node": "^11.1.0",
@@ -39,6 +41,6 @@
     "sass": "^1.26.10"
   },
   "engines": {
-    "node": "12.x"
+    "node": "10.x"
   }
 }
