@@ -2,7 +2,7 @@
   "name": "leanblog",
   "version": "0.1.0",
   "scripts": {
-    "init:pro": "yarn;yarn download-theme",
+    "init:project": "yarn;yarn download-theme",
     "download-theme": "node scripts/download-theme.js",
     "dev": "next dev",
     "build": "next build",
