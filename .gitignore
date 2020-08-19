@@ -33,3 +33,5 @@ temp_*
 
 src/pages/www
 src/pages/admin
+src/components/www
+src/components/admin
