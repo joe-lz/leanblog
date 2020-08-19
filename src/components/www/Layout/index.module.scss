@@ -1,0 +1,61 @@
+@import '~src/styles/variables.scss';
+
+.container {
+  // background-color: white;
+  width: 100vw;
+  min-height: 100vh;
+  .body {
+    min-height: 80vh;
+  }
+  .footer {
+    background-color: white;
+    border-top: 1px solid $color-border;
+    &_content {
+      padding: 60px 0;
+      margin: 0 auto;
+      width: 100%;
+      max-width: 1200px;
+      .logo {
+        margin-bottom: 30px;
+        height: 30px;
+      }
+      .copyright {
+        color: $color-disabled;
+        font-size: 14px;
+      }
+    }
+    &_powerby {
+      border-top: 1px solid $color-border;
+      height: 50px;
+      line-height: 50px;
+      font-size: 12px;
+      text-align: center;
+      background-color: white;
+      .title {
+        color: $color-disabled;
+      }
+      i {
+        position: relative;
+        top: 2px;
+        margin-left: 10px;
+        margin-right: 2px;
+        color: $color-disabled;
+      }
+      a {
+        color: $color-disabled;
+        // font-style: italic;
+        &:hover {
+          color: $color-link;
+          i {
+            color: $color-link;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .container {
+  }
+}
