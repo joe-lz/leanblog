@@ -4,7 +4,7 @@ import styles from './index.module.scss'
 
 export default function Home() {
   useEffect(() => {
-    window.location.href = '/_demo/home'
+    window.location.href = '/www/home'
     console.error('cd')
   }, [])
   return <div className={styles.container}></div>
