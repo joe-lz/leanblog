@@ -7,7 +7,7 @@ import React, { useState, useEffect } from 'react'
 
 import styles from './index.module.scss'
 import PostItem from 'src/components/www/PostItem'
-import NoData from 'src/components/admin/NoData'
+import NoData from 'src/components/www/NoData'
 import { getPostList } from 'src/service/post'
 
 Components.defaultProps = {

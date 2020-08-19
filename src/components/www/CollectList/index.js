@@ -7,7 +7,7 @@ import React, { useState, useEffect } from 'react'
 
 import styles from './index.module.scss'
 import ArticleItem from 'src/components/www/ArticleItem'
-import NoData from 'src/components/admin/NoData'
+import NoData from 'src/components/www/NoData'
 import { getCollectList } from 'src/service/collect'
 
 Components.defaultProps = {

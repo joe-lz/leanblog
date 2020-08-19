@@ -7,7 +7,7 @@ import React, { useState, useEffect } from 'react'
 import { Tree, Button, notification, Input, Modal, TreeSelect, Menu, Dropdown, Spin } from 'antd'
 
 import styles from './index.module.scss'
-import Upload from 'src/components/admin/Upload'
+import Upload from 'src/components/www/Upload'
 import { createPost } from 'src/service/post'
 
 const { TextArea } = Input

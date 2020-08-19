@@ -1,44 +1,41 @@
-import Head from 'next/head'
-import Link from 'next/link'
-import AV from 'leancloud-storage'
-import dayjs from 'dayjs'
-import { useRouter } from 'next/router'
-import React, { useState, useEffect } from 'react'
-import { Menu, Dropdown } from 'antd'
+import Head from "next/head";
+import Link from "next/link";
+import AV from "leancloud-storage";
+import dayjs from "dayjs";
+import { useRouter } from "next/router";
+import React, { useState, useEffect } from "react";
+import { Menu, Dropdown, Modal } from "antd";
 
-import styles from './index.module.scss'
+import styles from "./index.module.scss";
+import Login from "../Login";
 
 Components.defaultProps = {
   menus: [],
   profile: null,
   userinfo: null,
-}
+};
 
 function Components(props) {
-  const { userinfo, menus, profile } = props
-  const curUser = AV.User.current()
-  const [modalShow, setmodalShow] = useState(false)
-  const [curMenu, setcurMenu] = useState(null)
+  const { userinfo, menus, profile } = props;
+  const curUser = AV.User.current();
+  const [modalShow, setmodalShow] = useState(false);
+  const [curMenu, setcurMenu] = useState(null);
 
   const menu = (
     <>
       {userinfo && (
         <Menu>
           <Menu.Item>
-            <a target="_blank" rel="noopener noreferrer" href={`/www/user/${userinfo.objectId}`}>
-              我的首页
-            </a>
+            <Link href={`/www/user/${userinfo.objectId}`}>我的首页</Link>
           </Menu.Item>
           <Menu.Item>
-            <a target="_blank" rel="noopener noreferrer" href="/admin/home">
-              创作中心
-            </a>
+            <Link href="/www/center">创作中心</Link>
           </Menu.Item>
           <Menu.Item
             danger
             onClick={() => {
-              localStorage.clear()
-              window.location.reload()
+              localStorage.clear();
+              window.location.reload();
             }}
           >
             退出登录
@@ -46,56 +43,82 @@ function Components(props) {
         </Menu>
       )}
     </>
-  )
+  );
 
-  const router = useRouter()
+  const router = useRouter();
   useEffect(() => {
     if (router) {
       menus.map((obj) => {
         if (router.query.cate1 === obj.key) {
-          setcurMenu(obj)
+          setcurMenu(obj);
         }
-        return obj
-      })
+        return obj;
+      });
     }
-  }, [router])
+  }, [router]);
 
   return (
     <div>
       <Head>
         {profile && (
           <title>
-            {profile.title || '鲸典设计'}
-            {curMenu ? `-${curMenu.title}` : ''}
-            {router.pathname.includes('www/home') ? '-首页' : ''}
-            {router.pathname.includes('www/posts') ? `-${profile.blogName}` : ''}
+            {profile.title || "鲸典设计"}
+            {curMenu ? `-${curMenu.title}` : ""}
+            {router.pathname.includes("www/home") ? "-首页" : ""}
+            {router.pathname.includes("www/posts")
+              ? `-${profile.blogName}`
+              : ""}
           </title>
         )}
       </Head>
       {/* 一级目录 */}
       <div className={styles.nav1}>
         <div className={styles.nav}>
-          <div className={styles.nav_logo} style={{ backgroundImage: `url(${profile.logo})` }}></div>
+          <div
+            className={styles.nav_logo}
+            style={{ backgroundImage: `url(${profile.logo})` }}
+          ></div>
           <div className={styles.nav_link}>
             <Link href="/www/home">
-              <div className={router.pathname.includes('www/home') ? styles.nav_link_item_active : styles.nav_link_item}>首页</div>
+              <div
+                className={
+                  router.pathname.includes("www/home")
+                    ? styles.nav_link_item_active
+                    : styles.nav_link_item
+                }
+              >
+                首页
+              </div>
             </Link>
             {menus.map((obj) => {
-              let toLink = `/www/alist?cate1=${obj.key}`
+              let toLink = `/www/alist?cate1=${obj.key}`;
               // if (obj.children && obj.children.length > 0) {
               //   toLink = `/www/alist?cate1=${obj.key}&cate2=${obj.children[0].key}`
               // }
               return (
                 <Link href={toLink} key={obj.key}>
-                  <div className={router.query.cate1 === obj.key ? styles.nav_link_item_active : styles.nav_link_item} key={obj.key}>
+                  <div
+                    className={
+                      router.query.cate1 === obj.key
+                        ? styles.nav_link_item_active
+                        : styles.nav_link_item
+                    }
+                    key={obj.key}
+                  >
                     {obj.title}
                   </div>
                 </Link>
-              )
+              );
             })}
             {profile.showBlog && (
               <Link href="/www/posts">
-                <div className={router.pathname.includes('www/posts') ? styles.nav_link_item_active : styles.nav_link_item}>
+                <div
+                  className={
+                    router.pathname.includes("www/posts")
+                      ? styles.nav_link_item_active
+                      : styles.nav_link_item
+                  }
+                >
                   {profile.blogName}
                 </div>
               </Link>
@@ -103,17 +126,28 @@ function Components(props) {
           </div>
           {curUser ? (
             <Dropdown overlay={menu} arrow placement="bottomRight">
-              <div className={styles.link_login} onClick={(e) => e.preventDefault()}>
+              <div
+                className={styles.link_login}
+                onClick={(e) => e.preventDefault()}
+              >
                 <div className={styles.btn}>
                   <span>{curUser.attributes.username}</span>
-                  <i className="iconfont icon-down" style={{ fontSize: 12 }}></i>
+                  <i
+                    className="iconfont icon-down"
+                    style={{ fontSize: 12 }}
+                  ></i>
                 </div>
               </div>
             </Dropdown>
           ) : (
-            <Link href="/admin/home">
-              <p className={styles.nav_login}>登录/注册</p>
-            </Link>
+            <p
+              className={styles.nav_login}
+              onClick={() => {
+                setmodalShow(true);
+              }}
+            >
+              登录/注册
+            </p>
           )}
         </div>
       </div>
@@ -122,22 +156,54 @@ function Components(props) {
         <div className={styles.nav2}>
           <div className={styles.nav_link}>
             <Link href={`/www/alist?cate1=${curMenu.key}`}>
-              <div className={!router.query.cate2 ? styles.nav_link_item_active : styles.nav_link_item}>全部</div>
+              <div
+                className={
+                  !router.query.cate2
+                    ? styles.nav_link_item_active
+                    : styles.nav_link_item
+                }
+              >
+                全部
+              </div>
             </Link>
             {curMenu.children.map((obj) => {
               return (
-                <Link href={`/www/alist?cate1=${curMenu.key}&cate2=${obj.key}`} key={obj.key}>
-                  <div className={router.query.cate2 === obj.key ? styles.nav_link_item_active : styles.nav_link_item} key={obj.key}>
+                <Link
+                  href={`/www/alist?cate1=${curMenu.key}&cate2=${obj.key}`}
+                  key={obj.key}
+                >
+                  <div
+                    className={
+                      router.query.cate2 === obj.key
+                        ? styles.nav_link_item_active
+                        : styles.nav_link_item
+                    }
+                    key={obj.key}
+                  >
                     {obj.title}
                   </div>
                 </Link>
-              )
+              );
             })}
           </div>
         </div>
       )}
+      <Modal
+        width={400}
+        visible={modalShow}
+        onCancel={() => {
+          setmodalShow(false);
+        }}
+        // onOk={() => {}}
+        // okText="保存"
+        // cancelText="取消"
+        bodyStyle={{ padding: 0 }}
+        footer={null}
+      >
+        <Login />
+      </Modal>
     </div>
-  )
+  );
 }
 
-export default Components
+export default Components;
