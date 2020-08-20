@@ -24,34 +24,6 @@
         font-size: 14px;
       }
     }
-    &_powerby {
-      border-top: 1px solid $color-border;
-      height: 50px;
-      line-height: 50px;
-      font-size: 12px;
-      text-align: center;
-      background-color: white;
-      .title {
-        color: $color-disabled;
-      }
-      i {
-        position: relative;
-        top: 2px;
-        margin-left: 10px;
-        margin-right: 2px;
-        color: $color-disabled;
-      }
-      a {
-        color: $color-disabled;
-        // font-style: italic;
-        &:hover {
-          color: $color-link;
-          i {
-            color: $color-link;
-          }
-        }
-      }
-    }
   }
 }
 

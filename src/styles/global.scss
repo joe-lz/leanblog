@@ -129,18 +129,18 @@ body {
   }
 }
 
-@media (prefers-color-scheme: dark) {
-  body {
-    background-color: RGBA(37, 32, 36, 1) !important;
-    color: white !important;
-  }
+// @media (prefers-color-scheme: dark) {
+//   body {
+//     background-color: RGBA(37, 32, 36, 1) !important;
+//     color: white !important;
+//   }
 
-  ._admin_body_section_title {
-    font-size: 30px;
-    margin-bottom: 30px;
-    color: white;
-  }
-  ._admin_body_section_block {
-    background-color: $color-block-dark;
-  }
-}
+//   ._admin_body_section_title {
+//     font-size: 30px;
+//     margin-bottom: 30px;
+//     color: white;
+//   }
+//   ._admin_body_section_block {
+//     background-color: $color-block-dark;
+//   }
+// }

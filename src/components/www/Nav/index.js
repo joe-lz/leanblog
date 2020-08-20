@@ -4,7 +4,7 @@ import AV from "leancloud-storage";
 import dayjs from "dayjs";
 import { useRouter } from "next/router";
 import React, { useState, useEffect } from "react";
-import { Menu, Dropdown, Modal } from "antd";
+import { Menu, Dropdown } from "antd";
 
 import styles from "./index.module.scss";
 import Login from "../Login";
@@ -18,7 +18,6 @@ Components.defaultProps = {
 function Components(props) {
   const { userinfo, menus, profile } = props;
   const curUser = AV.User.current();
-  const [modalShow, setmodalShow] = useState(false);
   const [curMenu, setcurMenu] = useState(null);
 
   const menu = (
@@ -140,14 +139,9 @@ function Components(props) {
               </div>
             </Dropdown>
           ) : (
-            <p
-              className={styles.nav_login}
-              onClick={() => {
-                setmodalShow(true);
-              }}
-            >
-              登录/注册
-            </p>
+            <Login>
+              <p className={styles.nav_login}>登录/注册</p>
+            </Login>
           )}
         </div>
       </div>
@@ -188,20 +182,6 @@ function Components(props) {
           </div>
         </div>
       )}
-      <Modal
-        width={400}
-        visible={modalShow}
-        onCancel={() => {
-          setmodalShow(false);
-        }}
-        // onOk={() => {}}
-        // okText="保存"
-        // cancelText="取消"
-        bodyStyle={{ padding: 0 }}
-        footer={null}
-      >
-        <Login />
-      </Modal>
     </div>
   );
 }

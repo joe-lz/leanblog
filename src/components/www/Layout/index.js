@@ -1,79 +1,59 @@
-import Head from 'next/head'
-import Link from 'next/link'
-import AV from 'leancloud-storage'
-import dayjs from 'dayjs'
-import React, { useState, useEffect } from 'react'
-import { getMenusList } from 'src/service/menu'
-import { getProfileList } from 'src/service/profile'
-import { getMyUserInfo } from 'src/service/user'
+import Head from "next/head";
+import Link from "next/link";
+import AV from "leancloud-storage";
+import dayjs from "dayjs";
+import React, { useState, useEffect } from "react";
+import { getMenusList } from "src/service/menu";
+import { getProfileList } from "src/service/profile";
+import { getMyUserInfo, createUserInfo } from "src/service/user";
 
-import styles from './index.module.scss'
-import Nav from '../Nav'
+import styles from "./index.module.scss";
+import Nav from "../Nav";
 
 Components.defaultProps = {
   onChange: () => {},
-}
+};
 function Components(props) {
-  const [menus, setmenus] = useState(null)
-  const [profile, setprofile] = useState(null)
-  const [curUserInfo, setcurUserInfo] = useState(null)
+  const [menus, setmenus] = useState(null);
+  const [profile, setprofile] = useState(null);
+  const [curUserInfo, setcurUserInfo] = useState(null);
 
   const handleInit = async () => {
-    // 获取菜单
-    // const local_CMS_Menus = localStorage.getItem('CMS_Menus')
-    // local_CMS_Menus && setmenus(JSON.parse(local_CMS_Menus))
-    // const resMenu = await getMenusList()
-    // if (resMenu) {
-    //   setmenus(resMenu.attributes.value)
-    //   localStorage.setItem('CMS_Menus', JSON.stringify(resMenu.attributes.value))
-    // }
-
-    // 获取品牌资料
-    // const local_CMS_Profile = localStorage.getItem('CMS_Profile')
-    // local_CMS_Profile && setprofile(JSON.parse(local_CMS_Profile))
-    // const resProfile = await getProfileList()
-    // if (resProfile) {
-    //   setprofile(JSON.parse(JSON.stringify(resProfile)))
-    //   localStorage.setItem('CMS_Profile', JSON.stringify(resProfile))
-    // }
-
-    // 获取用户信息
-    // const local_CMS_UserInfo = localStorage.getItem('CMS_UserInfo')
-    // local_CMS_UserInfo && setcurUserInfo(JSON.parse(local_CMS_UserInfo))
-    // const resUserInfo = await getMyUserInfo()
-    // if (resUserInfo) {
-    //   setcurUserInfo(JSON.parse(JSON.stringify(resUserInfo)))
-    //   localStorage.setItem('CMS_UserInfo', JSON.stringify(resUserInfo))
-    // }
     try {
-      await getData('CMS_Menus', getMenusList, setmenus)
-      await getData('CMS_Profile', getProfileList, setprofile)
-      await getData('CMS_UserInfo', getMyUserInfo, setcurUserInfo)
+      await getData("CMS_Menus", getMenusList, setmenus);
+      await getData("CMS_Profile", getProfileList, setprofile);
+      await getData("CMS_UserInfo", getMyUserInfo, setcurUserInfo);
     } catch (error) {
-      console.error(error)
+      console.error(error);
     }
-  }
+  };
 
   const getData = async (keyname, func, setFunc) => {
     // 获取菜单
-    const local_data = localStorage.getItem(keyname)
-    const local_time = Number(localStorage.getItem(`${keyname}_time`))
-    local_data && setFunc(JSON.parse(local_data))
+    const local_data = localStorage.getItem(keyname);
+    const local_time = Number(localStorage.getItem(`${keyname}_time`));
+    local_data && setFunc(JSON.parse(local_data));
     if (local_data && local_time + 5 * 60 * 1000 > Date.now()) {
-      setFunc(JSON.parse(local_data))
+      setFunc(JSON.parse(local_data));
     } else {
-      const res = await func()
+      const res = await func();
       if (res) {
-        setFunc(JSON.parse(JSON.stringify(res)))
-        localStorage.setItem(keyname, JSON.stringify(res))
-        localStorage.setItem(`${keyname}_time`, Date.now())
+        setFunc(JSON.parse(JSON.stringify(res)));
+        localStorage.setItem(keyname, JSON.stringify(res));
+        localStorage.setItem(`${keyname}_time`, Date.now());
+      } else {
+        // 如果是CMS_UserInfo 则创建userinfo
+        if (keyname === "CMS_UserInfo") {
+          await createUserInfo();
+          await getData("CMS_UserInfo", getMyUserInfo, setcurUserInfo);
+        }
       }
     }
-  }
+  };
 
   useEffect(() => {
-    handleInit()
-  }, [])
+    handleInit();
+  }, []);
 
   useEffect(() => {
     props.onChange &&
@@ -81,25 +61,37 @@ function Components(props) {
         menus,
         profile,
         userinfo: curUserInfo,
-      })
-  }, [menus, profile, curUserInfo])
+      });
+  }, [menus, profile, curUserInfo]);
 
   return (
     <div className={styles.container}>
       {profile && profile.github ? (
-        <a target="_blank" className="github-corner" aria-label="View source on Github" href={profile.github}>
+        <a
+          target="_blank"
+          className="github-corner"
+          aria-label="View source on Github"
+          href={profile.github}
+        >
           <svg
             width="80"
             height="80"
             viewBox="0 0 250 250"
-            style={{ fill: '#151513', color: '#fff', position: 'absolute', top: 0, border: 0, right: 0 }}
+            style={{
+              fill: "#151513",
+              color: "#fff",
+              position: "absolute",
+              top: 0,
+              border: 0,
+              right: 0,
+            }}
             aria-hidden="true"
           >
             <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
             <path
               d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
               fill="currentColor"
-              style={{ transformOrigin: '130px 106px' }}
+              style={{ transformOrigin: "130px 106px" }}
               className="octo-arm"
             ></path>
             <path
@@ -111,7 +103,9 @@ function Components(props) {
         </a>
       ) : null}
       {/* {menus && profile && <Nav menus={menus} profile={profile} userinfo={curUserInfo} />} */}
-      {menus && profile && <Nav menus={menus.value} profile={profile} userinfo={curUserInfo} />}
+      {menus && profile && (
+        <Nav menus={menus.value} profile={profile} userinfo={curUserInfo} />
+      )}
       <div className={styles.body}>{props.children}</div>
       {profile && (
         <footer className={styles.footer}>
@@ -119,20 +113,10 @@ function Components(props) {
             <img src={profile.logo} alt="" className={styles.logo} />
             <p className={styles.copyright}>{profile.copyright}</p>
           </div>
-          <div className={styles.footer_powerby}>
-            <p className={styles.title}>
-              {`Powered By `}
-              <a href={process.env.brandLink} className="link" target='_blank'>
-                <i className="iconfont icon-github"></i>
-                「{process.env.brandName}」
-              </a>
-              .
-            </p>
-          </div>
         </footer>
       )}
     </div>
-  )
+  );
 }
 
-export default Components
+export default Components;
